@@ -59,15 +59,6 @@ export function generateUUID(length = 36) {
   return uuid;
 }
 
-export function isRealTime(element, parent_realTime) {
-  let realtime = element.getAttribute("data-realtime") || parent_realTime;
-  if (realtime === "false") {
-    return false;
-  }
-
-  return true;
-}
-
 export function getParentFromElement(element, parent_class, attributes) {
   if (parent_class) {
     if (element.classList.contains(parent_class)) {
@@ -99,13 +90,6 @@ export function getParentFromElement(element, parent_class, attributes) {
   return false;
 }
 
-export function isReadValue(element) {
-  return element.getAttribute("data-read_value") != "false";
-}
-
-export function isUpdateValue(element) {
-  return element.getAttribute("data-update_value") != "false";
-}
 
 export function isJsonString(str_data) {
   try {
@@ -312,42 +296,8 @@ export function getElementPath(element, returnContext) {
   // }
 }
 
-export function isUsageY(input) {
-  if (this.isJsonString(input.getAttribute('data-collection'))) {
-    return false;
-  }
-
-  if (this.isJsonString(input.getAttribute('name'))) {
-    return false;
-  }
-
-  if ((input.tagName === "INPUT" && ["text", "email", "tel", "url"].includes(input.type)) || input.tagName === "TEXTAREA") {
-
-    if (!input.getAttribute('name')) {
-      return false;
-    }
-    if (input.getAttribute("data-realtime") == "false") {
-      return false;
-    }
-
-    if (input.getAttribute("data-unique") === "true") {
-      return false;
-    }
-
-    if (input.type === 'password') {
-      return false;
-    }
-
-    if (!this.isReadValue(input)) {
-      return false;
-    }
-    return true;
-  }
-  return false;
-}
 
 export default {
-  isUsageY,
   getElementPath,
   isValidSelector,
   joinBydelimiter,
@@ -364,9 +314,6 @@ export default {
   checkValue,
   getAttributes,
   isJsonString,
-  isUpdateValue,
-  isReadValue,
   getParentFromElement,
-  isRealTime,
   generateUUID
 }
