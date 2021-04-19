@@ -1,3 +1,11 @@
+## [1.0.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.0.2...v1.0.3) (2021-04-19)
+
+
+### Bug Fixes
+
+* ci and build process ([cfb2160](https://github.com/CoCreate-app/CoCreate-utils/commit/cfb216065c1efe0de27f5d387961e35b0f1cb9f7))
+* npm publish and cdn deployment ([e0475e5](https://github.com/CoCreate-app/CoCreate-utils/commit/e0475e5f15ece4e8e32364f6dc108caa16f02291))
+
 ## [1.0.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.0.1...v1.0.2) (2021-04-04)
 
 
