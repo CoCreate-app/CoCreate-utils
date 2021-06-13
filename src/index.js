@@ -1,4 +1,3 @@
-
 export function getParentFromElement(element, parent_class, attributes) {
   if (parent_class) {
     if (element.classList.contains(parent_class)) {
@@ -235,28 +234,83 @@ export function getElementPath(element, returnContext) {
   //   path.unshift(cssPath(iframeElement))
   // }
 }
-function logger(level = "all") {
-    if(!['all', 'error', 'warn', 'log','off'].includes(level))
-        throw new Error('level must be one of all, error, warn, log or off')
-    return {
-        error: function(msg) {
-            // if (compoentToLoad.includes(comName))
-            if (['all', 'error'].includes(level))
-                console.error(msg)
-        },
-        warn: function(msg) {
-            // if (compoentToLoad.includes(comName))
-            if (['all', 'error', 'warn'].includes(level))
-                console.warn(msg)
-        },
-        log: function(msg) {
-            // if (compoentToLoad.includes(comName))
-            if (['all', 'error', 'warn', 'log'].includes(level))
-                console.log(msg)
-        },
-    }
+export function logger(level = "all") {
+  if (!['all', 'error', 'warn', 'log', 'off'].includes(level))
+    throw new Error('level must be one of all, error, warn, log or off')
+  return {
+    error: function(msg) {
+      // if (compoentToLoad.includes(comName))
+      if (['all', 'error'].includes(level))
+        console.error.apply(console, arguments)
+    },
+    warn: function(msg) {
+      // if (compoentToLoad.includes(comName))
+      if (['all', 'error', 'warn'].includes(level))
+        console.warn.apply(console, arguments)
+    },
+    log: function() {
+      // if (compoentToLoad.includes(comName))
+      if (['all', 'error', 'warn', 'log'].includes(level))
+        console.log.apply(console, arguments)
+    },
+  }
 
 }
+export async function waitForLoad(doc) {
+
+  if (doc.contentDocument.readyState === 'loading') {
+    try {
+      await new Promise((resolve, reject) => {
+        doc.contentWindow.addEventListener('load', (e) => resolve())
+      });
+    }
+    catch (err) {
+      console.error('iframe can not be loaded')
+    }
+    // this.observerElements(doc.contentWindow)
+    // doc.contentWindow.observedByCCAttributes = true;
+  }
+}
+
+//export function frameQuerySelector(comSelector) {
+//     let [canvasSelector, selector] = comSelector.split(';');
+//     let canvas = this.querySelector(canvasSelector);
+//     if (!canvas)
+//         return null;
+
+
+//     return canvas.contentWindow.document.querySelector(selector);
+// }
+
+export function getComplexSelector(node, comSelector) {
+  let selectors = comSelector.split(';');
+  let canvas = node;
+  for (let i = 0; i < selectors.length - 1; i++) {
+    canvas = canvas.querySelector(selectors[i]);
+    if (!canvas)
+      return [];
+
+  }
+  return [this, [selectors.length - 1]]
+}
+
+export function frameQuerySelector(comSelector) {
+  let [canvas, selector] = getComplexSelector(this, comSelector)
+  if (canvas)
+    return canvas.contentWindow.document.querySelector(selector);
+  return null;
+
+}
+
+export function frameQuerySelectorAll(comSelector) {
+  let [canvas, selector] = getComplexSelector(this, comSelector)
+  if (canvas)
+    return canvas.contentWindow.document.querySelectorAll(selector);
+  return [];
+
+
+}
+
 
 
 export default {
