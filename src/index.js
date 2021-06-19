@@ -234,6 +234,7 @@ export function getElementPath(element, returnContext) {
   //   path.unshift(cssPath(iframeElement))
   // }
 }
+
 export function logger(level = "all") {
   if (!['all', 'error', 'warn', 'log', 'off'].includes(level))
     throw new Error('level must be one of all, error, warn, log or off')
