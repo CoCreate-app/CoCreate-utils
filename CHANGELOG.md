@@ -1,3 +1,10 @@
+## [1.0.11](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.0.10...v1.0.11) (2021-06-23)
+
+
+### Bug Fixes
+
+* update checkValue to checkAttrValue ([a33ec95](https://github.com/CoCreate-app/CoCreate-utils/commit/a33ec95fe6e64a9dbaacd5747d89e51fb98d0563))
+
 ## [1.0.10](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.0.9...v1.0.10) (2021-06-20)
 
 
