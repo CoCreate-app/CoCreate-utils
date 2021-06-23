@@ -52,7 +52,8 @@ export function getAttributes(element) {
   }, {});
 }
 
-export function checkValue(value) {
+// ToDo: duplicate it is in crud.utils
+export function checkAttrValue(value) {
   if (!value) return false;
   if (/{{\s*([\w\W]+)\s*}}/g.test(value)) {
     return false;
@@ -60,6 +61,25 @@ export function checkValue(value) {
 
   return true;
 }
+
+// ToDo: Maybe can be deprciated
+export function getValueFromJonDeep(json, path) {
+	try {
+		if (typeof json == 'undefined')
+			return false;
+		let subpath = path.split('.');
+		let find = subpath.shift();
+		if (subpath.length > 0) {
+			return this.__getValueFromJonDeep(json[find], subpath.join('.'))
+		}
+		return json[find];
+	}
+	catch (error) {
+		console.log(error)
+		return false;
+	}
+}
+
 // hosseins utills
 
 // function to go through all frames
@@ -179,20 +199,6 @@ export function configExecuter(element, key, onSuccess, elementConfig) {
   return false;
 }
 
-export function UUID(length = 10) {
-  var result = "";
-  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-
-  var d = new Date().toTimeString();
-  var random = d.replace(/[\W_]+/g, "").substr(0, 6);
-  result += random;
-  return result;
-}
 
 export function parseTextToHtml(text) {
   let doc = new DOMParser().parseFromString(text, "text/html");
@@ -257,6 +263,7 @@ export function logger(level = "all") {
   }
 
 }
+
 export async function waitForLoad(doc) {
 
   if (doc.contentDocument.readyState === 'loading') {
@@ -320,7 +327,6 @@ export default {
   joinBydelimiter,
   splitBydelimiter,
   parseTextToHtml,
-  UUID,
   configExecuter,
   configMatch,
   getIframeFromPath,
@@ -328,7 +334,7 @@ export default {
   getTopMostWindow,
   cssPath,
   allFrame,
-  checkValue,
+  checkAttrValue,
   getAttributes,
   isJsonString,
   getParentFromElement,
