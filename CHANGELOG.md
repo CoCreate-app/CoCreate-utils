@@ -1,3 +1,10 @@
+## [1.0.15](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.0.14...v1.0.15) (2021-06-30)
+
+
+### Bug Fixes
+
+* automated and manual workflows ([f82fdb0](https://github.com/CoCreate-app/CoCreate-utils/commit/f82fdb00215289e510e556a76aa99f486aa36633))
+
 ## [1.0.14](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.0.13...v1.0.14) (2021-06-25)
 
 
