@@ -1,3 +1,10 @@
+## [1.1.7](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.6...v1.1.7) (2021-08-23)
+
+
+### Bug Fixes
+
+* update package versions ([2136a18](https://github.com/CoCreate-app/CoCreate-utils/commit/2136a1856f6fb3fd7e922859f8adeef7e1af6718))
+
 ## [1.1.6](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.5...v1.1.6) (2021-08-22)
 
 
