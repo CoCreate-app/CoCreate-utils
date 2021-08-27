@@ -319,6 +319,14 @@ export function frameQuerySelectorAll(comSelector) {
 
 }
 
+// export function computeStyles(el, properties) {
+//   let computed = window.getComputedStyle(el);
+//   let result = {};
+//   properties.forEach((property) => {
+//     result[property] = parseInt(computed[property]);
+//   });
+//   return result;
+// }
 
 
 export default {
