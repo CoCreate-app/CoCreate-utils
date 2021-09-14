@@ -1,3 +1,10 @@
+## [1.1.18](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.17...v1.1.18) (2021-09-14)
+
+
+### Bug Fixes
+
+* add cocreate.app to domains ([e570e58](https://github.com/CoCreate-app/CoCreate-utils/commit/e570e58569fac4f3309746a1a8888daa0192c1df))
+
 ## [1.1.17](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.16...v1.1.17) (2021-09-13)
 
 
