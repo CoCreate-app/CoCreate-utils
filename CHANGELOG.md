@@ -1,3 +1,10 @@
+## [1.1.24](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.23...v1.1.24) (2021-10-02)
+
+
+### Bug Fixes
+
+* removed unused functions ([49e4e46](https://github.com/CoCreate-app/CoCreate-utils/commit/49e4e461bf572897012052e235430c4cf3a23808))
+
 ## [1.1.23](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.22...v1.1.23) (2021-10-02)
 
 
