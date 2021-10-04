@@ -6,16 +6,6 @@ export function getAttributes(element) {
   }, {});
 }
 
-export function* configMatch(elementConfig, element) {
-  for (let config of elementConfig) {
-    // if (!Array.isArray(config.selector))
-    //   config.selector = [config.selector];
-
-    if (config.selector && element.matches(config.selector)) yield config;
-  }
-  return;
-}
-
 export function parseTextToHtml(text) {
   let doc = new DOMParser().parseFromString(text, "text/html");
   if (doc.head.children[0]) return doc.head.children[0];
@@ -50,7 +40,6 @@ export function cssPath(node) {
   return pathSplits.join(" > ");
 }
 
-
 // export function computeStyles(el, properties) {
 //   let computed = window.getComputedStyle(el);
 //   let result = {};
@@ -59,6 +48,18 @@ export function cssPath(node) {
 //   });
 //   return result;
 // }
+
+// 	function checkParent(element, selectors){
+// 	    let parentElement;
+// 	    do {
+// 	    	parentElement = element.parentElement.closest(selectors);
+// 	    	if(parentElement) {
+// 		    	element = parentElement;
+// 		    } else {
+// 				return element;
+// 		    }
+// 	    } while (parentElement);
+// 	}
 
 export default {
   parseTextToHtml,
