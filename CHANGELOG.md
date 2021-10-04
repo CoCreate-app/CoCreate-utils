@@ -1,3 +1,10 @@
+## [1.1.25](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.24...v1.1.25) (2021-10-04)
+
+
+### Bug Fixes
+
+* relocated matchConfig to @cocreate/element-config ([0ff7505](https://github.com/CoCreate-app/CoCreate-utils/commit/0ff7505e6c38727179d3d39221551c294926e6e4))
+
 ## [1.1.24](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.23...v1.1.24) (2021-10-02)
 
 
