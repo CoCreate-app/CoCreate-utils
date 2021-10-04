@@ -63,7 +63,6 @@ export function cssPath(node) {
 
 export default {
   parseTextToHtml,
-  configMatch,
   getAttributes,
   cssPath
 };
