@@ -1,3 +1,10 @@
+## [1.1.26](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.25...v1.1.26) (2021-10-04)
+
+
+### Bug Fixes
+
+* remove configMatch from exports ([069417e](https://github.com/CoCreate-app/CoCreate-utils/commit/069417e0bd8d4b1b798034497b72c9d7d05840df))
+
 ## [1.1.25](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.24...v1.1.25) (2021-10-04)
 
 
