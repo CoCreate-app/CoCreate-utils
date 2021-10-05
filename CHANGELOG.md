@@ -1,3 +1,11 @@
+## [1.1.28](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.27...v1.1.28) (2021-10-05)
+
+
+### Bug Fixes
+
+* update dependencies ([fce9515](https://github.com/CoCreate-app/CoCreate-utils/commit/fce9515f11247a3653f3bbb4ff34926b66d76459))
+* website_id in CoCreate.config ([dc0ba5c](https://github.com/CoCreate-app/CoCreate-utils/commit/dc0ba5c7956c959d5b3a2535f1e37e69e7d4f1aa))
+
 ## [1.1.27](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.26...v1.1.27) (2021-10-04)
 
 
