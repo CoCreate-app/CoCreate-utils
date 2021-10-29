@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.36...v1.2.0) (2021-10-29)
+
+
+### Features
+
+* cssPath and domParser ([25c5088](https://github.com/CoCreate-app/CoCreate-utils/commit/25c508855c663f5e2f64596549d1eccb14eb4292))
+
 ## [1.1.36](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.1.35...v1.1.36) (2021-10-17)
 
 
