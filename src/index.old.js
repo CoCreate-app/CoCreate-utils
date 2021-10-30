@@ -319,6 +319,33 @@ export function frameQuerySelectorAll(comSelector) {
 
 }
 
+async function complexSelector(comSelector, callback) {
+	let [canvasSelector, selector] = comSelector.split(';');
+	let canvas = document.querySelector(canvasSelector);
+	if(!canvas) {
+		console.warn('complex selector canvas now found for', comSelector);
+		return;
+	}
+
+	if(canvas.contentDocument.readyState === 'loading') {
+		try {
+			await new Promise((resolve, reject) => {
+				canvas.contentWindow.addEventListener('load', (e) => resolve());
+			});
+		}
+		catch(err) {
+			console.error('iframe can not be loaded');
+		}
+	}
+
+	if(canvas.contentWindow.parent.CoCreate.observer && !observerInit.has(canvas.contentWindow)) {
+		observerElements(canvas.contentWindow);
+	}
+
+	return callback(canvas.contentWindow.document, selector);
+}
+
+
 // export function computeStyles(el, properties) {
 //   let computed = window.getComputedStyle(el);
 //   let result = {};
