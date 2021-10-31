@@ -17,26 +17,38 @@ export function cssPath(node, container) {
     do {
         if (!node || !node.tagName) return false;
         let pathSplit = node.tagName.toLowerCase();
-        if (node.id) pathSplit += "#" + node.id;
-
-        if (node.classList.length) {
-            node.classList.forEach((item) => {
-                if (item.indexOf(":") === -1) pathSplit += "." + item;
-            });
+        if (node.id){
+            pathSplit += "#" + node.id;
+            node = '';
         }
-
-        if (node.parentNode) {
-            let index = Array.prototype.indexOf.call(
-                node.parentNode.children,
-                node
-            );
-            pathSplit += `:nth-child(${index + 1})`;
+        else {
+            let eid = node.getAttribute('eid');
+            if (eid) {
+                pathSplit += `[eid="${eid}"]`;
+                node = '';
+            }
+            else {
+                if (node.classList.length) {
+                    node.classList.forEach((item) => {
+                        if (item.indexOf(":") === -1) pathSplit += "." + item;
+                    });
+                }
+        
+                if (node.parentNode) {
+                    let index = Array.prototype.indexOf.call(
+                        node.parentNode.children,
+                        node
+                    );
+                    pathSplit += `:nth-child(${index + 1})`;
+                }
+        
+                // pathSplits.unshift(pathSplit);
+                node = node.parentNode;
+                if (node.tagName == "HTML" || node.nodeName == "#document" || node.hasAttribute('contenteditable'))
+                	node = '';
+            }
+            pathSplits.unshift(pathSplit);
         }
-
-        pathSplits.unshift(pathSplit);
-        node = node.parentNode;
-        if (node.tagName == "HTML" || node.nodeName == "#document" || node.hasAttribute('contenteditable'))
-        	node = '';
     } while (node);
     return pathSplits.join(" > ");
 }
