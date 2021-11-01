@@ -1,3 +1,15 @@
+# [1.3.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.2.1...v1.3.0) (2021-11-01)
+
+
+### Bug Fixes
+
+* cssPath did not push and return path if it was id ([4af00bd](https://github.com/CoCreate-app/CoCreate-utils/commit/4af00bd4c3fd376a1fd15d7dd1eeeec63ff0ddcf))
+
+
+### Features
+
+* cssPath will stop and return path if id or eid found... rather then continuing to travel up the dom tree ([17d6ced](https://github.com/CoCreate-app/CoCreate-utils/commit/17d6ced222f0552f870f2feeffecf7970ad653a3))
+
 ## [1.2.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.2.0...v1.2.1) (2021-10-29)
 
 
