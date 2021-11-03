@@ -54,10 +54,11 @@ export function cssPath(node, container) {
 }
 
 export function domParser(str) {
-    let mainTag = str.match(/\<(?<tag>[a-z0-9]+)(.*?)?\>/).groups.tag;
-    if (!mainTag)
-        throw new Error('find position: can not find the main tag');
-
+    try {
+        var mainTag = str.match(/\<(?<tag>[a-z0-9]+)(.*?)?\>/).groups.tag;
+    } catch (e){
+        console.log('find position: can not find the main tag');
+    }
     let doc;
     switch (mainTag) {
         case 'html':
