@@ -1,3 +1,10 @@
+## [1.3.18](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.3.17...v1.3.18) (2021-12-08)
+
+
+### Bug Fixes
+
+* csspath element null return ([dd4ac41](https://github.com/CoCreate-app/CoCreate-utils/commit/dd4ac41f123105f1b4364e858bc221914220427c))
+
 ## [1.3.17](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.3.16...v1.3.17) (2021-11-27)
 
 
