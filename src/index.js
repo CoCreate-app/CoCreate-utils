@@ -34,7 +34,8 @@ export function cssPath(node, container) {
                     });
                 }
         
-                if (node.parentNode) {
+                if (node.parentNode && node.parentNode.children.length > 1) {
+                    
                     let index = Array.prototype.indexOf.call(
                         node.parentNode.children,
                         node
