@@ -1,3 +1,10 @@
+## [1.3.19](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.3.18...v1.3.19) (2021-12-08)
+
+
+### Bug Fixes
+
+* cssPath nth-child if childern > 1 ([caa0f54](https://github.com/CoCreate-app/CoCreate-utils/commit/caa0f5480c58a3f5a5e8e117133ccad9f4acde66))
+
 ## [1.3.18](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.3.17...v1.3.18) (2021-12-08)
 
 
