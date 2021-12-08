@@ -44,7 +44,7 @@ export function cssPath(node, container) {
         
                 // pathSplits.unshift(pathSplit);
                 node = node.parentNode;
-                if (node.tagName == "HTML" || node.nodeName == "#document" || node.hasAttribute('contenteditable'))
+                if (node == null || node.tagName == "HTML" || node.nodeName == "#document" || node.hasAttribute('contenteditable'))
                 	node = '';
             }
         }
