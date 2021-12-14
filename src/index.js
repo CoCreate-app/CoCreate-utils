@@ -17,6 +17,10 @@ export function cssPath(node, container) {
     do {
         if (!node || !node.tagName) return false;
         let pathSplit = node.tagName.toLowerCase();
+        // if (node.tagName == "DOM-PARSER" || node.hasAttribute('contenteditable')){
+        //     pathSplit = "[contenteditable]";
+        //     node = '';
+        // }
         if (node.id){
             pathSplit += "#" + node.id;
             node = '';
@@ -35,17 +39,26 @@ export function cssPath(node, container) {
                 }
         
                 if (node.parentNode && node.parentNode.children.length > 1) {
-                    
+                    // ToDo: improve array logic so ignores javascript generated html??
+                    let children = []
+                    for (let child of node.parentNode.children){
+                        // if (!child.matches('.mirror'))
+                        //     children.push(child);
+                        if (child.tagName == node.tagName)
+                            children.push(child);
+                    }
                     let index = Array.prototype.indexOf.call(
-                        node.parentNode.children,
+                        children,
                         node
                     );
-                    pathSplit += `:nth-child(${index + 1})`;
+                    // if (children.length > 1)
+                    // pathSplit += `:nth-child(${index + 1})`;
+                    pathSplit += `:nth-of-type(${index + 1})`;
                 }
         
                 // pathSplits.unshift(pathSplit);
                 node = node.parentNode;
-                if (node == null || node.tagName == "HTML" || node.nodeName == "#document" || node.hasAttribute('contenteditable'))
+                if (node == null || node.tagName == "HTML" || node.tagName == "DOM-PARSER" || node.nodeName == "#document" || node.hasAttribute('contenteditable'))
                 	node = '';
             }
         }
@@ -73,7 +86,7 @@ export function domParser(str) {
             return doc.head;
 
         default:
-            let con = document.createElement('div');
+            let con = document.createElement('dom-parser');
             con.innerHTML = str;
             return con;
     }
