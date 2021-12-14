@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.3.19...v1.4.0) (2021-12-14)
+
+
+### Features
+
+* cssPath and domParser update to support nested contenteditable elements ([a7b700a](https://github.com/CoCreate-app/CoCreate-utils/commit/a7b700add647856071cf2c3bfa0ce95b36144e0a))
+
 ## [1.3.19](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.3.18...v1.3.19) (2021-12-08)
 
 
