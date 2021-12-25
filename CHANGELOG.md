@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.4.1...v1.4.2) (2021-12-25)
+
+
+### Bug Fixes
+
+* comment cssPath class parser. path could not resolve element ([1a00794](https://github.com/CoCreate-app/CoCreate-utils/commit/1a00794a0ee96699379e8efd0e75000efe93cded))
+
 ## [1.4.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.4.0...v1.4.1) (2021-12-15)
 
 
