@@ -345,6 +345,17 @@ async function complexSelector(comSelector, callback) {
 	return callback(canvas.contentWindow.document, selector);
 }
 
+// function eid(html){
+// 	let dom = domParser(html);
+// 	let elements = dom.querySelectorAll('*');
+// 	for (let element of elements){
+// 	    if (!element.getAttribute('eid')){
+// 	        element.setAttribute(eid, uuid(8))
+// 	    } 
+// 	}
+// 	return dom.outterHTML
+// }
+
 
 // export function computeStyles(el, properties) {
 //   let computed = window.getComputedStyle(el);

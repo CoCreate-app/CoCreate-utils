@@ -32,11 +32,11 @@ export function cssPath(node, container) {
                 node = '';
             }
             else {
-                if (node.classList.length) {
-                    node.classList.forEach((item) => {
-                        if (item.indexOf(":") === -1) pathSplit += "." + item;
-                    });
-                }
+                // if (node.classList.length) {
+                //     node.classList.forEach((item) => {
+                //         if (item.indexOf(":") === -1) pathSplit += "." + item;
+                //     });
+                // }
         
                 if (node.parentNode && node.parentNode.children.length > 1) {
                     // ToDo: improve array logic so ignores javascript generated html??
