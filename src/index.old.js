@@ -366,6 +366,11 @@ async function complexSelector(comSelector, callback) {
 //   return result;
 // }
 
+	function isObjectEmpty(obj) { 
+	   for (var x in obj) { return false; }
+	   return true;
+	}
+
 
 export default {
   getElementPath,
