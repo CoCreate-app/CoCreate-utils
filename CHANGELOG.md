@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.4.3...v1.5.0) (2022-01-29)
+
+
+### Features
+
+* function to add click event to all documents in order to apply clickedElement to document dom object. this provides a refrence to the element that was actively clicked ([537003d](https://github.com/CoCreate-app/CoCreate-utils/commit/537003de6aa749a8dc215e70926dfc3dd2b830fb))
+
 ## [1.4.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.4.2...v1.4.3) (2022-01-01)
 
 
