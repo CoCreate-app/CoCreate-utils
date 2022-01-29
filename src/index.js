@@ -1,4 +1,25 @@
 /*globals DOMParser*/
+function clickedElement() {
+    document.addEventListener('click', e => {
+        document.clickedElement = e.target;
+    });
+    let frameDocuments = window.top.frameDocuments;
+    if (!frameDocuments){
+        window.top.frameDocuments = new Map();
+        frameDocuments = window.top.frameDocuments;
+    }
+    let frames = document.querySelectorAll('iframe');
+    for (let frame of frames){
+        let frameDocument = frame.contentDocument;
+        if (!frameDocuments.has(frameDocument)){
+            frameDocuments.set(frameDocument, '')
+            frameDocument.addEventListener('click', e => {
+                frameDocument.clickedElement = e.target;
+            });
+        }
+    }
+}
+
 export function getAttributes(element) {
   return element.getAttributeNames().reduce((attrMap, name) => {
     attrMap[name] = element.getAttribute(name);
@@ -135,6 +156,8 @@ export function queryFrameSelectorAll(selector) {
 // 		    }
 // 	    } while (parentElement);
 // 	}
+
+clickedElement();
 
 export default {
   parseTextToHtml,
