@@ -113,29 +113,61 @@ export function domParser(str) {
     }
 }
 
-export function queryFrameSelector(selector) {
-		if(selector.indexOf(';') !== -1) {
-			let [frameSelector, target] = selector.split(';');
-			let frame = document.querySelector(frameSelector);
-			if (frame) {
-			 	let Document = frame.contentDocument;
-			 	let elements = Document.querySelectorAll(target);
-			 	return elements;
-			}
+export function getFrameSelector(selector) {
+	let selectorArray = [];
+	if (selector) {
+		let selectors = [selector];
+		if(selector.indexOf(',') !== -1){
+			selectors = selector.split(',');
 		}
+		for (let selector of selectors){
+			let els;
+			if(selector.indexOf(';') !== -1) {
+				let [documentSelector, targetSelector] = selector.split(';');
+				let frame = document.querySelector(documentSelector);
+				if (frame)
+				 	selectorArray.push({Document: frame.contentDocument, selector: targetSelector});
+			}
+			else
+				selectorArray.push({Document: document, selector: selector});
+		}
+		return selectorArray;
+	}
 }
 
 export function queryFrameSelectorAll(selector) {
-		if(selector.indexOf(';') !== -1) {
-			let [frameSelector, target] = selector.split(';');
-			let frame = document.querySelector(frameSelector);
-			if (frame) {
-			 	let Document = frame.contentDocument;
-			 	let element = Document.querySelector(target);
-			 	return element;
+	let elements = [];
+
+	if (selector) {
+		let selectors = [selector];
+		if(selector.indexOf(',') !== -1){
+			selectors = selector.split(',');
+		}
+		for (let selector of selectors){
+			let els;
+			if(selector.indexOf(';') !== -1) {
+				let [documentSelector, targetSelector] = selector.split(';');
+				let frame = document.querySelector(documentSelector);
+				if (frame) {
+				 	let targetDocument = frame.contentDocument;
+					if (targetSelector)
+						els = targetDocument.querySelectorAll(targetSelector);
+					else
+						if (targetDocument.clickedElement)
+							els = [targetDocument.clickedElement];
+				}
+			}
+			else
+				els = document.querySelectorAll(selector);
+			if (els){
+				els = Array.prototype.slice.call(els);
+				elements = elements.concat(els);
 			}
 		}
+		return elements;
+	}
 }
+
 // export function computeStyles(el, properties) {
 //   let computed = window.getComputedStyle(el);
 //   let result = {};
@@ -163,5 +195,6 @@ export default {
   parseTextToHtml,
   getAttributes,
   cssPath,
-  domParser
+  domParser,
+  queryFrameSelectorAll
 };
