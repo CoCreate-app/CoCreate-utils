@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.6.0...v1.6.1) (2022-02-03)
+
+
+### Bug Fixes
+
+* replaced show and hide class hidden with attribute hidden ([f1ad793](https://github.com/CoCreate-app/CoCreate-utils/commit/f1ad793841db4abe67032a24625e8a46f7560bbf))
+
 # [1.6.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.5.1...v1.6.0) (2022-02-03)
 
 
