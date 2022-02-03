@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.5.1...v1.6.0) (2022-02-03)
+
+
+### Features
+
+* queryFrameSelectorAll to return elements from other documents, getFrameSelector to pase a selector and return document and selector ([c3b8c27](https://github.com/CoCreate-app/CoCreate-utils/commit/c3b8c27fc1f452b7eac0ac801770e3c0809295f8))
+
 ## [1.5.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.5.0...v1.5.1) (2022-02-01)
 
 
