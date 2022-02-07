@@ -48,6 +48,9 @@ export function cssPath(node, container) {
         }
         else {
             let eid = node.getAttribute('eid');
+            if(/{{\s*([\w\W]+)\s*}}/g.test(eid)) {
+    			eid = false;
+    		}
             if (eid) {
                 pathSplit += `[eid="${eid}"]`;
                 node = '';
