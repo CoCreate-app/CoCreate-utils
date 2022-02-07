@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.6.1...v1.6.2) (2022-02-07)
+
+
+### Bug Fixes
+
+* if eid contains {{...}} continue with cssPath ([34e142c](https://github.com/CoCreate-app/CoCreate-utils/commit/34e142ce50e82da94c603c431244727f479bd333))
+
 ## [1.6.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.6.0...v1.6.1) (2022-02-03)
 
 
