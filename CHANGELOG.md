@@ -1,3 +1,11 @@
+## [1.7.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.7.2...v1.7.3) (2022-06-12)
+
+
+### Bug Fixes
+
+* update dependencies ([925855d](https://github.com/CoCreate-app/CoCreate-utils/commit/925855da986c61f700642657e27a4dca8a461d64))
+* update docs css document_id ([cec8894](https://github.com/CoCreate-app/CoCreate-utils/commit/cec8894132d8d47eac5b0857fdcfd793ec97e6a2))
+
 ## [1.7.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.7.1...v1.7.2) (2022-05-23)
 
 
