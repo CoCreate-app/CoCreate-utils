@@ -1,3 +1,10 @@
+## [1.7.5](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.7.4...v1.7.5) (2022-06-24)
+
+
+### Bug Fixes
+
+* check path for character < if exist clean up path to mak it in to a valid selector ([9321063](https://github.com/CoCreate-app/CoCreate-utils/commit/93210634425db2dff507919dd32415f0d7bdfc95))
+
 ## [1.7.4](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.7.3...v1.7.4) (2022-06-18)
 
 
