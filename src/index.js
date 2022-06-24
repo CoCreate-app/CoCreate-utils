@@ -47,15 +47,15 @@ export function cssPath(node, container) {
             node = '';
         }
         else {
-            let eid = node.getAttribute('eid');
-            if(/{{\s*([\w\W]+)\s*}}/g.test(eid)) {
-    			eid = false;
-    		}
-            if (eid) {
-                pathSplit += `[eid="${eid}"]`;
-                node = '';
-            }
-            else {
+            // let eid = node.getAttribute('eid');
+            // if(/{{\s*([\w\W]+)\s*}}/g.test(eid)) {
+    		// 	eid = false;
+    		// }
+            // if (eid) {
+            //     pathSplit += `[eid="${eid}"]`;
+            //     node = '';
+            // }
+            // else {
                 // if (node.classList.length) {
                 //     node.classList.forEach((item) => {
                 //         if (item.indexOf(":") === -1) pathSplit += "." + item;
@@ -85,10 +85,21 @@ export function cssPath(node, container) {
                 if (node == null || node.tagName == "HTML" || node.tagName == "DOM-PARSER" || node.nodeName == "#document" || node.hasAttribute('contenteditable'))
                 	node = '';
             }
-        }
+        // }
         pathSplits.unshift(pathSplit);
     } while (node);
-    return pathSplits.join(" > ");
+    let path = pathSplits.join(" > ")
+    if (path && path.includes('<')) {
+		let index = path.lastIndexOf(' >')
+		if (index != -1)
+			path = path.slice(0, index)
+		else{
+			index = path.lastIndexOf('<')
+			path = path.slice(0, index)
+		}
+	}
+
+    return path;
 }
 
 export function domParser(str) {
