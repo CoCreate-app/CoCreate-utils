@@ -20,13 +20,6 @@ function clickedElement() {
     }
 }
 
-export function getAttributes(element) {
-  return element.getAttributeNames().reduce((attrMap, name) => {
-    attrMap[name] = element.getAttribute(name);
-    return attrMap;
-  }, {});
-}
-
 export function parseTextToHtml(text) {
   let doc = new DOMParser().parseFromString(text, "text/html");
   if (doc.head.children[0]) return doc.head.children[0];
@@ -207,7 +200,6 @@ clickedElement();
 
 export default {
   parseTextToHtml,
-  getAttributes,
   cssPath,
   domParser,
   queryFrameSelectorAll
