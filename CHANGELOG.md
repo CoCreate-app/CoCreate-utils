@@ -1,3 +1,10 @@
+## [1.7.6](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.7.5...v1.7.6) (2022-06-27)
+
+
+### Bug Fixes
+
+* remove functon getAttributes ([162228d](https://github.com/CoCreate-app/CoCreate-utils/commit/162228ddd99bcdf64a59088bddf2a6216a911898))
+
 ## [1.7.5](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.7.4...v1.7.5) (2022-06-24)
 
 
