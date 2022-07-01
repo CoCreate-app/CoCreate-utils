@@ -186,6 +186,5 @@ export default {
   parseTextToHtml,
   cssPath,
   domParser,
-  queryDocumentSelectorAll,
-  queryFrameSelectorAll
+  queryDocumentSelectorAll
 };
