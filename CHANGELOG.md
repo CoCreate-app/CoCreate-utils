@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.8.0...v1.8.1) (2022-07-01)
+
+
+### Bug Fixes
+
+* remove function queryFrameSelector rhas been replaced by queryDocumentSelectorAll ([3c11054](https://github.com/CoCreate-app/CoCreate-utils/commit/3c110543598ded5753c9d715f3cb650d46e93263))
+
 # [1.8.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.7.6...v1.8.0) (2022-07-01)
 
 
