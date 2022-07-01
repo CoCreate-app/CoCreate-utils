@@ -120,29 +120,7 @@ export function domParser(str) {
     }
 }
 
-export function getFrameSelector(selector) {
-	let selectorArray = [];
-	if (selector) {
-		let selectors = [selector];
-		if(selector.indexOf(',') !== -1){
-			selectors = selector.split(',');
-		}
-		for (let selector of selectors){
-			let els;
-			if(selector.indexOf(';') !== -1) {
-				let [documentSelector, targetSelector] = selector.split(';');
-				let frame = document.querySelector(documentSelector);
-				if (frame)
-				 	selectorArray.push({Document: frame.contentDocument, selector: targetSelector});
-			}
-			else
-				selectorArray.push({Document: document, selector: selector});
-		}
-		return selectorArray;
-	}
-}
-
-export function queryFrameSelectorAll(selector) {
+export function queryDocumentSelectorAll(selector) {
 	let elements = [];
 
 	if (selector) {
@@ -153,16 +131,22 @@ export function queryFrameSelectorAll(selector) {
 		for (let selector of selectors){
 			let els;
 			if(selector.indexOf(';') !== -1) {
+                let targetDocument;
 				let [documentSelector, targetSelector] = selector.split(';');
-				let frame = document.querySelector(documentSelector);
-				if (frame) {
-				 	let targetDocument = frame.contentDocument;
-					if (targetSelector)
-						els = targetDocument.querySelectorAll(targetSelector);
-					else
-						if (targetDocument.clickedElement)
-							els = [targetDocument.clickedElement];
-				}
+				if (['parent', 'parentDocument'].includes(documentSelector))
+                    targetDocument = window.parent.document;
+                else {
+                    let frame = document.querySelector(documentSelector);
+                    if (frame)
+                        targetDocument = frame.contentDocument;
+                }
+                if (targetDocument){
+                    if (targetSelector)
+                        els = targetDocument.querySelectorAll(targetSelector);
+                    else
+                        if (targetDocument.clickedElement)
+                            els = [targetDocument.clickedElement];
+                }
 			}
 			else
 				els = document.querySelectorAll(selector);
@@ -202,5 +186,6 @@ export default {
   parseTextToHtml,
   cssPath,
   domParser,
+  queryDocumentSelectorAll,
   queryFrameSelectorAll
 };

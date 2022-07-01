@@ -371,7 +371,62 @@ async function complexSelector(comSelector, callback) {
 	   return true;
 	}
 
-
+  export function getFrameSelector(selector) {
+    let selectorArray = [];
+    if (selector) {
+      let selectors = [selector];
+      if(selector.indexOf(',') !== -1){
+        selectors = selector.split(',');
+      }
+      for (let selector of selectors){
+        let els;
+        if(selector.indexOf(';') !== -1) {
+          let [documentSelector, targetSelector] = selector.split(';');
+          let frame = document.querySelector(documentSelector);
+          if (frame)
+             selectorArray.push({Document: frame.contentDocument, selector: targetSelector});
+        }
+        else
+          selectorArray.push({Document: document, selector: selector});
+      }
+      return selectorArray;
+    }
+  }
+  export function queryFrameSelectorAll(selector) {
+    let elements = [];
+  
+    if (selector) {
+      let selectors = [selector];
+      if(selector.indexOf(',') !== -1){
+        selectors = selector.split(',');
+      }
+      for (let selector of selectors){
+        let els;
+        if(selector.indexOf(';') !== -1) {
+          let [documentSelector, targetSelector] = selector.split(';');
+          let frame = document.querySelector(documentSelector);
+          if (frame) {
+             let targetDocument = frame.contentDocument;
+            if (targetSelector)
+              els = targetDocument.querySelectorAll(targetSelector);
+            else
+              if (targetDocument.clickedElement)
+                els = [targetDocument.clickedElement];
+          }
+        }
+        else
+          els = document.querySelectorAll(selector);
+        if (els){
+          els = Array.prototype.slice.call(els);
+          elements = elements.concat(els);
+        }
+      }
+      return elements;
+    }
+  }
+  
+  
+  
 export default {
   getElementPath,
   isValidSelector,
