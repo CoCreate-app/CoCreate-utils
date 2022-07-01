@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.7.6...v1.8.0) (2022-07-01)
+
+
+### Features
+
+* queryDocumentSelectorAll - ability to query iframes and parent of iframes ([90bd26b](https://github.com/CoCreate-app/CoCreate-utils/commit/90bd26b139a6a5413ac67a92504cf533f10e0838))
+
 ## [1.7.6](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.7.5...v1.7.6) (2022-06-27)
 
 
