@@ -159,6 +159,41 @@ export function queryDocumentSelectorAll(selector) {
 	}
 }
 
+export function queryDocumentSelector(selector) {
+	if (selector) {
+		let selectors = [selector];
+		if(selector.indexOf(',') !== -1){
+			selectors = selector.split(',');
+		}
+		for (let selector of selectors){
+			let el;
+			if(selector.indexOf(';') !== -1) {
+                let targetDocument;
+				let [documentSelector, targetSelector] = selector.split(';');
+				if (['parent', 'parentDocument'].includes(documentSelector))
+                    targetDocument = window.parent.document;
+                else {
+                    let frame = document.querySelector(documentSelector);
+                    if (frame)
+                        targetDocument = frame.contentDocument;
+                }
+                if (targetDocument){
+                    if (targetSelector)
+                        el = targetDocument.querySelector(targetSelector);
+                    else
+                        if (targetDocument.clickedElement)
+                            el = [targetDocument.clickedElement];
+                }
+			}
+			else
+				el = document.querySelector(selector);
+            if (el)
+                return el
+		}
+		return;
+	}
+}
+
 // export function computeStyles(el, properties) {
 //   let computed = window.getComputedStyle(el);
 //   let result = {};
