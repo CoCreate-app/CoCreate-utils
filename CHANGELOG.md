@@ -1,3 +1,15 @@
+# [1.9.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.8.1...v1.9.0) (2022-07-03)
+
+
+### Bug Fixes
+
+* add queryDocumentSelector to export default ([b067ed1](https://github.com/CoCreate-app/CoCreate-utils/commit/b067ed1354488cf52014e2d417d75c5be455fc6f))
+
+
+### Features
+
+* queryDocumentSelector to return one element from an iframe or iframes parent ([477f179](https://github.com/CoCreate-app/CoCreate-utils/commit/477f179ef4e00aab219d12a5a9ae3a5e1cfae992))
+
 ## [1.8.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.8.0...v1.8.1) (2022-07-01)
 
 
