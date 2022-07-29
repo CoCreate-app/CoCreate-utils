@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.9.0...v1.9.1) (2022-07-29)
+
+
+### Bug Fixes
+
+* removed console.log ([b237022](https://github.com/CoCreate-app/CoCreate-utils/commit/b2370221c33dc1972eee8204af8a310f9e44721c))
+
 # [1.9.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.8.1...v1.9.0) (2022-07-03)
 
 
