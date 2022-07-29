@@ -99,7 +99,7 @@ export function domParser(str) {
     try {
         var mainTag = str.match(/\<(?<tag>[a-z0-9]+)(.*?)?\>/).groups.tag;
     } catch (e){
-        console.log('find position: can not find the main tag');
+        // console.log(e, 'find position: can not find the main tag');
     }
     let doc;
     switch (mainTag) {
