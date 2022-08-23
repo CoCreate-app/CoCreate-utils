@@ -20,6 +20,46 @@ function clickedElement() {
     }
 }
 
+export function dotNotationToObject(data) {
+    try {	
+        let obj = {};
+
+        for (const [key, value] of Object.entries(data)) {	
+            let newObject = obj
+            let keys = key.split('.');
+            let length = keys.length - 1
+            for (let i = 0; i < keys.length; i++) {
+                if (/\[([0-9]*)\]/g.test(keys[i])){
+                    let [k, index] = keys[i].split('[');
+                    index = index.slice(0, -1)
+                    console.log(index, k)
+                    if (length == i){
+                        newObject[k] = [];
+                        newObject[k][index] = value;
+                    }
+                    else {
+                        newObject[k] = [];
+                        newObject[k][index] = {};
+                    }
+                    newObject = newObject[k][index]
+                }
+                else {
+                    if (length == i)
+                        newObject[keys[i]] = value;
+                    else
+                        newObject[keys[i]] = {};
+                    newObject = newObject[keys[i]]
+                }
+            }
+        }
+        console.log(obj);
+        return obj
+    } catch (error) {
+        console.log("Error converting dot notation to object", error);
+        return false;
+    }
+}
+
 export function parseTextToHtml(text) {
   let doc = new DOMParser().parseFromString(text, "text/html");
   if (doc.head.children[0]) return doc.head.children[0];
@@ -219,6 +259,7 @@ clickedElement();
 
 export default {
   parseTextToHtml,
+  dotNotationToObject,
   cssPath,
   domParser,
   queryDocumentSelector,
