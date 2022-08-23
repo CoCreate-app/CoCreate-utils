@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.9.1...v1.10.0) (2022-08-23)
+
+
+### Features
+
+* dotNotationToObject to convert a dot notation string to a nested object structure ([b924d33](https://github.com/CoCreate-app/CoCreate-utils/commit/b924d333ccf364d6ac1f736e8cbfe2d8999316cb))
+
 ## [1.9.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.9.0...v1.9.1) (2022-07-29)
 
 
