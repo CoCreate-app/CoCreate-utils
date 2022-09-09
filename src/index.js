@@ -20,12 +20,11 @@ function clickedElement() {
     }
 }
 
-export function dotNotationToObject(data) {
+export function dotNotationToObject(data, obj = {}) {
     try {	
-        let obj = {};
-
         for (const [key, value] of Object.entries(data)) {	
             let newObject = obj
+            let oldObject = new Object(obj)
             let keys = key.split('.');
             let length = keys.length - 1
             for (let i = 0; i < keys.length; i++) {
@@ -34,25 +33,26 @@ export function dotNotationToObject(data) {
                     index = index.slice(0, -1)
                     console.log(index, k)
                     if (length == i){
-                        newObject[k] = [];
+                        newObject[k] = oldObject[k] || [];
                         newObject[k][index] = value;
                     }
                     else {
-                        newObject[k] = [];
-                        newObject[k][index] = {};
+                        newObject[k] = oldObject[k] || [];
+                        newObject[k][index] = oldObject[k][index] || {};
                     }
                     newObject = newObject[k][index]
+                    oldObject = oldObject[k][index]
                 }
                 else {
                     if (length == i)
                         newObject[keys[i]] = value;
                     else
-                        newObject[keys[i]] = {};
-                    newObject = newObject[keys[i]]
+                        newObject[keys[i]] = oldObject[keys[i]] || {};
                 }
+                newObject = newObject[keys[i]]
+                oldObject = oldObject[keys[i]]
             }
         }
-        console.log(obj);
         return obj
     } catch (error) {
         console.log("Error converting dot notation to object", error);
