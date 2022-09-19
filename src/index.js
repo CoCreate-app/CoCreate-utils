@@ -31,7 +31,6 @@ export function dotNotationToObject(data, obj = {}) {
                 if (/\[([0-9]*)\]/g.test(keys[i])){
                     let [k, index] = keys[i].split('[');
                     index = index.slice(0, -1)
-                    console.log(index, k)
                     if (length == i){
                         newObject[k] = oldObject[k] || [];
                         newObject[k][index] = value;
@@ -48,9 +47,10 @@ export function dotNotationToObject(data, obj = {}) {
                         newObject[keys[i]] = value;
                     else
                         newObject[keys[i]] = oldObject[keys[i]] || {};
+
+                    newObject = newObject[keys[i]]
+                    oldObject = oldObject[keys[i]]
                 }
-                newObject = newObject[keys[i]]
-                oldObject = oldObject[keys[i]]
             }
         }
         return obj
