@@ -1,3 +1,10 @@
+## [1.10.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.1...v1.10.2) (2022-09-22)
+
+
+### Bug Fixes
+
+* dotNotationToObject if condition bug resolved ([cee0089](https://github.com/CoCreate-app/CoCreate-utils/commit/cee0089818f3a5358ec20b625c84910e1508661f))
+
 ## [1.10.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.0...v1.10.1) (2022-09-01)
 
 
