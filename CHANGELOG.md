@@ -1,3 +1,10 @@
+## [1.10.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.2...v1.10.3) (2022-09-29)
+
+
+### Bug Fixes
+
+* config renameed to CoCreateConfig ([eda669c](https://github.com/CoCreate-app/CoCreate-utils/commit/eda669c88a5e141bb50fe37ba9ede11824da36bb))
+
 ## [1.10.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.1...v1.10.2) (2022-09-22)
 
 
