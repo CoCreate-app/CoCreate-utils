@@ -53,7 +53,7 @@ export function getAttributes(element) {
 }
 
 // ToDo: duplicate it is in crud.utils
-export function checkAttrValue(value) {
+export function checkValue(value) {
   if (!value) return false;
   if (/{{\s*([\w\W]+)\s*}}/g.test(value)) {
     return false;
