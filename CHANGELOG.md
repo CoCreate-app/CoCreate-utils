@@ -1,3 +1,10 @@
+## [1.10.14](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.13...v1.10.14) (2022-11-21)
+
+
+### Bug Fixes
+
+* renamed crud.checkAttrValue to crud.checkValue ([fe07687](https://github.com/CoCreate-app/CoCreate-utils/commit/fe076874b5f0f8a835556749341c53205c3d7bbf))
+
 ## [1.10.13](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.12...v1.10.13) (2022-10-02)
 
 
