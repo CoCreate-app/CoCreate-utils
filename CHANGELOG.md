@@ -1,3 +1,10 @@
+## [1.10.20](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.19...v1.10.20) (2022-11-22)
+
+
+### Bug Fixes
+
+* apply src: {{source}} to CoCreate.config ([49cbcc5](https://github.com/CoCreate-app/CoCreate-utils/commit/49cbcc5c1471bf5f42ee1a4e708bf783096e760c))
+
 ## [1.10.19](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.18...v1.10.19) (2022-11-21)
 
 
