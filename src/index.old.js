@@ -322,12 +322,12 @@ export function frameQuerySelectorAll(comSelector) {
 async function complexSelector(comSelector, callback) {
 	let [canvasSelector, selector] = comSelector.split(';');
 	let canvas = document.querySelector(canvasSelector);
-	if(!canvas) {
+	if (!canvas) {
 		console.warn('complex selector canvas now found for', comSelector);
 		return;
 	}
 
-	if(canvas.contentDocument.readyState === 'loading') {
+	if (canvas.contentDocument.readyState === 'loading') {
 		try {
 			await new Promise((resolve, reject) => {
 				canvas.contentWindow.addEventListener('load', (e) => resolve());
@@ -338,7 +338,7 @@ async function complexSelector(comSelector, callback) {
 		}
 	}
 
-	if(canvas.contentWindow.parent.CoCreate.observer && !observerInit.has(canvas.contentWindow)) {
+	if (canvas.contentWindow.parent.CoCreate.observer && !observerInit.has(canvas.contentWindow)) {
 		observerElements(canvas.contentWindow);
 	}
 
@@ -375,12 +375,12 @@ async function complexSelector(comSelector, callback) {
     let selectorArray = [];
     if (selector) {
       let selectors = [selector];
-      if(selector.indexOf(',') !== -1){
+      if (selector.indexOf(',') !== -1){
         selectors = selector.split(',');
       }
       for (let selector of selectors){
         let els;
-        if(selector.indexOf(';') !== -1) {
+        if (selector.indexOf(';') !== -1) {
           let [documentSelector, targetSelector] = selector.split(';');
           let frame = document.querySelector(documentSelector);
           if (frame)
@@ -397,12 +397,12 @@ async function complexSelector(comSelector, callback) {
   
     if (selector) {
       let selectors = [selector];
-      if(selector.indexOf(',') !== -1){
+      if (selector.indexOf(',') !== -1){
         selectors = selector.split(',');
       }
       for (let selector of selectors){
         let els;
-        if(selector.indexOf(';') !== -1) {
+        if (selector.indexOf(';') !== -1) {
           let [documentSelector, targetSelector] = selector.split(';');
           let frame = document.querySelector(documentSelector);
           if (frame) {

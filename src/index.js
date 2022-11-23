@@ -81,7 +81,7 @@ export function cssPath(node, container) {
         }
         else {
             // let eid = node.getAttribute('eid');
-            // if(/{{\s*([\w\W]+)\s*}}/g.test(eid)) {
+            // if (/{{\s*([\w\W]+)\s*}}/g.test(eid)) {
     		// 	eid = false;
     		// }
             // if (eid) {
@@ -165,12 +165,12 @@ export function queryDocumentSelectorAll(selector) {
 
 	if (selector) {
 		let selectors = [selector];
-		if(selector.indexOf(',') !== -1){
+		if (selector.indexOf(',') !== -1){
 			selectors = selector.split(',');
 		}
 		for (let selector of selectors){
 			let els;
-			if(selector.indexOf(';') !== -1) {
+			if (selector.indexOf(';') !== -1) {
                 let targetDocument;
 				let [documentSelector, targetSelector] = selector.split(';');
 				if (['parent', 'parentDocument'].includes(documentSelector))
@@ -202,12 +202,12 @@ export function queryDocumentSelectorAll(selector) {
 export function queryDocumentSelector(selector) {
 	if (selector) {
 		let selectors = [selector];
-		if(selector.indexOf(',') !== -1){
+		if (selector.indexOf(',') !== -1){
 			selectors = selector.split(',');
 		}
 		for (let selector of selectors){
 			let el;
-			if(selector.indexOf(';') !== -1) {
+			if (selector.indexOf(';') !== -1) {
                 let targetDocument;
 				let [documentSelector, targetSelector] = selector.split(';');
 				if (['parent', 'parentDocument'].includes(documentSelector))
@@ -247,7 +247,7 @@ export function queryDocumentSelector(selector) {
 // 	    let parentElement;
 // 	    do {
 // 	    	parentElement = element.parentElement.closest(selectors);
-// 	    	if(parentElement) {
+// 	    	if (parentElement) {
 // 		    	element = parentElement;
 // 		    } else {
 // 				return element;
