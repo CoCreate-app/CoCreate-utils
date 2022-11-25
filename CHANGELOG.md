@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.11.0...v1.12.0) (2022-11-25)
+
+
+### Features
+
+* functions for search, query and sorting objects and arrays ([a0ef76d](https://github.com/CoCreate-app/CoCreate-utils/commit/a0ef76d24969e3679159987b2f3c4633bc46c138))
+
 # [1.11.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.23...v1.11.0) (2022-11-25)
 
 
