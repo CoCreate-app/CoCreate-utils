@@ -1,3 +1,15 @@
+# [1.11.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.23...v1.11.0) (2022-11-25)
+
+
+### Bug Fixes
+
+* add valueTypes to archive ([6fd51ff](https://github.com/CoCreate-app/CoCreate-utils/commit/6fd51ffe880699b5303be7f2452a363cc3737716))
+
+
+### Features
+
+* utils can be used in browser or server ([f8ad791](https://github.com/CoCreate-app/CoCreate-utils/commit/f8ad7913e5d0c658ca3ef58bda09082dde8b67ef))
+
 ## [1.10.23](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.10.22...v1.10.23) (2022-11-24)
 
 
