@@ -247,168 +247,12 @@
         }
     }
 
-    function searchData(data, filter) {
-		if (filter && filter.search) {
-			if (filter['search']['type'] == 'and') {
-				data = andSearch(data, filter['search']['value']);
-			} else {
-				data = orSearch(data, filter['search']['value']);
-			}
-			
-			const total = data.length;
-			const startIndex = filter.startIndex;
-			const count = filter.count;
-			let result_data = [];
-			
-			if (startIndex) 
-				data = data.slice(startIndex, total);
-			if (count)
-				data = data.slice(0, count)
-			
-			result_data = data;
-			filter['startIndex'] = startIndex
-			if (count)
-				filter['count'] = count
-			filter['total'] = total
-			return result_data
-		} else {
-			return data
-		}
-	}
-
-	//. or operator
-	function orSearch(results, search) {
-		var tmp
-		if (search && search.length > 0) {
-
-			tmp = results.filter(function(item) {
-				
-				for (var key in item) {
-					var value = item[key];
-					var __status = false;
-					
-					var str_value = value;
-					
-					if (Array.isArray(str_value) || typeof str_value == 'number') {
-						str_value = str_value.toString();
-					}
-					
-					if (typeof str_value == 'string') {
-						str_value = str_value.toUpperCase();
-					}
-
-					for (let i = 0; i < search.length; i++) {
-						if (typeof search[i] == 'string' && typeof str_value == 'string') {
-							if (str_value.indexOf(search[i].toUpperCase()) > -1) {
-								__status = true;
-								break;
-							}
-						} else {
-							if (value == search[i]) {
-								__status = true;
-								break;
-							}
-						}
-					}
-					
-					if (__status) {
-						return true;
-					}
-				}
-				
-				return false;
-			})  
-		} else {
-			tmp = results;
-		}
-		
-		return tmp;
-	}
-
-
-	//. and operator
-	function andSearch(results, search) {
-		var tmp
-		if (search && search.length > 0) {
-					
-			tmp = results.filter(function(item) {
-
-				for (let i = 0; i < search.length; i++) {
-					var __status = false;
-					
-					for (var key in item) {
-						var value = item[key];
-						
-						if (typeof search[i] == 'string') {
-							
-							if (Array.isArray(value) || typeof value == 'number' ) {
-								value = value.toString();
-							} 
-							
-							if (typeof value == 'string') {
-								value = value.toUpperCase();  
-								if (value.indexOf(search[i].toUpperCase()) > -1) {
-									__status = true;
-									break;
-								}
-							}
-							
-						} else {
-							if (value == search[i]) {
-								__status = true;
-								break;
-							}
-						}
-					}
-					
-					if (!__status) {
-						return false;  
-					}
-				}
-				
-				return true;
-			})  
-		} else {
-			tmp = results;
-		}
-		
-		return tmp;
-	}
-		
-	function sortData(data, sorts) {
-		if (!Array.isArray(sorts))
-			sorts = [sorts]
-		for (let sort of sorts) {
-			let name = sort.name
-			if (name) {
-				data.sort((a, b) => {
-					if (!a[name])				
-						a[name] = ''
-					if (!b[name])				
-						b[name] = ''
-					if (sort.type == '-1') {
-						if (sort.valueType == 'number')
-							return b[name] - a[name]
-						else
-							return b[name].localeCompare(a[name])
-					} else {
-						if (sort.valueType == 'number')
-							return a[name] - b[name]
-						else
-							return a[name].localeCompare(b[name])
-					}
-				});
-			}
-		}
-		return data;
-	}	
-
-	function queryData(item, query) {
+    function queryData(item, query) {
 		//. $contain, $range, $eq, $ne, $lt, $lte, $gt, $gte, $in, $nin, $geoWithin
 		let flag = true;
-		if (!item || !query) {
+		if (!item)
 			return false;
-		}
+		
 		if (Array.isArray(item)) return false;
 		for (let i = 0; i < query.length; i++) {
 			let fieldValue = item[query[i].name];
@@ -468,6 +312,75 @@
 		return flag;
 	}
 
+    function searchData(data, searches) {
+        const search = searches['value']
+        const operator = searches['type']
+  
+        for (var key in data) {
+            let value = data[key];
+            let status = false;
+            
+            if (Array.isArray(value) || typeof value == 'number') {
+                value = value.toString();
+            }
+
+            if (typeof value == 'object') {
+                // run keys of object or JSON.stringify
+            }
+            
+            if (typeof value == 'string') {
+                value = value.toUpperCase();
+            }
+
+            for (let i = 0; i < search.length; i++) {
+                if (typeof search[i] == 'string' && typeof value == 'string') {
+                    if (value.indexOf(search[i].toUpperCase()) > -1) {
+                        status = true;
+                    }
+                } else {
+                    if (value == search[i]) {
+                        status = true;
+                    }
+                }
+                if (operator == 'or' && status) {
+                    return true;
+                }
+                if (operator == 'and' && !status) {
+                    return false;  
+                }
+            }  
+
+        }
+
+	}
+		
+	function sortData(data, sorts) {
+		if (!Array.isArray(sorts))
+			sorts = [sorts]
+		for (let sort of sorts) {
+			let name = sort.name
+			if (name) {
+				data.sort((a, b) => {
+					if (!a[name])				
+						a[name] = ''
+					if (!b[name])				
+						b[name] = ''
+					if (sort.type == '-1') {
+						if (sort.valueType == 'number')
+							return b[name] - a[name]
+						else
+							return b[name].localeCompare(a[name])
+					} else {
+						if (sort.valueType == 'number')
+							return a[name] - b[name]
+						else
+							return a[name].localeCompare(b[name])
+					}
+				});
+			}
+		}
+		return data;
+	}	
 
     // function computeStyles(el, properties) {
     //   let computed = window.getComputedStyle(el);
@@ -500,11 +413,9 @@
         domParser,
         queryDocumentSelector,
         queryDocumentSelectorAll,
+        queryData,
         searchData,
-		andSearch,
-		orSearch,
-		sortData,
-		queryData
+		sortData
     }
 
 }));
