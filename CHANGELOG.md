@@ -1,3 +1,10 @@
+## [1.12.6](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.12.5...v1.12.6) (2022-11-28)
+
+
+### Bug Fixes
+
+* if no query.length or no search.length return true ([67d40d1](https://github.com/CoCreate-app/CoCreate-utils/commit/67d40d14d4c2c6c21aa83c6ec0aca575efeaec08))
+
 ## [1.12.5](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.12.4...v1.12.5) (2022-11-28)
 
 
