@@ -315,7 +315,7 @@
     function searchData(data, searches) {
         const search = searches['value']
         const operator = searches['type']
-  
+
         for (var key in data) {
             let value = data[key];
             let status = false;
@@ -348,9 +348,11 @@
                 if (operator == 'and' && !status) {
                     return false;  
                 }
-            }  
 
+            }  
         }
+        if (search.length && operator == 'or')
+            return false
 
 	}
 		
