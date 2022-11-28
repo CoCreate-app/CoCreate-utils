@@ -252,8 +252,12 @@
 		let flag = true;
 		if (!item)
 			return false;
+		if (!query.length)
+			return true;
 		
-		if (Array.isArray(item)) return false;
+		if (Array.isArray(item)) 
+            return false;
+            
 		for (let i = 0; i < query.length; i++) {
 			let fieldValue = item[query[i].name];
 			if (fieldValue == undefined) 
@@ -315,7 +319,8 @@
     function searchData(data, searches) {
         const search = searches['value']
         const operator = searches['type']
-
+        if (!search.length)
+            return true
         for (var key in data) {
             let value = data[key];
             let status = false;
