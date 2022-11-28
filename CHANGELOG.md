@@ -1,3 +1,10 @@
+## [1.12.4](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.12.3...v1.12.4) (2022-11-28)
+
+
+### Bug Fixes
+
+* search - if operator or and no match found return false ([27dc82d](https://github.com/CoCreate-app/CoCreate-utils/commit/27dc82d6ea56983fa46736fba0f4cab3f31a4ea0))
+
 ## [1.12.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.12.2...v1.12.3) (2022-11-27)
 
 
