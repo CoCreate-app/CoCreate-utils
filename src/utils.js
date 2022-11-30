@@ -316,74 +316,87 @@
 		return flag;
 	}
 
-    function searchData(data, searches) {
-        const search = searches['value']
-        const operator = searches['type']
-        if (!search.length)
+    function searchData(data, search) {
+        if (!search)
             return true
-        for (var key in data) {
-            let value = data[key];
-            let status = false;
-            
-            if (Array.isArray(value) || typeof value == 'number') {
-                value = value.toString();
-            }
-
-            if (typeof value == 'object') {
-                // run keys of object or JSON.stringify
-            }
-            
-            if (typeof value == 'string') {
-                value = value.toUpperCase();
-            }
-
-            for (let i = 0; i < search.length; i++) {
-                if (typeof search[i] == 'string' && typeof value == 'string') {
-                    if (value.indexOf(search[i].toUpperCase()) > -1) {
+        if (!Array.isArray(search))
+            search = [search]
+        for (let i = 0; i < search.length; i++) {
+            let searchValue = search[i].value
+            if (!Array.isArray(searchValue))
+                searchValue = [searchValue]
+            for (let key in data) {
+                let value = data[key];
+                let status = false;
+                switch (typeof value) {
+                    case 'number':
+                        value = value.toString();
+                        break;
+                    case 'object':
+                        value = JSON.stringify(value)
+                        break;
+                    case 'function':
+                        value = value.toString();
+                        break;   
+                }
+                if (search[i].caseSensitive != 'true' || search[i].caseSensitive != true)
+                    value = value.toLowerCase()
+    
+                for (let i = 0; i < searchValue.length; i++) {
+                    let searchString = searchValue[i]
+                    if (search[i].caseSensitive != 'true' || search[i].caseSensitive != true)
+                        searchString = searchString.toLowerCase()
+                    
+                    if (value.indexOf(searchString) > -1)
                         status = true;
-                    }
-                } else {
-                    if (value == search[i]) {
-                        status = true;
-                    }
-                }
-                if (operator == 'or' && status) {
-                    return true;
-                }
-                if (operator == 'and' && !status) {
-                    return false;  
-                }
 
-            }  
+                    if (search[i].operator == 'or' && status)
+                        return true;
+
+                    if (search[i].operator == 'and' && !status)
+                        return false;
+
+                }  
+            }
+            if (search[i].value.length && operator == 'or')
+                return false        
+        
         }
-        if (search.length && operator == 'or')
-            return false
-
 	}
 		
-	function sortData(data, sorts) {
-		if (!Array.isArray(sorts))
-			sorts = [sorts]
-		for (let sort of sorts) {
-			let name = sort.name
+	function sortData(data, sort) {
+		if (!Array.isArray(sort))
+			sort = [sort]
+		for (let i = 0; i < sort.length; i++) {
+			let name = sort[i].name
 			if (name) {
-				data.sort((a, b) => {
-					if (!a[name])				
-						a[name] = ''
-					if (!b[name])				
-						b[name] = ''
-					if (sort.type == '-1') {
-						if (sort.valueType == 'number')
-							return b[name] - a[name]
-						else
-							return b[name].localeCompare(a[name])
-					} else {
-						if (sort.valueType == 'number')
-							return a[name] - b[name]
-						else
-							return a[name].localeCompare(b[name])
-					}
-				});
+                try {
+                    data.sort((a, b) => {
+                        if (sort[i].direction == '-1') {
+                            switch (typeof b[name]) {
+                                case 'string':
+                                    return b[name].localeCompare(a[name])
+                                case 'number':
+                                    return b[name] - a[name]
+                                case 'array':
+                                case 'object':
+                                    break;
+                            }
+                        } else {
+                            switch (typeof a[name]) {
+                                case 'string':
+                                    return a[name].localeCompare(b[name])
+                                case 'number':
+                                    return a[name] - b[name]
+                                case 'array':
+                                case 'object':
+                                    break;
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
 			}
 		}
 		return data;
