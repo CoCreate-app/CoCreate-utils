@@ -73,6 +73,31 @@
         }
     }
 
+    function getValueFromObject(json, path) {
+		try {
+			if (typeof json == 'undefined' || !path)
+				return false;
+			
+			if (/\[([0-9]*)\]/g.test(path)) {
+				path = path.replace(/\[/g, '.');
+				if (path.endsWith(']'))
+					path = path.slice(0, -1)
+				path = path.replace(/\]./g, '.');
+				path = path.replace(/\]/g, '.');
+			}
+			let jsonData = json, subpath = path.split('.');
+			
+			for (let i = 0; i < subpath.length; i++) {
+				jsonData = jsonData[subpath[i]];
+				if (!jsonData) return false;
+			}
+			return jsonData;
+		}catch(error){
+			console.log("Error in getValueFromObject", error);
+			return false;
+		}
+	}
+
     function parseTextToHtml(text) {
         let doc = new DOMParser().parseFromString(text, "text/html");
         if (doc.head.children[0]) return doc.head.children[0];
@@ -247,73 +272,116 @@
         }
     }
 
-    function queryData(item, query) {
-		//. $contain, $range, $eq, $ne, $lt, $lte, $gt, $gte, $in, $nin, $geoWithin
-		let flag = true;
-		if (!item)
+    function queryData(data, query) {
+		if (!data)
 			return false;
-		if (!query.length)
-			return true;
-		
-		if (Array.isArray(item)) 
-            return false;
             
-		for (let i = 0; i < query.length; i++) {
-			let fieldValue = item[query[i].name];
-			if (fieldValue == undefined) 
-				fieldValue = ''
-			let values = query[i].value
-			if (!Array.isArray(values))
-				values = [values] 
-			
-			for (let value of values) {
-				switch (query[i].operator) {
-					case '$contain':
-						if (!fieldValue.includes(value)) 
-							flag = false;
-						break;
-					case '$range':
-						if (value !== null && value !== null) {
-							if (value[0] > fieldValue || value[1] <= fieldValue)
-								flag = false;
-						} else if (item.value[0] == null && value[1] >= fieldValue) {
-							flag = false;
-						} else if (item.value[1] == null && value[0] <= fieldValue) {
-							flag = false;
-						}
-						break;
-					case '$eq':
-						if (fieldValue != value) flag = false; 
-						break;
-					case '$ne':
-						if (fieldValue == value) flag = false;
-						break;
-					case '$lt':
-						if (fieldValue >= value) flag = false;
-						break;
-					case '$lte':
-						if (fieldValue > value) flag = false;
-						break;
-					case '$gt':
-						if (fieldValue <= value) flag = false;
-						break;
-					case '$gte':
-						if (fieldValue < value) flag = false;
-						break;
-					case '$in':
-						if (!Array.isArray(fieldValue) || !fieldValue.some(x => value.includes(x))) flag = false;
-						break;
-					case '$nin':
-						if (Array.isArray(fieldValue) && fieldValue.some(x => value.includes(x))) flag = false;
-						break;
-					default:
-						// if (!Array.isArray(fieldValue) || !fieldValue.some(x => value.includes(x))) flag = false;
-						if (fieldValue && !fieldValue.includes(value)) flag = false; 
-						break;
-				}
-			}
-		}
-		return flag;
+        if (!Array.isArray(data))
+            data = [data]
+
+        if (!query)
+            return true
+        
+        if (!Array.isArray(query))
+            query = [query]
+        if (!query.length)
+            return true
+
+        let queryResult = false
+        for (let n = 0; n < data.length; n++) {
+            for (let i = 0; i < query.length; i++) {
+                let dataValue
+                if (query[i].name.includes('.') || /\[([0-9]*)\]/g.test(query[i].name))
+                    dataValue = getValueFromObject(data[n], query[i].name)
+                else 
+                    dataValue = data[n][query[i].name]
+                if (dataValue == undefined)
+                    dataValue = ''
+                let logicalOperator = query[i].logicalOperator || 'or'
+                let queryValues = query[i].value
+                if (!Array.isArray(queryValues))
+                    queryValues = [queryValues] 
+                
+                let queryStatus = false
+                for (let queryValue of queryValues) {
+                    if (query[i].caseSensitive != 'true' || query[i].caseSensitive != true) {
+                        if (typeof dataValue == 'string') 
+                            dataValue = dataValue.toLowerCase()
+                        if (typeof queryValue == 'string') 
+                            queryValue = queryValue.toLowerCase()
+                    }
+
+                    switch (query[i].operator) {
+                        case '$includes':
+                            if (dataValue.includes(queryValue))
+                                queryStatus = true
+                            break;
+                        case '$eq':
+                            if (dataValue == queryValue)
+                                queryStatus = true
+                            break;
+                        case '$ne':
+                            if (dataValue != queryValue)
+                                queryStatus = true
+                            break;
+                        case '$lt':
+                            if (dataValue > queryValue)
+                                queryStatus = true
+                            break;
+                        case '$lte':
+                            if (dataValue >= queryValue)
+                                queryStatus = true
+                            break;
+                        case '$gt':
+                            if (dataValue < queryValue)
+                                queryStatus = true
+                            break;
+                        case '$gte':
+                            if (dataValue <= queryValue)
+                                queryStatus = true
+                            break;
+                        case '$in':
+                            if (Array.isArray(dataValue) && dataValue.some(x => queryValue.includes(x)))
+                                queryStatus = true
+                            break;
+                        case '$nin':
+                            if (!Array.isArray(dataValue) || !dataValue.some(x => queryValue.includes(x)))
+                                queryStatus = true
+                            break;
+                        case '$range':
+                            if (queryValue[0] !== null && queryValue[1] !== null) {
+                                if (dataValue >= queryValue[0] && dataValue <= queryValue[1])
+                                    queryStatus = true
+                            } else if (queryValue[0] == null && dataValue <= queryValue[1]) {
+                                queryStatus = true
+                            } else if (queryValue[1] == null && dataValue >= queryValue[0]) {
+                                queryStatus = true
+                            }
+                            break;
+
+                        default:
+                            if (dataValue.includes(queryValue)) 
+                                queryStatus = true
+                            break;
+                    }
+                    if (queryStatus == true) {
+                        queryResult = true
+                        break;
+                    }
+
+                }
+                switch (logicalOperator) {
+                    case 'and':
+                        if (queryStatus == false)
+                            return false
+                        break;
+                }
+                // if (logicalOperator == 'and' && queryStatus == false)
+                //     return false        
+            }
+        }
+    
+		return queryResult;
 	}
 
     function searchData(data, search) {
@@ -362,6 +430,7 @@
                 return false        
         
         }
+        return true
 	}
 		
 	function sortData(data, sort) {
@@ -429,6 +498,7 @@
     return {
         parseTextToHtml,
         dotNotationToObject,
+        getValueFromObject,
         cssPath,
         domParser,
         queryDocumentSelector,
