@@ -1,3 +1,11 @@
+# [1.13.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.12.7...v1.13.0) (2022-12-02)
+
+
+### Features
+
+* getValueFromObject returns the defined key value, supports dot notation string. queryData supports logicalOperators and, or ([4d3c5e2](https://github.com/CoCreate-app/CoCreate-utils/commit/4d3c5e273ebe6042f78cb8f85d535468c1bd049d))
+* search param caseSensitive and search can be an array ([50cd481](https://github.com/CoCreate-app/CoCreate-utils/commit/50cd4810bfa0b1e286b30d8418246045e67a2b37))
+
 ## [1.12.7](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.12.6...v1.12.7) (2022-11-28)
 
 
