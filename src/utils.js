@@ -426,7 +426,7 @@
 
                 }  
             }
-            if (search[i].value.length && operator == 'or')
+            if (search[i].value.length && search[i].operator == 'or')
                 return false        
         
         }
