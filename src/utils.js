@@ -10,7 +10,6 @@
   	}
 }(typeof self !== 'undefined' ? self : this, function (isBrowser) {
 
-
     /*globals DOMParser*/
     function clickedElement() {
         document.addEventListener('click', e => {
@@ -32,6 +31,9 @@
             }
         }
     }
+
+    const ObjectId = (rnd = r16 => Math.floor(r16).toString(16)) =>
+    rnd(Date.now()/1000) + ' '.repeat(16).replace(/./g, () => rnd(Math.random()*16));
 
     function dotNotationToObject(data, obj = {}) {
         try {	
@@ -97,6 +99,31 @@
 			return false;
 		}
 	}
+
+    function domParser(str) {
+        try {
+            var mainTag = str.match(/\<(?<tag>[a-z0-9]+)(.*?)?\>/).groups.tag;
+        } catch (e){
+            // console.log(e, 'find position: can not find the main tag');
+        }
+        let doc;
+        switch (mainTag) {
+            case 'html':
+                doc = new DOMParser().parseFromString(str, "text/html");
+                return doc.documentElement;
+            case 'body':
+                doc = new DOMParser().parseFromString(str, "text/html");
+                return doc.body;
+            case 'head':
+                doc = new DOMParser().parseFromString(str, "text/html");
+                return doc.head;
+
+            default:
+                let con = document.createElement('dom-parser');
+                con.innerHTML = str;
+                return con;
+        }
+    }
 
     function parseTextToHtml(text) {
         let doc = new DOMParser().parseFromString(text, "text/html");
@@ -171,31 +198,6 @@
         }
 
         return path;
-    }
-
-    function domParser(str) {
-        try {
-            var mainTag = str.match(/\<(?<tag>[a-z0-9]+)(.*?)?\>/).groups.tag;
-        } catch (e){
-            // console.log(e, 'find position: can not find the main tag');
-        }
-        let doc;
-        switch (mainTag) {
-            case 'html':
-                doc = new DOMParser().parseFromString(str, "text/html");
-                return doc.documentElement;
-            case 'body':
-                doc = new DOMParser().parseFromString(str, "text/html");
-                return doc.body;
-            case 'head':
-                doc = new DOMParser().parseFromString(str, "text/html");
-                return doc.head;
-
-            default:
-                let con = document.createElement('dom-parser');
-                con.innerHTML = str;
-                return con;
-        }
     }
 
     function queryDocumentSelectorAll(selector) {
@@ -496,11 +498,12 @@
         clickedElement();
 
     return {
-        parseTextToHtml,
+        ObjectId,
         dotNotationToObject,
         getValueFromObject,
-        cssPath,
         domParser,
+        parseTextToHtml,
+        cssPath,
         queryDocumentSelector,
         queryDocumentSelectorAll,
         queryData,
