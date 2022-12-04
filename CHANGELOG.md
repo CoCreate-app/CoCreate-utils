@@ -1,3 +1,15 @@
+# [1.14.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.13.1...v1.14.0) (2022-12-04)
+
+
+### Bug Fixes
+
+* operator typo ([fd47c03](https://github.com/CoCreate-app/CoCreate-utils/commit/fd47c03fcccc2e55d55fd01d50b24bfb36914106))
+
+
+### Features
+
+* ObjectId generator ([7b2de66](https://github.com/CoCreate-app/CoCreate-utils/commit/7b2de667e83ab5420228b86052cd2d6918d17188))
+
 ## [1.13.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.13.0...v1.13.1) (2022-12-02)
 
 
