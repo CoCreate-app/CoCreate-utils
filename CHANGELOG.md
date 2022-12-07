@@ -1,3 +1,10 @@
+## [1.14.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.14.1...v1.14.2) (2022-12-07)
+
+
+### Bug Fixes
+
+* sort type is string and value is undefined replace with empty string ([009cc48](https://github.com/CoCreate-app/CoCreate-utils/commit/009cc48ad7dbfdf1b04dd2e0d8dedbba291e6fb3))
+
 ## [1.14.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.14.0...v1.14.1) (2022-12-04)
 
 
