@@ -446,6 +446,7 @@
                         if (sort[i].direction == '-1') {
                             switch (typeof b[name]) {
                                 case 'string':
+                                    if (!b[name]) b[name] = ""
                                     return b[name].localeCompare(a[name])
                                 case 'number':
                                     return b[name] - a[name]
@@ -456,6 +457,7 @@
                         } else {
                             switch (typeof a[name]) {
                                 case 'string':
+                                    if (!a[name]) a[name] = ""
                                     return a[name].localeCompare(b[name])
                                 case 'number':
                                     return a[name] - b[name]
