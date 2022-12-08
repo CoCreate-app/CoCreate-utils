@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.14.3...v1.15.0) (2022-12-08)
+
+
+### Features
+
+* checkValue function to check if value contains template brackets {{}} ([8432c50](https://github.com/CoCreate-app/CoCreate-utils/commit/8432c50ab48e345dfbcaf025128bed7db1abd539))
+
 ## [1.14.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.14.2...v1.14.3) (2022-12-07)
 
 
