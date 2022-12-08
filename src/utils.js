@@ -34,6 +34,13 @@
 
     const ObjectId = (rnd = r16 => Math.floor(r16).toString(16)) =>
     rnd(Date.now()/1000) + ' '.repeat(16).replace(/./g, () => rnd(Math.random()*16));
+	
+    function checkValue(value) {
+		if (/{{\s*([\w\W]+)\s*}}/g.test(value))
+			return false;
+		else 
+			return true
+	}
 
     function dotNotationToObject(data, obj = {}) {
         try {	
@@ -501,6 +508,7 @@
 
     return {
         ObjectId,
+        checkValue,
         dotNotationToObject,
         getValueFromObject,
         domParser,
