@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.15.0...v1.15.1) (2022-12-09)
+
+
+### Bug Fixes
+
+* getValueFromObject returned false if value could not be found, it will now return undefined ([2ca7c4f](https://github.com/CoCreate-app/CoCreate-utils/commit/2ca7c4f1c893025b9240b796858457a1b33cc47e))
+
 # [1.15.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.14.3...v1.15.0) (2022-12-08)
 
 
