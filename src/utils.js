@@ -85,7 +85,7 @@
     function getValueFromObject(json, path) {
 		try {
 			if (typeof json == 'undefined' || !path)
-				return false;
+				return;
 			
 			if (/\[([0-9]*)\]/g.test(path)) {
 				path = path.replace(/\[/g, '.');
@@ -98,12 +98,12 @@
 			
 			for (let i = 0; i < subpath.length; i++) {
 				jsonData = jsonData[subpath[i]];
-				if (!jsonData) return false;
+				if (!jsonData) return;
 			}
 			return jsonData;
 		}catch(error){
 			console.log("Error in getValueFromObject", error);
-			return false;
+			return;
 		}
 	}
 
