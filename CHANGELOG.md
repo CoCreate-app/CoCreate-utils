@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.15.3...v1.16.0) (2022-12-12)
+
+
+### Features
+
+* getAttributes, getAttributeNames and setAttributeNames ([de2d962](https://github.com/CoCreate-app/CoCreate-utils/commit/de2d96223017f457a1bf13e07ee1a8c49a0596ed))
+
 ## [1.15.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.15.2...v1.15.3) (2022-12-11)
 
 
