@@ -450,7 +450,7 @@
 			if (name) {
                 try {
                     data.sort((a, b) => {
-                        if (sort[i].direction == '-1') {
+                        if (sort[i].direction == 'desc') {
                             switch (typeof b[name]) {
                                 case 'string':
                                     if (!b[name]) b[name] = ""
