@@ -1,3 +1,11 @@
+## [1.16.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.16.1...v1.16.2) (2022-12-13)
+
+
+### Bug Fixes
+
+* query operator includes and $includes ([c3cbafe](https://github.com/CoCreate-app/CoCreate-utils/commit/c3cbafe2751387de0a8a28cd0bb284eb19ce651d))
+* sort direction uses key word asc desc ([87870b0](https://github.com/CoCreate-app/CoCreate-utils/commit/87870b005720d4d723fb194a5c876acd1b6f1c41))
+
 ## [1.16.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.16.0...v1.16.1) (2022-12-12)
 
 
