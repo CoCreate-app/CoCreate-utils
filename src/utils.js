@@ -138,6 +138,10 @@
         else return doc.body.children[0];
     }
 
+    function escapeHtml(html) {
+        return html.replaceAll('&', '&amp').replaceAll('<', '&lt').replaceAll('>', '&gt;').replaceAll("'", '&#39;').replaceAll('"', '&quot;');
+    }
+
     function cssPath(node, container) {
         let pathSplits = [];
         do {
@@ -567,6 +571,7 @@
         getValueFromObject,
         domParser,
         parseTextToHtml,
+        escapeHtml,
         cssPath,
         queryDocumentSelector,
         queryDocumentSelectorAll,
