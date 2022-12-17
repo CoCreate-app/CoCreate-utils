@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.16.5...v1.17.0) (2022-12-17)
+
+
+### Features
+
+* escapeHthml function ([ef5359b](https://github.com/CoCreate-app/CoCreate-utils/commit/ef5359b511351b47803674e9ebde3532620313e1))
+
 ## [1.16.5](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.16.4...v1.16.5) (2022-12-15)
 
 
