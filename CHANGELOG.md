@@ -1,3 +1,10 @@
+## [1.17.11](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.10...v1.17.11) (2022-12-30)
+
+
+### Bug Fixes
+
+* update config sources to use template  braces with entry on src ([15ef786](https://github.com/CoCreate-app/CoCreate-utils/commit/15ef7862f5d1a5a4ff7fc21814d4d7dbd0289b78))
+
 ## [1.17.10](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.9...v1.17.10) (2022-12-29)
 
 
