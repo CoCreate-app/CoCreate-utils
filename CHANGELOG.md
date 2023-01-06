@@ -1,3 +1,11 @@
+## [1.17.17](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.16...v1.17.17) (2023-01-06)
+
+
+### Bug Fixes
+
+* bump dependencies, worklow [@v3](https://github.com/v3) ([fb77bfe](https://github.com/CoCreate-app/CoCreate-utils/commit/fb77bfe5784fc41cd0faf8f015ee241d80607b91))
+* edit in github btn styles ([8e09f99](https://github.com/CoCreate-app/CoCreate-utils/commit/8e09f99a86995328b2616e0532155741f9efd890))
+
 ## [1.17.16](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.15...v1.17.16) (2023-01-05)
 
 
