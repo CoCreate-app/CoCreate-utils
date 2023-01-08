@@ -310,7 +310,7 @@
                     dataValue = data[n][query[i].name]
                 if (dataValue == undefined)
                     dataValue = ''
-                let logicalOperator = query[i].logicalOperator || 'or'
+                let logicalOperator = query[i].logicalOperator || 'and'
                 let queryValues = query[i].value
                 if (!Array.isArray(queryValues))
                     queryValues = [queryValues] 
@@ -462,6 +462,8 @@
                                         b[name] = ""
                                     return b[name].localeCompare(a[name])
                                 case 'number':
+                                    if (!b[name]) 
+                                        b[name] = 0
                                     return b[name] - a[name]
                                 case 'array':
                                 case 'object':
@@ -474,6 +476,8 @@
                                         a[name] = ""
                                     return a[name].localeCompare(b[name])
                                 case 'number':
+                                    if (!a[name]) 
+                                        a[name] = 0
                                     return a[name] - b[name]
                                 case 'array':
                                 case 'object':
