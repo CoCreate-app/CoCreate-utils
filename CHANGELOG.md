@@ -1,3 +1,11 @@
+## [1.17.18](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.17...v1.17.18) (2023-01-09)
+
+
+### Bug Fixes
+
+* bumpo dependnecies ([b177a5d](https://github.com/CoCreate-app/CoCreate-utils/commit/b177a5d3a20262d750f77918edaeaf15efde658b))
+* query logical operator default set to and, if sort is number and has no value set to 0 ([27f6e87](https://github.com/CoCreate-app/CoCreate-utils/commit/27f6e87db9ab13e9903d57b17f5e0850d8357220))
+
 ## [1.17.17](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.16...v1.17.17) (2023-01-06)
 
 
