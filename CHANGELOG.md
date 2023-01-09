@@ -1,3 +1,10 @@
+## [1.17.19](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.18...v1.17.19) (2023-01-09)
+
+
+### Bug Fixes
+
+* bump dependnecies ([af70876](https://github.com/CoCreate-app/CoCreate-utils/commit/af70876684e901ec45e481edd137a40cc569cbfd))
+
 ## [1.17.18](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.17...v1.17.18) (2023-01-09)
 
 
