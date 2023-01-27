@@ -15,21 +15,28 @@
         document.addEventListener('click', e => {
             document.clickedElement = e.target;
         });
-        let frameDocuments = window.top.frameDocuments;
-        if (!frameDocuments){
-            window.top.frameDocuments = new Map();
-            frameDocuments = window.top.frameDocuments;
-        }
-        let frames = document.querySelectorAll('iframe');
-        for (let frame of frames){
-            let frameDocument = frame.contentDocument;
-            if (!frameDocuments.has(frameDocument)){
-                frameDocuments.set(frameDocument, '')
-                frameDocument.addEventListener('click', e => {
-                    frameDocument.clickedElement = e.target;
-                });
+
+        try {
+			let frameDocuments = window.top.frameDocuments;
+            if (!frameDocuments){
+                window.top.frameDocuments = new Map();
+                frameDocuments = window.top.frameDocuments;
             }
-        }
+            let frames = document.querySelectorAll('iframe');
+            for (let frame of frames){
+                let frameDocument = frame.contentDocument;
+                if (!frameDocuments.has(frameDocument)){
+                    frameDocuments.set(frameDocument, '')
+                    frameDocument.addEventListener('click', e => {
+                        frameDocument.clickedElement = e.target;
+                    });
+                }
+            }
+    
+		} catch (e) {
+			console.log('cross-origin failed')
+		}
+
     }
 
     const ObjectId = (rnd = r16 => Math.floor(r16).toString(16)) =>
