@@ -1,3 +1,10 @@
+## [1.17.21](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.20...v1.17.21) (2023-01-27)
+
+
+### Bug Fixes
+
+* try to access window.top if fails continue ([c2bd8e6](https://github.com/CoCreate-app/CoCreate-utils/commit/c2bd8e6275ebb6450ffdac7a7d40ffd7837a87bc))
+
 ## [1.17.20](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.19...v1.17.20) (2023-01-10)
 
 
