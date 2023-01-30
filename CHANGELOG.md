@@ -1,3 +1,10 @@
+## [1.17.24](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.23...v1.17.24) (2023-01-30)
+
+
+### Bug Fixes
+
+* queryDocumentSelectorAll return array ([ae3759d](https://github.com/CoCreate-app/CoCreate-utils/commit/ae3759d8062d1e21d452d3f48fdb6dd66bd71367))
+
 ## [1.17.23](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.22...v1.17.23) (2023-01-29)
 
 
