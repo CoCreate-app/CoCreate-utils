@@ -222,7 +222,7 @@
         let elements = [];
 
         if (selector) {
-            let selectors;
+            let selectors = [selector];
             if (selector.indexOf(',') !== -1){
                 selectors = selector.split(',');
             }
