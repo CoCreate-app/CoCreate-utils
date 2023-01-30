@@ -1,3 +1,10 @@
+## [1.17.25](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.24...v1.17.25) (2023-01-30)
+
+
+### Bug Fixes
+
+* selectors = [selector] ([7d1d45d](https://github.com/CoCreate-app/CoCreate-utils/commit/7d1d45d4778592284f8da1d9a14bb363adb9c95b))
+
 ## [1.17.24](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.23...v1.17.24) (2023-01-30)
 
 
