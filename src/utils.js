@@ -222,7 +222,7 @@
         let elements = [];
 
         if (selector) {
-            let selectors = [selector];
+            let selectors;
             if (selector.indexOf(',') !== -1){
                 selectors = selector.split(',');
             }
@@ -253,8 +253,8 @@
                     elements = elements.concat(els);
                 }
             }
-            return elements;
         }
+        return elements;
     }
 
     function queryDocumentSelector(selector) {
@@ -288,8 +288,8 @@
                 if (el)
                     return el
             }
-            return;
         }
+        return;
     }
 
     function queryData(data, query) {
