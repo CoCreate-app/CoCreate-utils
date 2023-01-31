@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.26...v1.18.0) (2023-01-31)
+
+
+### Features
+
+* supports query and search of empty string. ([b3e45e8](https://github.com/CoCreate-app/CoCreate-utils/commit/b3e45e81b27f595d0179f6e01af5555e9315cfa2))
+
 ## [1.17.26](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.17.25...v1.17.26) (2023-01-30)
 
 
