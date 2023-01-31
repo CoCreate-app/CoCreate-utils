@@ -336,6 +336,10 @@
                         case 'includes':
                             if (dataValue.includes(queryValue))
                                 queryStatus = true
+                            if (queryValue === "" && logicalOperator === 'and') {
+                                if (dataValue !== "")
+                                    queryStatus = false
+                            }
                             break;
                         case '$eq':
                             if (dataValue == queryValue)
@@ -436,6 +440,11 @@
                     if (search[i].caseSensitive != 'true' || search[i].caseSensitive != true)
                         searchString = searchString.toLowerCase()
                     
+                    if (searchString === "" && search[i].operator === 'and') {
+                        if (value !== "")
+                            return false
+                    }
+
                     if (value.indexOf(searchString) > -1)
                         status = true;
 
