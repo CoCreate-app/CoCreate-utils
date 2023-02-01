@@ -336,10 +336,10 @@
                         case 'includes':
                             if (dataValue.includes(queryValue))
                                 queryStatus = true
-                            if (queryValue === "" && logicalOperator === 'and') {
-                                if (dataValue !== "")
-                                    queryStatus = false
-                            }
+                            // if (queryValue === "" && logicalOperator === 'and') {
+                            //     if (dataValue !== "")
+                            //         queryStatus = false
+                            // }
                             break;
                         case '$eq':
                             if (dataValue == queryValue)
@@ -448,11 +448,11 @@
                     if (value.indexOf(searchString) > -1)
                         status = true;
 
-                    if (search[i].operator == 'or' && status)
+                    if (status)
                         return true;
-
-                    if (search[i].operator == 'and' && !status)
+                    else if (search[i].operator == 'and')
                         return false;
+                   
 
                 }  
             }
