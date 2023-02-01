@@ -1,3 +1,10 @@
+## [1.18.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.18.1...v1.18.2) (2023-02-01)
+
+
+### Bug Fixes
+
+* improved serchData function ([9ccdeb2](https://github.com/CoCreate-app/CoCreate-utils/commit/9ccdeb20be86e87e50fea2f37cb5d019ca6636bc))
+
 ## [1.18.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.18.0...v1.18.1) (2023-01-31)
 
 
