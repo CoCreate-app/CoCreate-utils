@@ -1,3 +1,10 @@
+## [1.18.4](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.18.3...v1.18.4) (2023-02-27)
+
+
+### Bug Fixes
+
+* getValueFromObject returns empty strings ([d030659](https://github.com/CoCreate-app/CoCreate-utils/commit/d030659a285bed28900bc1c2fd2197addc894cba))
+
 ## [1.18.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.18.2...v1.18.3) (2023-02-01)
 
 
