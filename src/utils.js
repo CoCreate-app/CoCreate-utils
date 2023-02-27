@@ -105,7 +105,8 @@
 			
 			for (let i = 0; i < subpath.length; i++) {
 				jsonData = jsonData[subpath[i]];
-				if (!jsonData) return;
+				if (!jsonData) 
+                    return jsonData;
 			}
 			return jsonData;
 		}catch(error){
