@@ -1,3 +1,10 @@
+## [1.19.4](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.19.3...v1.19.4) (2023-04-11)
+
+
+### Bug Fixes
+
+* renamed domans to hosts ([a43e64a](https://github.com/CoCreate-app/CoCreate-utils/commit/a43e64aa6c3ee8def8e7c1ddb2121c678f117576))
+
 ## [1.19.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.19.2...v1.19.3) (2023-03-30)
 
 
