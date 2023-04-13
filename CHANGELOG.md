@@ -1,3 +1,10 @@
+## [1.19.7](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.19.6...v1.19.7) (2023-04-13)
+
+
+### Bug Fixes
+
+* replaced object.entries with Object.keys ([f679614](https://github.com/CoCreate-app/CoCreate-utils/commit/f67961495349a9ce44ca387144c0790684c73ee1))
+
 ## [1.19.6](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.19.5...v1.19.6) (2023-04-11)
 
 
