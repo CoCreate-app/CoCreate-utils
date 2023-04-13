@@ -51,7 +51,8 @@
 
     function dotNotationToObject(data, obj = {}) {
         try {	
-            for (const [key, value] of Object.entries(data)) {	
+            for (const key of Object.keys(data)) {
+                let value = data[key]
                 let newObject = obj
                 let oldObject = new Object(obj)
                 let keys = key.split('.');

@@ -447,7 +447,8 @@ async function complexSelector(comSelector, callback) {
     let object = {}
     if ( typeof data === 'object' ) {
       // update['$set'] = {}
-      for (let [key, value] of Object.entries(data)) {
+      for (let key of Object.keys(data)) {
+        let value = data[key]
         let val;
         let valueType = typeof value;
         switch(valueType) {
