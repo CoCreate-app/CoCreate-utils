@@ -1,3 +1,10 @@
+## [1.20.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.20.0...v1.20.1) (2023-04-24)
+
+
+### Bug Fixes
+
+* removed uglify.js from dev dependencies ([717a3cc](https://github.com/CoCreate-app/CoCreate-utils/commit/717a3ccd7eec18bbc62e936737cfa2fb4a9c5961))
+
 # [1.20.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.19.7...v1.20.0) (2023-04-24)
 
 
