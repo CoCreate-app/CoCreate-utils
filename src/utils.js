@@ -181,7 +181,7 @@
                     // }
             
                     if (node.parentNode && node.parentNode.children.length > 1) {
-                        // ToDo: improve array logic so ignores javascript generated html??
+                        // TODO: improve array logic so ignores javascript generated html??
                         let children = []
                         for (let child of node.parentNode.children){
                             // if (!child.matches('.mirror'))

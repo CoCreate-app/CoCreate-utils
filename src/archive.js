@@ -52,7 +52,7 @@ export function getAttributes(element) {
   }, {});
 }
 
-// ToDo: duplicate it is in crud.utils
+// TODO: duplicate it is in crud.utils
 export function checkValue(value) {
   if (!value) return false;
   if (/{{\s*([\w\W]+)\s*}}/g.test(value)) {
@@ -62,7 +62,7 @@ export function checkValue(value) {
   return true;
 }
 
-// ToDo: Maybe can be deprciated
+// TODO: Maybe can be deprciated
 export function getValueFromJonDeep(json, path) {
 	try {
 		if (typeof json == 'undefined')
@@ -233,7 +233,7 @@ export function getElementPath(element, returnContext) {
   if (p) path.unshift(p);
 
   return returnContext ? { path, document: iframeElement || document } : path;
-  //todo: support for nested iframe
+  //TODO: support for nested iframe
   // while(iframeElement !== findIframeFromElement(topWindow,iframeElement))
   // {
   //   iframeElement = findIframeFromElement(topWindow,iframeElement);
