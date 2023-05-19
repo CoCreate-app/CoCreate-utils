@@ -1,6 +1,6 @@
 {
   "name": "@cocreate/utils",
-  "version": "1.20.8",
+  "version": "1.20.9",
   "description": "A simple utils component in vanilla javascript. Easily configured using HTML5 attributes and/or JavaScript API.",
   "keywords": [
     "utils",
