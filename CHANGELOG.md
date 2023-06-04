@@ -1,3 +1,10 @@
+## [1.21.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.21.0...v1.21.1) (2023-06-04)
+
+
+### Bug Fixes
+
+* [@v3](https://github.com/v3) ([115db0d](https://github.com/CoCreate-app/CoCreate-utils/commit/115db0d653a6c6003109e9cca67fbce1561a3a17))
+
 # [1.21.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.20.11...v1.21.0) (2023-06-04)
 
 
