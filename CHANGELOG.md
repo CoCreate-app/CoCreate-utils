@@ -1,3 +1,15 @@
+# [1.21.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.20.11...v1.21.0) (2023-06-04)
+
+
+### Bug Fixes
+
+* **semantic-release:** worklow error solved by running node version 14 ([13af687](https://github.com/CoCreate-app/CoCreate-utils/commit/13af68775507a53461fff3b421ebc11dbba7ac4d))
+
+
+### Features
+
+*  dotNotationToObject will delete a key if its value is undefined. ([7689011](https://github.com/CoCreate-app/CoCreate-utils/commit/768901151cb6d58adfd8c32eb6e84f466a96ac64))
+
 ## [1.20.11](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.20.10...v1.20.11) (2023-06-02)
 
 
