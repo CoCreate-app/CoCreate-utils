@@ -1,3 +1,10 @@
+## [1.21.8](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.21.7...v1.21.8) (2023-06-11)
+
+
+### Bug Fixes
+
+* postintall error ([7df694c](https://github.com/CoCreate-app/CoCreate-utils/commit/7df694cfacd96334cce68b05ffd24e8c56df72f9))
+
 ## [1.21.7](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.21.6...v1.21.7) (2023-06-11)
 
 
