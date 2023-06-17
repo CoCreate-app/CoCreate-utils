@@ -559,28 +559,6 @@
         CoCreateConfig.attributes = revertObject
     }
 
-
-    // function computeStyles(el, properties) {
-    //   let computed = window.getComputedStyle(el);
-    //   let result = {};
-    //   properties.forEach((property) => {
-    //     result[property] = parseInt(computed[property]);
-    //   });
-    //   return result;
-    // }
-
-    // 	function checkParent(element, selectors){
-    // 	    let parentElement;
-    // 	    do {
-    // 	    	parentElement = element.parentElement.closest(selectors);
-    // 	    	if (parentElement) {
-    // 		    	element = parentElement;
-    // 		    } else {
-    // 				return element;
-    // 		    }
-    // 	    } while (parentElement);
-    // 	}
-
     if (isBrowser)
         clickedElement();
 
