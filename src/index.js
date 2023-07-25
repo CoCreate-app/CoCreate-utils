@@ -292,6 +292,38 @@
         return;
     }
 
+    function getElements(element, prefix) {
+        let elements = [];
+
+        let selectors = ['selector', 'closest', 'parent', 'next', 'previous']
+        for (let i = 0; i < selectors.length; i++) {
+            let name = prefix + '-' + selectors[i]
+            const selector = element.getAttribute(name);
+            if (selector) {
+                if (selectors[i] === 'selector')
+                    elements = document.querySelectorAll(selector)
+                else if (selectors[i] === 'closest')
+                    elements = element.closest(selector)
+                else if (selectors[i] === 'parent')
+                    elements = element.parentElement.querySelectorAll(selector)
+                else if (selectors[i] === 'next')
+                    elements = element.nextElementSibling.querySelectorAll(selector)
+                else if (selectors[i] === 'previous')
+                    elements = element.previousElementSibling.querySelectorAll(selector)
+            } else if (selector === '') {
+                if (selectors[i] === 'parent')
+                    elements = element.parentElement
+                else if (selectors[i] === 'next')
+                    elements = element.nextElementSibling
+                else if (selectors[i] === 'previous')
+                    elements = element.previousElementSibling
+            }
+        }
+
+        return elements
+    }
+
+
     function queryData(data, query) {
         if (!data)
             return false;
@@ -573,6 +605,7 @@
         cssPath,
         queryDocumentSelector,
         queryDocumentSelectorAll,
+        getElements,
         queryData,
         searchData,
         sortData,
