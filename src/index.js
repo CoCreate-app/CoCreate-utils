@@ -234,7 +234,8 @@
 
         for (let i = 0; i < type.length; i++) {
             let Selector = selector
-            if (!Selector) {
+            if (!Selector && element.nodeType !== 9) {
+
                 let name = prefix + '-' + type[i]
                 if (!element.hasAttribute(name))
                     continue
