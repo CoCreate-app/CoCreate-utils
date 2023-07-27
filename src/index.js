@@ -218,111 +218,107 @@
         return path;
     }
 
-    function queryDocumentSelectorAll(selector) {
-        let elements = [];
+    function queryElements({ element, prefix, type, selector }) {
+        let elements = new Map()
+        if (!element)
+            element = document
+        let hasAttribute = false
 
         if (selector) {
-            let selectors = [selector];
-            if (selector.indexOf(',') !== -1) {
-                selectors = selector.split(',');
+            if (!type)
+                type = ['selector']
+            else if (!Array.isArray(type))
+                type = [type]
+        } else
+            type = ['selector', 'closest', 'parent', 'next', 'previous']
+
+        for (let i = 0; i < type.length; i++) {
+            let Selector = selector
+            if (!Selector) {
+                let name = prefix + '-' + type[i]
+                if (!element.hasAttribute(name))
+                    continue
+                hasAttribute = true
+                Selector = element.getAttribute(name);
             }
-            for (let selector of selectors) {
-                let els;
-                if (selector.indexOf(';') !== -1) {
-                    let targetDocument;
-                    let [documentSelector, targetSelector] = selector.split(';');
-                    if (['parent', 'parentDocument'].includes(documentSelector))
-                        targetDocument = window.parent.document;
-                    else {
-                        let frame = document.querySelector(documentSelector);
-                        if (frame)
-                            targetDocument = frame.contentDocument;
+
+            if (Selector) {
+
+                let selectors = Selector.split(',');
+                for (let j = 0; j < selectors.length; j++) {
+                    let queriedElement = element
+                    let specialSelectors = selectors[j].split(';')
+                    for (let k = 0; k < specialSelectors.length; k++) {
+
+                        // TODO: Support an array of queried elements and branch off to return matches for each
+                        // if (!Array.isArray(queriedElement)) {
+                        //     queriedElement = [queriedElement]
+                        // }
+                        if (k === 0) {
+                            if (type[i] === 'parent')
+                                queriedElement = queriedElement.parentElement
+                            else if (type[i] === 'next')
+                                queriedElement = queriedElement.nextElementSibling
+                            else if (type[i] === 'previous')
+                                queriedElement = queriedElement.previousElementSibling
+                        }
+
+                        switch (specialSelectors[k]) {
+                            case 'top':
+                                queriedElement = window.top.document
+                                break;
+                            case 'frame':
+                                if (queriedElement.nodeType === 9)
+                                    queriedElement = queriedElement.window.frameElement;
+                                else if (queriedElement.contentDocument)
+                                    queriedElement = queriedElement.contentDocument;
+                                break;
+                            case 'document':
+                                queriedElement = document
+                                break;
+                            case 'parent':
+                                queriedElement = queriedElement.parentElement
+                                break;
+                            case 'next':
+                                queriedElement = queriedElement.nextElementSibling
+                                break;
+                            case 'previous':
+                                queriedElement = queriedElement.previousElementSibling
+                                break;
+                            default:
+                                if (k === 0 && type[i] === 'closest')
+                                    queriedElement = queriedElement.closest(specialSelectors[k])
+                                else if (specialSelectors[k].endsWith('[]'))
+                                    queriedElement = queriedElement.querySelectorAll(specialSelectors[k].slice(0, -2))
+                                else
+                                    queriedElement = queriedElement.querySelector(specialSelectors[k])
+                        }
                     }
-                    if (targetDocument) {
-                        if (targetSelector)
-                            els = targetDocument.querySelectorAll(targetSelector);
-                        else
-                            if (targetDocument.clickedElement)
-                                els = [targetDocument.clickedElement];
+
+                    if (Array.isArray(queriedElement) || queriedElement instanceof HTMLCollection || queriedElement instanceof NodeList) {
+                        for (let el of queriedElement)
+                            elements.set(el, '')
+                    } else if (queriedElement) {
+                        elements.set(queriedElement, '')
                     }
                 }
-                else
-                    els = document.querySelectorAll(selector);
-                if (els) {
-                    els = Array.prototype.slice.call(els);
-                    elements = elements.concat(els);
-                }
+            } else if (Selector === '') {
+                if (type[i] === 'parent')
+                    elements.set(element.parentElement, '')
+                else if (type[i] === 'next')
+                    elements.set(element.nextElementSibling, '')
+                else if (type[i] === 'previous')
+                    elements.set(element.previousElementSibling, '')
             }
         }
-        return elements;
-    }
 
-    function queryDocumentSelector(selector) {
-        if (selector) {
-            let selectors = [selector];
-            if (selector.indexOf(',') !== -1) {
-                selectors = selector.split(',');
-            }
-            for (let selector of selectors) {
-                let el;
-                if (selector.indexOf(';') !== -1) {
-                    let targetDocument;
-                    let [documentSelector, targetSelector] = selector.split(';');
-                    if (['parent', 'parentDocument'].includes(documentSelector))
-                        targetDocument = window.parent.document;
-                    else {
-                        let frame = document.querySelector(documentSelector);
-                        if (frame)
-                            targetDocument = frame.contentDocument;
-                    }
-                    if (targetDocument) {
-                        if (targetSelector)
-                            el = targetDocument.querySelector(targetSelector);
-                        else
-                            if (targetDocument.clickedElement)
-                                el = [targetDocument.clickedElement];
-                    }
-                }
-                else
-                    el = document.querySelector(selector);
-                if (el)
-                    return el
-            }
-        }
-        return;
-    }
-
-    function getElements(element, prefix) {
-        let elements = [];
-
-        let selectors = ['selector', 'closest', 'parent', 'next', 'previous']
-        for (let i = 0; i < selectors.length; i++) {
-            let name = prefix + '-' + selectors[i]
-            const selector = element.getAttribute(name);
-            if (selector) {
-                if (selectors[i] === 'selector')
-                    elements = document.querySelectorAll(selector)
-                else if (selectors[i] === 'closest')
-                    elements = element.closest(selector)
-                else if (selectors[i] === 'parent')
-                    elements = element.parentElement.querySelectorAll(selector)
-                else if (selectors[i] === 'next')
-                    elements = element.nextElementSibling.querySelectorAll(selector)
-                else if (selectors[i] === 'previous')
-                    elements = element.previousElementSibling.querySelectorAll(selector)
-            } else if (selector === '') {
-                if (selectors[i] === 'parent')
-                    elements = element.parentElement
-                else if (selectors[i] === 'next')
-                    elements = element.nextElementSibling
-                else if (selectors[i] === 'previous')
-                    elements = element.previousElementSibling
-            }
-        }
+        if (!hasAttribute && !selector)
+            elements = false
+        else
+            elements = Array.from(elements.keys())
 
         return elements
     }
-
 
     function queryData(data, query) {
         if (!data)
@@ -603,9 +599,7 @@
         parseTextToHtml,
         escapeHtml,
         cssPath,
-        queryDocumentSelector,
-        queryDocumentSelectorAll,
-        getElements,
+        queryElements,
         queryData,
         searchData,
         sortData,
