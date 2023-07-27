@@ -264,7 +264,7 @@
                                 queriedElement = queriedElement.previousElementSibling
                         }
 
-                        switch (specialSelectors[k]) {
+                        switch (specialSelectors[k] = specialSelectors[k].trim()) {
                             case 'top':
                                 queriedElement = window.top.document
                                 break;
@@ -294,6 +294,8 @@
                                 else
                                     queriedElement = queriedElement.querySelector(specialSelectors[k])
                         }
+                        if (!queriedElement)
+                            break;
                     }
 
                     if (Array.isArray(queriedElement) || queriedElement instanceof HTMLCollection || queriedElement instanceof NodeList) {
@@ -302,6 +304,7 @@
                     } else if (queriedElement) {
                         elements.set(queriedElement, '')
                     }
+
                 }
             } else if (Selector === '') {
                 if (type[i] === 'parent')
