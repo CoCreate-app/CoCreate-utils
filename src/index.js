@@ -343,10 +343,10 @@
         for (let n = 0; n < data.length; n++) {
             for (let i = 0; i < query.length; i++) {
                 let dataValue
-                if (query[i].name.includes('.') || /\[([0-9]*)\]/g.test(query[i].name))
-                    dataValue = getValueFromObject(data[n], query[i].name)
+                if (query[i].key.includes('.') || /\[([0-9]*)\]/g.test(query[i].key))
+                    dataValue = getValueFromObject(data[n], query[i].key)
                 else
-                    dataValue = data[n][query[i].name]
+                    dataValue = data[n][query[i].key]
                 if (dataValue == undefined)
                     dataValue = ''
                 let logicalOperator = query[i].logicalOperator || 'and'
@@ -499,34 +499,34 @@
         if (!Array.isArray(sort))
             sort = [sort]
         for (let i = 0; i < sort.length; i++) {
-            let name = sort[i].name
-            if (name) {
+            let key = sort[i].key
+            if (key) {
                 try {
                     data.sort((a, b) => {
                         if (sort[i].direction == 'desc') {
-                            switch (typeof b[name]) {
+                            switch (typeof b[key]) {
                                 case 'string':
-                                    if (!b[name])
-                                        b[name] = ""
-                                    return b[name].localeCompare(a[name])
+                                    if (!b[key])
+                                        b[key] = ""
+                                    return b[key].localeCompare(a[key])
                                 case 'number':
-                                    if (!b[name])
-                                        b[name] = 0
-                                    return b[name] - a[name]
+                                    if (!b[key])
+                                        b[key] = 0
+                                    return b[key] - a[key]
                                 case 'array':
                                 case 'object':
                                     break;
                             }
                         } else {
-                            switch (typeof a[name]) {
+                            switch (typeof a[key]) {
                                 case 'string':
-                                    if (!a[name])
-                                        a[name] = ""
-                                    return a[name].localeCompare(b[name])
+                                    if (!a[key])
+                                        a[key] = ""
+                                    return a[key].localeCompare(b[key])
                                 case 'number':
-                                    if (!a[name])
-                                        a[name] = 0
-                                    return a[name] - b[name]
+                                    if (!a[key])
+                                        a[key] = 0
+                                    return a[key] - b[key]
                                 case 'array':
                                 case 'object':
                                     break;
