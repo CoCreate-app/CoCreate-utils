@@ -114,6 +114,11 @@
         }
     }
 
+    function isObjectEmpty(obj) {
+        for (var x in obj) { return false }
+        return true;
+    }
+
     function domParser(str) {
         try {
             var mainTag = str.match(/\<(?<tag>[a-z0-9]+)(.*?)?\>/).groups.tag;
@@ -599,6 +604,7 @@
         checkValue,
         dotNotationToObject,
         getValueFromObject,
+        isObjectEmpty,
         domParser,
         parseTextToHtml,
         escapeHtml,
