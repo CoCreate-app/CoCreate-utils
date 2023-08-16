@@ -1,3 +1,25 @@
+# [1.22.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.21.16...v1.22.0) (2023-08-16)
+
+
+### Bug Fixes
+
+* cleaned code and removed unused functions ([7e99c1f](https://github.com/CoCreate-app/CoCreate-utils/commit/7e99c1f59c22ea4f32a913d317e1475aa96105e2))
+* crud attributes renamed ([97fc1fd](https://github.com/CoCreate-app/CoCreate-utils/commit/97fc1fde4c2f4ae018a0c81e38ff4ff8da72c978))
+* removed commented functions ([b2295cd](https://github.com/CoCreate-app/CoCreate-utils/commit/b2295cddecb44a5d0cd95e30d2279121a3b0aec7))
+* replace -target -selector ([0c4185a](https://github.com/CoCreate-app/CoCreate-utils/commit/0c4185a0673b3a91732f9990c9c73dd1f03b2274))
+* selector bug when element type is not present ([24802a2](https://github.com/CoCreate-app/CoCreate-utils/commit/24802a26b8bbfd04a0d7ba13ed05e488cfd5af3c))
+* Trim special selectors before using them in the switch statement ([f1072f8](https://github.com/CoCreate-app/CoCreate-utils/commit/f1072f8673617dbeeff969bfccd64e7344150cbd))
+* webpack.config and package.json make use of mode=production instead of process.env ([9380425](https://github.com/CoCreate-app/CoCreate-utils/commit/9380425129194dd4eb6f3ea3dad8a1427af6e44d))
+
+
+### Features
+
+* Add isObjectEmpty utility function ([b0932e1](https://github.com/CoCreate-app/CoCreate-utils/commit/b0932e1612b239c43dd250fe86039f0f72eebbca))
+* name attribute and variable renamed to key ([48af4cd](https://github.com/CoCreate-app/CoCreate-utils/commit/48af4cd3d399d9e453f7fc5ec79ee38f8bf42116))
+* New function for getting elements by attribute defined selector type ([7d27cb2](https://github.com/CoCreate-app/CoCreate-utils/commit/7d27cb2326e2da6005e245e2bd9a0c875cad1f83))
+* Refactor query functions, add queryElements function ([261170b](https://github.com/CoCreate-app/CoCreate-utils/commit/261170b52ae17a0e3049be7de16c88d0c2fcc53e))
+* update template_id to render-selector attribute. update filter attributes to filter selector-attributes ([0dfab9c](https://github.com/CoCreate-app/CoCreate-utils/commit/0dfab9c33874d25136d1e3544db677eaf6b3f260))
+
 ## [1.21.16](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.21.15...v1.21.16) (2023-06-14)
 
 
