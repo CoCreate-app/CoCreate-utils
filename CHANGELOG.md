@@ -1,3 +1,10 @@
+# [1.23.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.22.0...v1.23.0) (2023-08-17)
+
+
+### Features
+
+* bump cocreate dependencies for the latest updates and features ([5c008fd](https://github.com/CoCreate-app/CoCreate-utils/commit/5c008fd099c992b8e10a4e49df68d003edf6ab9e))
+
 # [1.22.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.21.16...v1.22.0) (2023-08-16)
 
 
