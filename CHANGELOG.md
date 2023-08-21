@@ -1,3 +1,12 @@
+## [1.23.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.23.0...v1.23.1) (2023-08-21)
+
+
+### Bug Fixes
+
+* /dist/CoCreate.js updated to https://CoCreate.app/dist/CoCreate.js ([1d8af47](https://github.com/CoCreate-app/CoCreate-utils/commit/1d8af47fbf25cd6de8b8c733ca672746318c5b36))
+* replace cdn with /dist ([e27bc6a](https://github.com/CoCreate-app/CoCreate-utils/commit/e27bc6a21257c152890ea8b265738a83cb63baa5))
+* update file uploader ([dc6c59e](https://github.com/CoCreate-app/CoCreate-utils/commit/dc6c59eab9687eab8ef7d4bf4510e0d0b9bd7029))
+
 # [1.23.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.22.0...v1.23.0) (2023-08-17)
 
 
