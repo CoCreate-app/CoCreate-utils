@@ -39,8 +39,22 @@
 
     }
 
-    const ObjectId = (rnd = r16 => Math.floor(r16).toString(16)) =>
-        rnd(Date.now() / 1000) + ' '.repeat(16).replace(/./g, () => rnd(Math.random() * 16));
+    const ObjectId = (id) => {
+        // Define the rnd function
+        const rnd = (r16) => Math.floor(r16).toString(16);
+
+        if (id === undefined) {
+            // If id is undefined, generate a new ObjectId
+            return rnd(Date.now() / 1000) + '0'.repeat(16).replace(/./g, () => rnd(Math.random() * 16));
+        } else {
+            // Check if the provided id is a valid ObjectId
+            const validIdRegex = /^[0-9a-fA-F]{24}$/;
+            if (!validIdRegex.test(id)) {
+                throw new Error('Invalid ObjectId');
+            }
+            return id; // Return the valid ObjectId as a string
+        }
+    };
 
     function checkValue(value) {
         if (/{{\s*([\w\W]+)\s*}}/g.test(value))
