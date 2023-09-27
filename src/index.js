@@ -63,10 +63,24 @@
             return true
     }
 
+    function isValidDate(value) {
+        // Check if the value is a string and can be converted to a Date object
+        if (typeof value === 'string') {
+            const dateObject = new Date(value);
+
+            // Check if the result of the Date constructor is a valid Date object
+            if (!isNaN(dateObject) && dateObject.toString() !== 'Invalid Date') {
+                return dateObject; // It's a valid Date object
+            }
+        }
+
+        return value; // It's not a valid Date object
+    }
+
     function dotNotationToObject(data, obj = {}) {
         try {
             for (const key of Object.keys(data)) {
-                let value = data[key]
+                let value = isValidDate(data[key])
                 let newObject = obj
                 let oldObject = new Object(obj)
                 let keys = key.split('.');
@@ -616,6 +630,7 @@
     return {
         ObjectId,
         checkValue,
+        isValidDate,
         dotNotationToObject,
         getValueFromObject,
         isObjectEmpty,
