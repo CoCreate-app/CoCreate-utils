@@ -39,6 +39,9 @@
 
     }
 
+    /**
+     * Generates an ObjectId
+     */
     const ObjectId = (id) => {
         // Define the rnd function
         const rnd = (r16) => Math.floor(r16).toString(16);
@@ -65,7 +68,11 @@
 
     function isValidDate(value) {
         // Check if the value is a string and can be converted to a Date object
-        if (typeof value === 'string') {
+        if (typeof value === 'string'
+            && !isNaN(value)
+            && !(/^[0-9a-fA-F]{24}$/.test(value))
+            && !(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z|Mon|Tue|Wed|Thu|Fri|Sat|Sun [A-Za-z]{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} [A-Za-z]{3} \+\d{4}|\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}(\.\d{1,3})?|\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(\.\d{1,3})?|\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}(\.\d{1,3})?|Sun|Mon|Tue|Wed|Thu|Fri|Sat),? .+$/.test(value))
+        ) {
             const dateObject = new Date(value);
 
             // Check if the result of the Date constructor is a valid Date object
