@@ -1,3 +1,16 @@
+# [1.25.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.24.2...v1.25.0) (2023-10-09)
+
+
+### Bug Fixes
+
+* improved validating dates from strings ([a0d6fa1](https://github.com/CoCreate-app/CoCreate-utils/commit/a0d6fa198ee0d5642bc1a51d356216f840aa7aae))
+* ObjectId() retuns an _id string, ObjectId(some_id)  will validate and thorw an error if not valid ([cb50091](https://github.com/CoCreate-app/CoCreate-utils/commit/cb500913969cfcfd2b71c7d730b8358601ebcc2b))
+
+
+### Features
+
+* isValidDate() - validates the string and returns a date object or the original value ([780574b](https://github.com/CoCreate-app/CoCreate-utils/commit/780574be515926896d3c621a0745a1f750cd7487))
+
 ## [1.24.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.24.1...v1.24.2) (2023-09-18)
 
 
