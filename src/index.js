@@ -42,22 +42,38 @@
     /**
      * Generates an ObjectId
      */
-    const ObjectId = (id) => {
-        // Define the rnd function
-        const rnd = (r16) => Math.floor(r16).toString(16);
-
-        if (id === undefined) {
-            // If id is undefined, generate a new ObjectId
-            return rnd(Date.now() / 1000) + '0'.repeat(16).replace(/./g, () => rnd(Math.random() * 16));
-        } else {
-            // Check if the provided id is a valid ObjectId
-            const validIdRegex = /^[0-9a-fA-F]{24}$/;
-            if (!validIdRegex.test(id)) {
-                throw new Error('Invalid ObjectId');
-            }
-            return id; // Return the valid ObjectId as a string
+    let counter = 0;
+    function ObjectId(inputId) {
+        if (inputId && /^[0-9a-fA-F]{24}$/.test(inputId)) {
+            // If a valid ObjectId is provided, return it as a custom ObjectId object
+            return {
+                timestamp: inputId.substring(0, 8),
+                processId: inputId.substring(8, 20),
+                counter: inputId.substring(20),
+                toString: function () {
+                    return this.timestamp + this.processId + this.counter;
+                }
+            };
+        } else if (inputId) {
+            throw new Error('Invalid ObjectId provided.');
         }
-    };
+
+        // Generate a new custom ObjectId
+        const timestampHex = Math.floor(Date.now() / 1000).toString(16).padStart(8, '0');
+        const processIdHex = Math.floor(Math.random() * 0x100000000000).toString(16).padStart(12, '0');
+        counter = (counter + 1) % 10000;
+        const counterHex = counter.toString(16).padStart(4, '0');
+
+        // Return the custom ObjectId object with a toString() method
+        return {
+            timestamp: timestampHex,
+            processId: processIdHex,
+            counter: counterHex,
+            toString: function () {
+                return this.timestamp + this.processId + this.counter;
+            }
+        };
+    }
 
     function checkValue(value) {
         if (/{{\s*([\w\W]+)\s*}}/g.test(value))
