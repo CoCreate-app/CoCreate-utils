@@ -61,7 +61,12 @@
         // Generate a new custom ObjectId
         const timestampHex = Math.floor(Date.now() / 1000).toString(16).padStart(8, '0');
         const processIdHex = Math.floor(Math.random() * 0x100000000000).toString(16).padStart(12, '0');
+
         counter = (counter + 1) % 10000;
+        if (counter < 2) {
+            counter = Math.floor(Math.random() * (5000 - 100 + 1)) + 100;
+        }
+
         const counterHex = counter.toString(16).padStart(4, '0');
 
         // Return the custom ObjectId object with a toString() method
