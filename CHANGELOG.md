@@ -1,3 +1,10 @@
+## [1.26.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.26.0...v1.26.1) (2023-10-24)
+
+
+### Bug Fixes
+
+* initialize counter with a random number from 1000 - 5000 ([0d82bf2](https://github.com/CoCreate-app/CoCreate-utils/commit/0d82bf289743a5db7ab431261b3ff343f9cc6c19))
+
 # [1.26.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.25.4...v1.26.0) (2023-10-22)
 
 
