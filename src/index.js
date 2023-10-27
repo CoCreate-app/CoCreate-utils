@@ -88,21 +88,19 @@
     }
 
     function isValidDate(value) {
-        // Check if the value is a string and can be converted to a Date object
-        if (typeof value === 'string'
-            && !isNaN(value)
-            && !(/^[0-9a-fA-F]{24}$/.test(value))
-            && !(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z|Mon|Tue|Wed|Thu|Fri|Sat|Sun [A-Za-z]{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} [A-Za-z]{3} \+\d{4}|\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}(\.\d{1,3})?|\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(\.\d{1,3})?|\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}(\.\d{1,3})?|Sun|Mon|Tue|Wed|Thu|Fri|Sat),? .+$/.test(value))
-        ) {
-            const dateObject = new Date(value);
-
-            // Check if the result of the Date constructor is a valid Date object
-            if (!isNaN(dateObject) && dateObject.toString() !== 'Invalid Date') {
-                return dateObject; // It's a valid Date object
+        if (typeof value === 'string' && value.length >= 20 && value.length <= 24) {
+            const iso8601Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/i;
+            if (iso8601Regex.test(value)) {
+                const dateObject = new Date(value);
+                dateObject.setUTCHours(dateObject.getUTCHours(), 0, 0, 0);
+                if (!isNaN(dateObject)) {
+                    return dateObject; // Is a valid date object and now utc 
+                }
             }
         }
 
-        return value; // It's not a valid Date object
+        return value; // Is a valid date object adjusted to UTC time
+
     }
 
     function dotNotationToObject(data, obj = {}) {
@@ -424,6 +422,9 @@
                             queryValue = queryValue.toLowerCase()
                     }
 
+                    dataValue = isValidDate(dataValue)
+                    queryValue = isValidDate(queryValue)
+
                     switch (query[i].operator) {
                         case '$includes':
                         case 'includes':
@@ -443,19 +444,19 @@
                                 queryStatus = true
                             break;
                         case '$lt':
-                            if (dataValue > queryValue)
-                                queryStatus = true
-                            break;
-                        case '$lte':
-                            if (dataValue >= queryValue)
-                                queryStatus = true
-                            break;
-                        case '$gt':
                             if (dataValue < queryValue)
                                 queryStatus = true
                             break;
-                        case '$gte':
+                        case '$lte':
                             if (dataValue <= queryValue)
+                                queryStatus = true
+                            break;
+                        case '$gt':
+                            if (dataValue > queryValue)
+                                queryStatus = true
+                            break;
+                        case '$gte':
+                            if (dataValue >= queryValue)
                                 queryStatus = true
                             break;
                         case '$in':
