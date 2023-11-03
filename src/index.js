@@ -306,6 +306,12 @@
 
                 let selectors = Selector.split(',');
                 for (let j = 0; j < selectors.length; j++) {
+                    if (selectors[j].includes('@')) {
+                        selectors[j] = checkMediaQueries(selectors[j])
+                        if (selectors[j] === false)
+                            continue
+                    }
+
                     let queriedElement = element
                     let specialSelectors = selectors[j].split(';')
                     for (let k = 0; k < specialSelectors.length; k++) {
@@ -382,6 +388,41 @@
 
         return elements
     }
+
+    const mediaRanges = {
+        xs: [0, 575],
+        sm: [576, 768],
+        md: [769, 992],
+        lg: [993, 1200],
+        xl: [1201, 0],
+    };
+
+    function checkMediaQueries(selector) {
+        if (selector && selector.includes('@')) {
+            let screenSizes = selector.split('@')
+            selector = screenSizes.shift();
+            for (let screenSize of screenSizes) {
+                const viewportWidth = window.innerWidth;
+                let mediaViewport = false;
+
+                // Check if screenSize is a valid range in the 'ranges' object
+                if (mediaRanges.hasOwnProperty(screenSize)) {
+                    const [minWidth, maxWidth] = mediaRanges[screenSize];
+                    if (viewportWidth >= minWidth && viewportWidth <= maxWidth) {
+                        mediaViewport = true;
+                        break;
+                    }
+                }
+
+                if (!mediaViewport)
+                    return false
+
+            }
+        }
+
+        return selector
+    }
+
 
     function queryData(data, query) {
         if (!data)
@@ -668,6 +709,7 @@
         escapeHtml,
         cssPath,
         queryElements,
+        checkMediaQueries,
         queryData,
         searchData,
         sortData,
