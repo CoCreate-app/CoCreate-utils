@@ -1,3 +1,17 @@
+# [1.27.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.26.2...v1.27.0) (2023-11-03)
+
+
+### Bug Fixes
+
+* favicon.ico path ([4474c25](https://github.com/CoCreate-app/CoCreate-utils/commit/4474c25089a0953c6d24264152fe3b9d690dce25))
+* update dependencies to the lates versions ([d0bd60b](https://github.com/CoCreate-app/CoCreate-utils/commit/d0bd60bb21b2f555ddee0412861a9e7510173fb7))
+
+
+### Features
+
+* checkMediaQuries ([f9322d2](https://github.com/CoCreate-app/CoCreate-utils/commit/f9322d26261a4ee7007064115c86303a78534034))
+* isValidDate converts date to system local date ([4519b7c](https://github.com/CoCreate-app/CoCreate-utils/commit/4519b7ce2b2d739bd9c76dd0605f91c41837d7d0))
+
 ## [1.26.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.26.1...v1.26.2) (2023-10-25)
 
 
