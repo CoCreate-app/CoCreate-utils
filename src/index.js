@@ -89,24 +89,19 @@
 
     function isValidDate(value) {
         if (typeof value === 'string' && value.length >= 20 && value.length <= 24) {
-            const iso8601Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/i;
-            if (iso8601Regex.test(value)) {
-                const dateObject = new Date(value);
-                dateObject.setUTCHours(dateObject.getUTCHours(), 0, 0, 0);
-                if (!isNaN(dateObject)) {
-                    return dateObject; // Is a valid date object and now utc 
-                }
+            //  if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/i.test(value))
+            if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?([-+]\d{2}:\d{2}|Z)?$/i.test(value)) {
+                return true
             }
         }
 
-        return value; // Is a valid date object adjusted to UTC time
-
+        return false;
     }
 
     function dotNotationToObject(data, obj = {}) {
         try {
             for (const key of Object.keys(data)) {
-                let value = isValidDate(data[key])
+                let value = data[key]
                 let newObject = obj
                 let oldObject = new Object(obj)
                 let keys = key.split('.');
@@ -463,8 +458,10 @@
                             queryValue = queryValue.toLowerCase()
                     }
 
-                    dataValue = isValidDate(dataValue)
-                    queryValue = isValidDate(queryValue)
+                    if (isValidDate(dataValue) && isValidDate(queryValue)) {
+                        dataValue = new Date(dataValue)
+                        queryValue = new Date(queryValue)
+                    }
 
                     switch (query[i].operator) {
                         case '$includes':
