@@ -1,3 +1,12 @@
+## [1.27.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.27.0...v1.27.1) (2023-11-09)
+
+
+### Bug Fixes
+
+* meta name typo ([e629a89](https://github.com/CoCreate-app/CoCreate-utils/commit/e629a89c8a3943d9ef8eaa891f41756cd766e6bb))
+* ObjectId use new Date(new Date().toISOString()).getTime() instead of date.now() preventing 24 possible collisions in a day ([89236e5](https://github.com/CoCreate-app/CoCreate-utils/commit/89236e534d958399827f7ad0fa9345bdecc06497))
+* update host ([d234c14](https://github.com/CoCreate-app/CoCreate-utils/commit/d234c1459da3064105ba50cfef9bbdb0fe484cd9))
+
 # [1.27.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.26.2...v1.27.0) (2023-11-03)
 
 
