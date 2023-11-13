@@ -478,8 +478,8 @@
                                 queryStatus = true
                             break;
                         case '$ne':
-                            if (dataValue != queryValue)
-                                queryStatus = true
+                            // if (dataValue != queryValue)
+                            queryStatus = (dataValue != queryValue)
                             break;
                         case '$lt':
                             if (dataValue < queryValue)
@@ -521,20 +521,19 @@
                                 queryStatus = true
                             break;
                     }
-                    if (queryStatus == true) {
-                        queryResult = true
-                        break;
-                    }
 
+                    switch (logicalOperator) {
+                        case 'and':
+                            if (queryStatus == false)
+                                return false
+                            break;
+                        // case 'or':
+                        //     if (queryStatus == true)
+                        //         queryResult = queryStatus
+                        //     break;
+                    }
+                    queryResult = queryStatus
                 }
-                switch (logicalOperator) {
-                    case 'and':
-                        if (queryStatus == false)
-                            return false
-                        break;
-                }
-                // if (logicalOperator == 'and' && queryStatus == false)
-                //     return false        
             }
         }
 
