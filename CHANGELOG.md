@@ -1,3 +1,10 @@
+## [1.27.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.27.2...v1.27.3) (2023-11-16)
+
+
+### Bug Fixes
+
+* improved handeling of logical operators ([e020f59](https://github.com/CoCreate-app/CoCreate-utils/commit/e020f59f508e5f8d155972cf852b7ef810703cc8))
+
 ## [1.27.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.27.1...v1.27.2) (2023-11-12)
 
 
