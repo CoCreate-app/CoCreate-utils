@@ -446,8 +446,13 @@
                     dataValue = ''
                 let logicalOperator = query[i].logicalOperator || 'and'
                 let queryValues = query[i].value
+
+                let queryIsArray = false
                 if (!Array.isArray(queryValues))
                     queryValues = [queryValues]
+                else
+                    queryIsArray = true
+
 
                 let queryStatus = false
                 for (let queryValue of queryValues) {
@@ -462,7 +467,6 @@
                         dataValue = new Date(dataValue)
                         queryValue = new Date(queryValue)
                     }
-
                     switch (query[i].operator) {
                         case '$includes':
                         case 'includes':
@@ -506,8 +510,11 @@
                                 queryStatus = true
                             break;
                         case '$in':
-                            if (Array.isArray(dataValue) && dataValue.some(x => queryValue.includes(x)))
-                                queryStatus = true
+                            if (Array.isArray(dataValue)) {
+                                queryStatus = dataValue.some(element => queryValue.includes(element));
+                            } else {
+                                queryStatus = queryValue.includes(dataValue);
+                            }
                             break;
                         case '$nin':
                             if (Array.isArray(dataValue)) {
@@ -532,17 +539,19 @@
                                 queryStatus = true
                             break;
                     }
-
-                    switch (logicalOperator) {
-                        case 'and':
-                            if (queryStatus == false)
-                                return false
-                            break;
-                        // case 'or':
-                        //     if (queryStatus == true)
-                        //         queryResult = queryStatus
-                        //     break;
-                    }
+                    if (!queryIsArray || query[i].operator === "$nin") {
+                        switch (logicalOperator) {
+                            case 'and':
+                                if (queryStatus == false)
+                                    return false
+                                break;
+                            // case 'or':
+                            //     if (queryStatus == true)
+                            //         queryResult = queryStatus
+                            //     break;
+                        }
+                    } else if (queryStatus && query[i].operator === "$in")
+                        return true
                     queryResult = queryStatus
                 }
             }
