@@ -109,14 +109,14 @@
                 for (let i = 0; i < keys.length; i++) {
                     if (/\[([0-9]*)\]/g.test(keys[i])) {
                         let [k, index] = keys[i].split('[');
-                        index = index.slice(0, -1)
+                        index = index.slice(0, -1) || 0
+                        newObject[k] = oldObject[k] || [];
                         if (length == i) {
                             if (value === undefined)
                                 newObject[k].splice(index, 1);
                             else
                                 newObject[k][index] = value;
                         } else {
-                            newObject[k] = oldObject[k] || [];
                             newObject[k][index] = oldObject[k][index] || {};
                             newObject = newObject[k][index]
                             oldObject = oldObject[k][index]
@@ -478,8 +478,16 @@
                                 queryStatus = true
                             break;
                         case '$ne':
-                            // if (dataValue != queryValue)
-                            queryStatus = (dataValue != queryValue)
+                            if (Array.isArray(dataValue)) {
+                                // Check if the entire array is different from queryValue
+                                queryStatus = !isEqualArray(dataValue, queryValue);
+                            } else if (Array.isArray(queryValue)) {
+                                // If queryValue is an array, check if dataValue is different from this array
+                                queryStatus = !isEqualArray(queryValue, dataValue);
+                            } else {
+                                // If neither is an array, simple comparison
+                                queryStatus = (dataValue != queryValue);
+                            }
                             break;
                         case '$lt':
                             if (dataValue < queryValue)
@@ -502,8 +510,11 @@
                                 queryStatus = true
                             break;
                         case '$nin':
-                            if (!Array.isArray(dataValue) || !dataValue.some(x => queryValue.includes(x)))
-                                queryStatus = true
+                            if (Array.isArray(dataValue)) {
+                                queryStatus = !dataValue.some(element => queryValue.includes(element));
+                            } else {
+                                queryStatus = !queryValue.includes(dataValue);
+                            }
                             break;
                         case '$range':
                             if (queryValue[0] !== null && queryValue[1] !== null) {
@@ -538,6 +549,35 @@
         }
 
         return queryResult;
+    }
+
+    function isEqualArray(arr1, arr2) {
+        if (arr1.length !== arr2.length) {
+            return false;
+        }
+        for (let i = 0; i < arr1.length; i++) {
+            if (!isEqualObject(arr1[i], arr2[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function isEqualObject(obj1, obj2) {
+        const keys1 = Object.keys(obj1);
+        const keys2 = Object.keys(obj2);
+
+        if (keys1.length !== keys2.length) {
+            return false;
+        }
+
+        for (const key of keys1) {
+            if (obj1[key] !== obj2[key]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     function searchData(data, search) {
