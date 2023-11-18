@@ -1,3 +1,11 @@
+## [1.27.4](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.27.3...v1.27.4) (2023-11-18)
+
+
+### Bug Fixes
+
+* $in operator support ([891577e](https://github.com/CoCreate-app/CoCreate-utils/commit/891577eb61ba2760b2441f1e031e759242ba5797))
+* improved handeling of $nin operator ([740c98f](https://github.com/CoCreate-app/CoCreate-utils/commit/740c98ff080751d1da83ccadef80d142a42a5ba7))
+
 ## [1.27.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.27.2...v1.27.3) (2023-11-16)
 
 
