@@ -1,3 +1,15 @@
+# [1.29.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.28.0...v1.29.0) (2023-11-25)
+
+
+### Bug Fixes
+
+* update nav, edit button and css path ([ec4face](https://github.com/CoCreate-app/CoCreate-utils/commit/ec4face08667e426dc54f86a4b55c2d6a80442b1))
+
+
+### Features
+
+* upgrade dependencies for latest features and fixes ([9e85101](https://github.com/CoCreate-app/CoCreate-utils/commit/9e85101e3fd9a67544fbe4ecd53aaa2cb20453d4))
+
 # [1.28.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.27.4...v1.28.0) (2023-11-19)
 
 
