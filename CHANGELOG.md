@@ -1,3 +1,15 @@
+# [1.30.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.29.0...v1.30.0) (2023-11-25)
+
+
+### Bug Fixes
+
+* update licensing details ([51ef15f](https://github.com/CoCreate-app/CoCreate-utils/commit/51ef15fc8e8b367cfab80d9dd914cde677400699))
+
+
+### Features
+
+* upgrade dependencies for latest features and fixes ([a2e112d](https://github.com/CoCreate-app/CoCreate-utils/commit/a2e112d91cdcc30350bce76c84473fa3867d0e0d))
+
 # [1.29.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.28.0...v1.29.0) (2023-11-25)
 
 
