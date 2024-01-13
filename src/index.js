@@ -142,19 +142,22 @@
         }
     }
 
-    function getValueFromObject(object, path) {
+    function getValueFromObject(object = {}, path = '', throwError = false) {
         try {
-            if (!object || !path)
-                // throw new Error("Invalid input to getValueFromObject");
+            if (!Object.keys(object).length || !path) {
+                if (throwError)
+                    throw new Error("Invalid input to getValueFromObject");
                 return
+
+            }
 
             path = path.replace(/\[(\d+)\]/g, '.$1');
 
             let data = object, subpath = path.split('.');
 
             for (let i = 0; i < subpath.length; i++) {
-                // if (!(subpath[i] in data))
-                //     throw new Error("Key not found in object: " + subpath[i]);
+                if (throwError && !(subpath[i] in data))
+                    throw new Error("Key not found in object: " + subpath[i]);
 
                 data = data[subpath[i]];
                 if (!data)
@@ -164,13 +167,9 @@
             return data;
         } catch (error) {
             console.error("Error in getValueFromObject:", error);
-            // throw error;
+            if (throwError)
+                throw error;
         }
-    }
-
-    function isObjectEmpty(obj) {
-        for (var x in obj) { return false }
-        return true;
     }
 
     function domParser(str) {
@@ -602,7 +601,12 @@
             // if (!data.hasOwnProperty(key))
             //     return false
 
-            let dataValue = getValueFromObject(data, key)
+            let dataValue
+            try {
+                dataValue = getValueFromObject(data, key, true)
+            } catch (error) {
+
+            }
 
             if (typeof query[key] === 'string' || typeof query[key] === 'number' || typeof query[key] === 'boolean') {
                 if (Array.isArray(dataValue))
@@ -897,7 +901,6 @@
         isValidDate,
         dotNotationToObject,
         getValueFromObject,
-        isObjectEmpty,
         domParser,
         parseTextToHtml,
         escapeHtml,
