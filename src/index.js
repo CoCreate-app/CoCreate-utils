@@ -142,24 +142,29 @@
         }
     }
 
-    function getValueFromObject(json, path) {
+    function getValueFromObject(object, path) {
         try {
-            if (typeof json == 'undefined' || !path)
-                return;
+            if (!object || !path)
+                // throw new Error("Invalid input to getValueFromObject");
+                return
 
             path = path.replace(/\[(\d+)\]/g, '.$1');
 
-            let jsonData = json, subpath = path.split('.');
+            let data = object, subpath = path.split('.');
 
             for (let i = 0; i < subpath.length; i++) {
-                jsonData = jsonData[subpath[i]];
-                if (!jsonData)
+                // if (!(subpath[i] in data))
+                //     throw new Error("Key not found in object: " + subpath[i]);
+
+                data = data[subpath[i]];
+                if (!data)
                     return;
             }
 
-            return jsonData;
+            return data;
         } catch (error) {
-            console.log("Error in getValueFromObject", error);
+            console.error("Error in getValueFromObject:", error);
+            // throw error;
         }
     }
 
@@ -594,9 +599,10 @@
 
     function isMatch(data, query) {
         for (let key of Object.keys(query)) {
+            // if (!data.hasOwnProperty(key))
+            //     return false
+
             let dataValue = getValueFromObject(data, key)
-            if (!dataValue)
-                return false
 
             if (typeof query[key] === 'string' || typeof query[key] === 'number' || typeof query[key] === 'boolean') {
                 if (Array.isArray(dataValue))
