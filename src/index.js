@@ -154,12 +154,12 @@
             for (let i = 0; i < subpath.length; i++) {
                 jsonData = jsonData[subpath[i]];
                 if (!jsonData)
-                    return jsonData;
+                    return;
             }
+
             return jsonData;
         } catch (error) {
             console.log("Error in getValueFromObject", error);
-            return;
         }
     }
 
@@ -560,6 +560,149 @@
         return queryResult;
     }
 
+    function query(data, query) {
+        if (query.$and) {
+            for (let i = 0; i < query.$and.length; i++) {
+                if (!query(data, query.$and[i]))
+                    return false
+            }
+        }
+
+        if (query.$nor) {
+            for (let i = 0; i < query.$nor.length; i++) {
+                if (query(data, query.$nor[i]))
+                    return false;
+            }
+        }
+
+        for (let key of Object.keys(query)) {
+            if (key === '$and' || key === '$or')
+                continue
+            if (!isMatch(data, { [key]: query[key] }))
+                return false
+        }
+
+        if (query.$or) {
+            for (let i = 0; i < query.$or.length; i++) {
+                if (query(data, query.$or[i]))
+                    return true
+            }
+        }
+
+        return true;
+    }
+
+    function isMatch(data, query) {
+        for (let key of Object.keys(query)) {
+            let dataValue = getValueFromObject(data, key)
+            if (!dataValue)
+                return false
+
+            if (typeof query[key] === 'string' || typeof query[key] === 'number' || typeof query[key] === 'boolean') {
+                if (Array.isArray(dataValue))
+                    return dataValue.includes(query[key])
+                else
+                    return dataValue === query[key]
+            } else if (Array.isArray(query[key])) {
+                if (Array.isArray(dataValue)) {
+                    return isEqualArray(dataValue, query[key]);
+                } else {
+                    return false;
+                }
+            } else {
+                for (let property of Object.keys(query[key])) {
+                    if (!property.startsWith('$')) {
+                        if (typeof dataValue !== 'object') {
+                            return false;
+                        } else
+                            return isMatch({ [property]: getValueFromObject(dataValue, property) }, { [property]: query[key][property] })
+                    } else {
+                        let queryValue = query[key][property]
+                        let queryStatus = false
+                        switch (property) {
+                            case '$eq':
+                                if (Array.isArray(dataValue) && Array.isArray(queryValue)) {
+                                    queryStatus = isEqualArray(dataValue, queryValue);
+                                } else {
+                                    queryStatus = (dataValue === queryValue);
+                                }
+                                break;
+                            case '$ne':
+                                if (Array.isArray(dataValue) && Array.isArray(queryValue)) {
+                                    queryStatus = !isEqualArray(dataValue, queryValue);
+                                } else {
+                                    queryStatus = (dataValue !== queryValue);
+                                }
+                                break;
+                            case '$not':
+                                queryStatus = !isMatch(data, { [key]: query[key]['$not'] });
+                                break;
+                            case '$lt':
+                                queryStatus = (dataValue < queryValue)
+                                break;
+                            case '$lte':
+                                queryStatus = (dataValue <= queryValue)
+                                break;
+                            case '$gt':
+                                queryStatus = (dataValue > queryValue)
+                                break;
+                            case '$gte':
+                                queryStatus = (dataValue >= queryValue)
+                                break;
+                            case '$in':
+                                if (Array.isArray(dataValue)) {
+                                    queryStatus = dataValue.some(element => queryValue.includes(element));
+                                } else {
+                                    queryStatus = queryValue.includes(dataValue);
+                                }
+                                break;
+                            case '$nin':
+                                if (Array.isArray(dataValue)) {
+                                    queryStatus = !dataValue.some(element => queryValue.includes(element));
+                                } else {
+                                    queryStatus = !queryValue.includes(dataValue);
+                                }
+                                break;
+                            case '$all':
+                                if (Array.isArray(dataValue) && Array.isArray(queryValue)) {
+                                    queryStatus = queryValue.every(element => dataValue.includes(element));
+                                }
+                                break;
+                            case '$elemMatch':
+                                if (Array.isArray(data[key])) {
+                                    queryStatus = data[key].some(element => isMatch(element, query[key][property]));
+                                }
+                                break;
+                            case '$size':
+                                if (Array.isArray(dataValue)) {
+                                    queryStatus = (dataValue.length === queryValue);
+                                }
+                                break;
+                            case '$exists':
+                                queryStatus = (queryValue ? data.hasOwnProperty(key) : !data.hasOwnProperty(key));
+                                break;
+                            case '$regex':
+                                if (typeof dataValue === 'string') {
+                                    let regex = new RegExp(queryValue);
+                                    queryStatus = regex.test(dataValue);
+                                }
+                                break;
+                            default:
+                                console.log('unknown operator')
+                                break;
+
+                        }
+                        if (!queryStatus)
+                            return false
+
+                    }
+                }
+                return true
+            }
+
+        }
+    }
+
     function isEqualArray(arr1, arr2) {
         if (arr1.length !== arr2.length) {
             return false;
@@ -755,6 +898,7 @@
         cssPath,
         queryElements,
         checkMediaQueries,
+        query,
         queryData,
         searchData,
         sortData,
