@@ -166,7 +166,7 @@
 
             return data;
         } catch (error) {
-            console.error("Error in getValueFromObject:", error);
+            // console.error("Error in getValueFromObject:", error);
             if (throwError)
                 throw error;
         }
@@ -422,159 +422,17 @@
         return selector
     }
 
-
     function queryData(data, query) {
-        if (!data)
-            return false;
-
-        if (!Array.isArray(data))
-            data = [data]
-
-        if (!query)
-            return true
-
-        if (!Array.isArray(query))
-            query = [query]
-        if (!query.length)
-            return true
-
-        let queryResult = false
-        for (let n = 0; n < data.length; n++) {
-            for (let i = 0; i < query.length; i++) {
-                let dataValue
-                if (query[i].key.includes('.') || /\[([0-9]*)\]/g.test(query[i].key))
-                    dataValue = getValueFromObject(data[n], query[i].key)
-                else
-                    dataValue = data[n][query[i].key]
-                if (dataValue == undefined)
-                    dataValue = ''
-                let logicalOperator = query[i].logicalOperator || 'and'
-                let queryValues = query[i].value
-
-                let queryIsArray = false
-                if (!Array.isArray(queryValues))
-                    queryValues = [queryValues]
-                else
-                    queryIsArray = true
-
-
-                let queryStatus = false
-                for (let queryValue of queryValues) {
-                    if (query[i].caseSensitive != 'true' || query[i].caseSensitive != true) {
-                        if (typeof dataValue == 'string')
-                            dataValue = dataValue.toLowerCase()
-                        if (typeof queryValue == 'string')
-                            queryValue = queryValue.toLowerCase()
-                    }
-
-                    if (isValidDate(dataValue) && isValidDate(queryValue)) {
-                        dataValue = new Date(dataValue)
-                        queryValue = new Date(queryValue)
-                    }
-                    switch (query[i].operator) {
-                        case '$includes':
-                        case 'includes':
-                            if (dataValue.includes(queryValue))
-                                queryStatus = true
-                            // if (queryValue === "" && logicalOperator === 'and') {
-                            //     if (dataValue !== "")
-                            //         queryStatus = false
-                            // }
-                            break;
-                        case '$eq':
-                            if (dataValue == queryValue)
-                                queryStatus = true
-                            break;
-                        case '$ne':
-                            if (Array.isArray(dataValue)) {
-                                // Check if the entire array is different from queryValue
-                                queryStatus = !isEqualArray(dataValue, queryValue);
-                            } else if (Array.isArray(queryValue)) {
-                                // If queryValue is an array, check if dataValue is different from this array
-                                queryStatus = !isEqualArray(queryValue, dataValue);
-                            } else {
-                                // If neither is an array, simple comparison
-                                queryStatus = (dataValue != queryValue);
-                            }
-                            break;
-                        case '$lt':
-                            if (dataValue < queryValue)
-                                queryStatus = true
-                            break;
-                        case '$lte':
-                            if (dataValue <= queryValue)
-                                queryStatus = true
-                            break;
-                        case '$gt':
-                            if (dataValue > queryValue)
-                                queryStatus = true
-                            break;
-                        case '$gte':
-                            if (dataValue >= queryValue)
-                                queryStatus = true
-                            break;
-                        case '$in':
-                            if (Array.isArray(dataValue)) {
-                                queryStatus = dataValue.some(element => queryValue.includes(element));
-                            } else {
-                                queryStatus = queryValue.includes(dataValue);
-                            }
-                            break;
-                        case '$nin':
-                            if (Array.isArray(dataValue)) {
-                                queryStatus = !dataValue.some(element => queryValue.includes(element));
-                            } else {
-                                queryStatus = !queryValue.includes(dataValue);
-                            }
-                            break;
-                        case '$range':
-                            if (queryValue[0] !== null && queryValue[1] !== null) {
-                                if (dataValue >= queryValue[0] && dataValue <= queryValue[1])
-                                    queryStatus = true
-                            } else if (queryValue[0] == null && dataValue <= queryValue[1]) {
-                                queryStatus = true
-                            } else if (queryValue[1] == null && dataValue >= queryValue[0]) {
-                                queryStatus = true
-                            }
-                            break;
-
-                        default:
-                            if (dataValue.includes(queryValue))
-                                queryStatus = true
-                            break;
-                    }
-                    if (!queryIsArray || query[i].operator === "$nin") {
-                        switch (logicalOperator) {
-                            case 'and':
-                                if (queryStatus == false)
-                                    return false
-                                break;
-                            // case 'or':
-                            //     if (queryStatus == true)
-                            //         queryResult = queryStatus
-                            //     break;
-                        }
-                    } else if (queryStatus && query[i].operator === "$in")
-                        return true
-                    queryResult = queryStatus
-                }
-            }
-        }
-
-        return queryResult;
-    }
-
-    function query(data, query) {
         if (query.$and) {
             for (let i = 0; i < query.$and.length; i++) {
-                if (!query(data, query.$and[i]))
+                if (!queryData(data, query.$and[i]))
                     return false
             }
         }
 
         if (query.$nor) {
             for (let i = 0; i < query.$nor.length; i++) {
-                if (query(data, query.$nor[i]))
+                if (queryData(data, query.$nor[i]))
                     return false;
             }
         }
@@ -588,7 +446,7 @@
 
         if (query.$or) {
             for (let i = 0; i < query.$or.length; i++) {
-                if (query(data, query.$or[i]))
+                if (queryData(data, query.$or[i]))
                     return true
             }
         }
@@ -605,7 +463,7 @@
             try {
                 dataValue = getValueFromObject(data, key, true)
             } catch (error) {
-
+                return false
             }
 
             if (typeof query[key] === 'string' || typeof query[key] === 'number' || typeof query[key] === 'boolean') {
@@ -907,7 +765,6 @@
         cssPath,
         queryElements,
         checkMediaQueries,
-        query,
         queryData,
         searchData,
         sortData,
