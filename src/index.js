@@ -440,7 +440,7 @@
         for (let key of Object.keys(query)) {
             if (key === '$and' || key === '$or')
                 continue
-            if (!isMatch(data, { [key]: query[key] }))
+            if (!queryMatch(data, { [key]: query[key] }))
                 return false
         }
 
@@ -454,7 +454,7 @@
         return true;
     }
 
-    function isMatch(data, query) {
+    function queryMatch(data, query) {
         for (let key of Object.keys(query)) {
             // if (!data.hasOwnProperty(key))
             //     return false
@@ -483,7 +483,7 @@
                         if (typeof dataValue !== 'object') {
                             return false;
                         } else
-                            return isMatch({ [property]: getValueFromObject(dataValue, property) }, { [property]: query[key][property] })
+                            return queryMatch({ [property]: getValueFromObject(dataValue, property) }, { [property]: query[key][property] })
                     } else {
                         let queryValue = query[key][property]
                         let queryStatus = false
@@ -503,7 +503,7 @@
                                 }
                                 break;
                             case '$not':
-                                queryStatus = !isMatch(data, { [key]: query[key]['$not'] });
+                                queryStatus = !queryMatch(data, { [key]: query[key]['$not'] });
                                 break;
                             case '$lt':
                                 queryStatus = (dataValue < queryValue)
@@ -538,7 +538,7 @@
                                 break;
                             case '$elemMatch':
                                 if (Array.isArray(data[key])) {
-                                    queryStatus = data[key].some(element => isMatch(element, query[key][property]));
+                                    queryStatus = data[key].some(element => queryMatch(element, query[key][property]));
                                 }
                                 break;
                             case '$size':
