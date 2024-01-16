@@ -302,6 +302,7 @@
             }
 
             if (Selector) {
+                // let selectors = Selector.split(/,(?![^()]*\))/g);
 
                 let selectors = Selector.split(',');
                 for (let j = 0; j < selectors.length; j++) {
@@ -654,7 +655,38 @@
         return true
     }
 
+
     function sortData(data, sort) {
+        return data.sort((a, b) => {
+            for (let i = 0; i < sort.length; i++) {
+                let key = sort[i].key;
+                if (a[key] == null && b[key] == null) continue;
+                if (a[key] == null)
+                    return sort[i].direction === 'desc' ? -1 : 1;
+                if (b[key] == null)
+                    return sort[i].direction === 'desc' ? 1 : -1;
+
+                if (typeof a[key] !== typeof b[key]) {
+                    return typeof a[key] < typeof b[key] ? -1 : 1;
+                }
+
+                if (a[key] !== b[key]) {
+                    if (typeof a[key] === 'string') {
+                        return sort[i].direction === 'desc' ?
+                            b[key].localeCompare(a[key]) :
+                            a[key].localeCompare(b[key]);
+                    } else { // Assuming numeric or other comparable types
+                        return sort[i].direction === 'desc' ?
+                            (b[key] - a[key]) :
+                            (a[key] - b[key]);
+                    }
+                }
+            }
+            return 0;
+        });
+    }
+
+    function sortDataOld(data, sort) {
         if (!Array.isArray(sort))
             sort = [sort]
         for (let i = 0; i < sort.length; i++) {
