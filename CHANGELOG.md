@@ -1,3 +1,19 @@
+# [1.32.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.31.0...v1.32.0) (2024-01-17)
+
+
+### Bug Fixes
+
+* getValueFromObject conditions and param names ([2fd7387](https://github.com/CoCreate-app/CoCreate-utils/commit/2fd73873cc42d0a22e43e04fee35f31227790f7b))
+* getValueFromObject param trowError boolean will trow erro if property does not exist vs returning undefined ([39a9cab](https://github.com/CoCreate-app/CoCreate-utils/commit/39a9cabb9e109d1aae6a695ba47d76c95c8581f6))
+* renamed isMatch to queryMatch ([b3c9429](https://github.com/CoCreate-app/CoCreate-utils/commit/b3c942950661b1d906c9f8a77a3bbd2f5693fd47))
+* update to support new query system ([a267b52](https://github.com/CoCreate-app/CoCreate-utils/commit/a267b5260955a631330a2b22bd9fb316a00004c6))
+
+
+### Features
+
+* query() function to handle queries similar to mongodb ([164bf45](https://github.com/CoCreate-app/CoCreate-utils/commit/164bf45d44f620fe8e6a4cf75fe744be68277d6c))
+* sort by multiple keys ([7872a53](https://github.com/CoCreate-app/CoCreate-utils/commit/7872a5308bcf510e40385c57b45c0d899a40295a))
+
 # [1.31.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.30.0...v1.31.0) (2024-01-08)
 
 
