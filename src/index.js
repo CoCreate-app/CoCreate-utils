@@ -556,6 +556,29 @@
                                     queryStatus = regex.test(dataValue);
                                 }
                                 break;
+                            case '$type':
+                                let dataType = typeof dataValue;
+                                if (Array.isArray(dataValue)) {
+                                    dataType = 'array';
+                                }
+                                queryStatus = (dataType === queryValue);
+                                break;
+                            case '$mod':
+                                if (typeof dataValue === 'number' && Array.isArray(queryValue) && queryValue.length === 2) {
+                                    const [divisor, remainder] = queryValue;
+                                    queryStatus = (dataValue % divisor === remainder);
+                                }
+                                break;
+                            case '$where':
+                                if (typeof queryValue === 'function') {
+                                    try {
+                                        // queryStatus = queryValue.call(data);
+                                    } catch (error) {
+                                        console.error('Error in queryData $where function:', error);
+                                    }
+                                }
+                                break;
+
                             default:
                                 console.log('unknown operator')
                                 break;
