@@ -709,52 +709,6 @@
         });
     }
 
-    function sortDataOld(data, sort) {
-        if (!Array.isArray(sort))
-            sort = [sort]
-        for (let i = 0; i < sort.length; i++) {
-            let key = sort[i].key
-            if (key) {
-                try {
-                    data.sort((a, b) => {
-                        if (sort[i].direction == 'desc') {
-                            switch (typeof b[key]) {
-                                case 'string':
-                                    if (!b[key])
-                                        b[key] = ""
-                                    return b[key].localeCompare(a[key])
-                                case 'number':
-                                    if (!b[key])
-                                        b[key] = 0
-                                    return b[key] - a[key]
-                                case 'array':
-                                case 'object':
-                                    break;
-                            }
-                        } else {
-                            switch (typeof a[key]) {
-                                case 'string':
-                                    if (!a[key])
-                                        a[key] = ""
-                                    return a[key].localeCompare(b[key])
-                                case 'number':
-                                    if (!a[key])
-                                        a[key] = 0
-                                    return a[key] - b[key]
-                                case 'array':
-                                case 'object':
-                                    break;
-                            }
-                        }
-                    });
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-        }
-        return data;
-    }
-
     function getAttributes(el) {
         if (!el) return;
 
