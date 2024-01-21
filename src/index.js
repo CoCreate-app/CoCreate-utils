@@ -161,7 +161,7 @@
 
                 data = data[subpath[i]];
                 if (!data)
-                    return;
+                    break;
             }
 
             return data;
