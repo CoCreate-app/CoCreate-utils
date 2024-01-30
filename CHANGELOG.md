@@ -1,3 +1,16 @@
+# [1.33.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.32.0...v1.33.0) (2024-01-30)
+
+
+### Bug Fixes
+
+* removed sortDataOld ([9755f81](https://github.com/CoCreate-app/CoCreate-utils/commit/9755f815fedd5156ea4a9c2b11b4896c10441424))
+* supput values null, false, undefined, 0 ([954c126](https://github.com/CoCreate-app/CoCreate-utils/commit/954c1262b37c42d8f0badf9fe1c5855f4e244b8e))
+
+
+### Features
+
+* queryData $type, $mod, $where operators ([94684a0](https://github.com/CoCreate-app/CoCreate-utils/commit/94684a0959fbf353d77ae363b522d5e17f209af0))
+
 # [1.32.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.31.0...v1.32.0) (2024-01-17)
 
 
