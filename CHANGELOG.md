@@ -1,3 +1,10 @@
+## [1.33.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.0...v1.33.1) (2024-02-05)
+
+
+### Bug Fixes
+
+* Removed https://cdn.cocreate.app/latest/CoCreate.min.css ([93e7304](https://github.com/CoCreate-app/CoCreate-utils/commit/93e7304cd0a391f1e59465a12c52fcc0f395de79))
+
 # [1.33.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.32.0...v1.33.0) (2024-01-30)
 
 
