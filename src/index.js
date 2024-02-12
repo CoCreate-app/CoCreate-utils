@@ -302,9 +302,8 @@
             }
 
             if (Selector) {
-                // let selectors = Selector.split(/,(?![^()]*\))/g);
+                let selectors = Selector.split(/,(?![^()]*\))/g);
 
-                let selectors = Selector.split(',');
                 for (let j = 0; j < selectors.length; j++) {
                     if (selectors[j].includes('@')) {
                         selectors[j] = checkMediaQueries(selectors[j])
@@ -718,7 +717,7 @@
         for (let attribute of el.attributes) {
             let variable = attributes[attribute.name]
             if (variable) {
-                object[variable] = attribute.value
+                object[variable] = el.getAttribute(attribute.name)
             }
         }
 
