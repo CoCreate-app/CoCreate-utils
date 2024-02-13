@@ -1,3 +1,10 @@
+## [1.33.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.1...v1.33.2) (2024-02-13)
+
+
+### Bug Fixes
+
+* selector split ([fd205fa](https://github.com/CoCreate-app/CoCreate-utils/commit/fd205faa2dfb2fef5a57526a9630d77974229ad6))
+
 ## [1.33.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.0...v1.33.1) (2024-02-05)
 
 
