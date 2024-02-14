@@ -1,3 +1,10 @@
+## [1.33.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.2...v1.33.3) (2024-02-14)
+
+
+### Bug Fixes
+
+* createUpdate added to utils to be accessible by other modues ([a54f039](https://github.com/CoCreate-app/CoCreate-utils/commit/a54f03966e80b37cebdf7ee42dbd0b2efb530572))
+
 ## [1.33.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.1...v1.33.2) (2024-02-13)
 
 
