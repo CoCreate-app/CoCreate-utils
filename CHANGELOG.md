@@ -1,3 +1,10 @@
+## [1.33.4](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.3...v1.33.4) (2024-02-15)
+
+
+### Bug Fixes
+
+* $addToSet creates array if undefined ([64d02f9](https://github.com/CoCreate-app/CoCreate-utils/commit/64d02f9d3ee01011ee3701e781850b5e21a16ba6))
+
 ## [1.33.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.2...v1.33.3) (2024-02-14)
 
 
