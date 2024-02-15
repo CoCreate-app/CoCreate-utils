@@ -244,6 +244,8 @@
                             } else if (operator === '$pop') {
                                 newObject[keys[i]].pop();
                             } else if (operator === '$addToSet') {
+                                if (!newObject[keys[i]])
+                                    newObject[keys[i]] = []
                                 let exists
                                 if (Array.isArray(value)) {
                                     exists = newObject[keys[i]].some(item => Array.isArray(item) && isEqualArray(item, value));
