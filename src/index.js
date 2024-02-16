@@ -449,6 +449,8 @@
                         // if (!Array.isArray(queriedElement)) {
                         //     queriedElement = [queriedElement]
                         // }
+                        if (!specialSelectors[k])
+                            continue
                         if (k === 0) {
                             if (type[i] === 'parent')
                                 queriedElement = queriedElement.parentElement
