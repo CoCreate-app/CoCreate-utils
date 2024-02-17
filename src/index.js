@@ -618,6 +618,10 @@
                             return queryMatch({ [property]: getValueFromObject(dataValue, property) }, { [property]: query[key][property] })
                     } else {
                         let queryValue = query[key][property]
+                        if (isValidDate(queryValue) && isValidDate(dataValue)) {
+                            queryValue = new Date(queryValue)
+                            dataValue = new Date(dataValue)
+                        }
                         let queryStatus = false
                         switch (property) {
                             case '$eq':
