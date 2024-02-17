@@ -1,3 +1,10 @@
+## [1.33.5](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.4...v1.33.5) (2024-02-17)
+
+
+### Bug Fixes
+
+* continue if specialSelector is empty ([af9a36e](https://github.com/CoCreate-app/CoCreate-utils/commit/af9a36e2d2ae0dcc62195bd8a049a7c0f0cd2901))
+
 ## [1.33.4](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.3...v1.33.4) (2024-02-15)
 
 
