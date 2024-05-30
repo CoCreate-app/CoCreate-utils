@@ -279,7 +279,10 @@
                                 else
                                     newObject[keys[i]].push(...value);
                             } else if (operator === '$inc') {
-                                newObject[keys[i]] += value
+                                if (!newObject[keys[i]] || typeof newObject[keys[i]] !== "number")
+                                    newObject[keys[i]] = value
+                                else
+                                    newObject[keys[i]] += value
                             }
                         } else if (value === undefined) {
                             if (typeof keys[i] === 'number')
