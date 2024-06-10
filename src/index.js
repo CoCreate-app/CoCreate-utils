@@ -690,7 +690,8 @@
                                 break;
                             case '$regex':
                                 if (typeof dataValue === 'string') {
-                                    let regex = new RegExp(queryValue);
+                                    let regexFlag = query[key]['$options'] || ''
+                                    let regex = new RegExp(queryValue, regexFlag)
                                     queryStatus = regex.test(dataValue);
                                 }
                                 break;
