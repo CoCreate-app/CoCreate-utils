@@ -614,6 +614,8 @@
                 }
             } else {
                 for (let property of Object.keys(query[key])) {
+                    if (property === '$options')
+                        continue
                     if (!property.startsWith('$')) {
                         if (typeof dataValue !== 'object') {
                             return false;
