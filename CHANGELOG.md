@@ -1,3 +1,18 @@
+# [1.34.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.7...v1.34.0) (2024-06-12)
+
+
+### Bug Fixes
+
+* bump cocreate dependencies ([08a6820](https://github.com/CoCreate-app/CoCreate-utils/commit/08a68208699370ba5bef8fce082d9d038837f28d))
+* continue if property is $options ([ea10a5a](https://github.com/CoCreate-app/CoCreate-utils/commit/ea10a5a2dce77390cf3aced0f881e66ad8b5df16))
+* handling $inc operator update ([2260162](https://github.com/CoCreate-app/CoCreate-utils/commit/22601620df4a2aaaa0f16b00e907bbe6b164b315))
+* svg icon class ([edef3c2](https://github.com/CoCreate-app/CoCreate-utils/commit/edef3c2bc9cd98f9c60c60b7a783d83473f3dd9a))
+
+
+### Features
+
+* suport options for regex operator ([78a3c4d](https://github.com/CoCreate-app/CoCreate-utils/commit/78a3c4d33e7e6d8ec957d94e92a1b740865e0307))
+
 ## [1.33.7](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.33.6...v1.33.7) (2024-04-29)
 
 
