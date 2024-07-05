@@ -257,6 +257,8 @@
                                 if (!exists)
                                     newObject[keys[i]].push(value)
                             } else if (operator === '$pull') {
+                                if (!newObject[keys[i]])
+                                    continue
                                 if (Array.isArray(value)) {
                                     newObject[keys[i]] = newObject[keys[i]].filter(item => !Array.isArray(item) || !isEqualArray(item, value));
                                 } else if (typeof value === 'object' && value !== null) {
