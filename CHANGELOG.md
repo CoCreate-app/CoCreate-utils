@@ -1,3 +1,10 @@
+## [1.34.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.34.2...v1.34.3) (2024-07-09)
+
+
+### Bug Fixes
+
+* $pull continue if key does not exist ([41f44a0](https://github.com/CoCreate-app/CoCreate-utils/commit/41f44a0f374ce2f264bc5cfcf37fae0279559351))
+
 ## [1.34.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.34.1...v1.34.2) (2024-06-23)
 
 
