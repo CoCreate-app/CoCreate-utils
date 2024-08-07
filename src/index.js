@@ -489,7 +489,19 @@
                                 break;
                             default:
                                 if (k === 0 && type[i] === 'closest')
-                                    queriedElement = queriedElement.closest(specialSelectors[k])
+                                    if (specialSelectors[k].includes(' ')) {
+                                        let [firstSelector, ...restSelectors] = specialSelectors[k].split(/ (.+)/);
+                                        queriedElement = queriedElement.closest(firstSelector);
+                                        if (restSelectors.length > 0) {
+                                            if (restSelectors[0].endsWith('[]'))
+                                                queriedElement = queriedElement.querySelectorAll(restSelectors[0].slice(0, -2))
+                                            else
+                                                queriedElement = queriedElement.querySelector(restSelectors[0])
+                                        }
+                                    } else {
+                                        // If no space, just use the selector with closest
+                                        queriedElement = queriedElement.closest(specialSelectors[k]);
+                                    }
                                 else if (specialSelectors[k].endsWith('[]'))
                                     queriedElement = queriedElement.querySelectorAll(specialSelectors[k].slice(0, -2))
                                 else
