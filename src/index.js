@@ -100,42 +100,106 @@
 
     function dotNotationToObject(data, obj = {}) {
         try {
+            let arrayGroup = {}; // Track groups by key paths (e.g., 'messages[a]')
+
             for (const key of Object.keys(data)) {
-                let value = data[key]
-                let newObject = obj
-                let oldObject = new Object(obj)
+                let value = data[key];
+                let newObject = obj;
+                let oldObject = new Object(obj);
                 let keys = key.split('.');
-                let length = keys.length - 1
+                let length = keys.length - 1;
+
                 for (let i = 0; i < keys.length; i++) {
-                    if (/\[([0-9]*)\]/g.test(keys[i])) {
-                        let [k, index] = keys[i].split('[');
-                        index = index.slice(0, -1) || 0
-                        newObject[k] = oldObject[k] || [];
-                        if (length == i) {
-                            if (value === undefined)
-                                newObject[k].splice(index, 1);
-                            else
-                                newObject[k][index] = value;
-                        } else {
-                            newObject[k][index] = oldObject[k][index] || {};
-                            newObject = newObject[k][index]
-                            oldObject = oldObject[k][index]
+                    // Check if the key ends with ']', indicating an array or grouping operation
+                    if (keys[i].endsWith(']')) {
+                        // Handle array push (e.g., messages[] -> push value)
+                        if (keys[i].endsWith('[]')) {
+                            let baseKey = keys[i].slice(0, -2); // Remove '[]'
+
+                            // Initialize newObject[baseKey] as an array if not an array or doesn't exist
+                            if (!Array.isArray(newObject[baseKey])) {
+                                newObject[baseKey] = [];
+                            }
+
+                            if (length == i) {
+                                // If value is an array, spread the array values into newObject[baseKey]
+                                if (Array.isArray(value)) {
+                                    newObject[baseKey].push(...value);
+                                } else {
+                                    // If value is not an array, just push the single value
+                                    newObject[baseKey].push(value);
+                                }
+                            }
                         }
-                    } else {
+                        // Check for array index (e.g., messages[0])
+                        else if (/\[([0-9]+)\]/g.test(keys[i])) {
+                            let [k, index] = keys[i].split('[');
+                            index = index.slice(0, -1); // Get the index
+
+                            // Initialize newObject[k] as an array if it doesn't exist or is not an array
+                            if (!Array.isArray(newObject[k])) {
+                                newObject[k] = [];
+                            }
+
+                            if (length == i) {
+                                if (value === undefined) {
+                                    newObject[k].splice(index, 1); // Remove element if value is undefined
+                                } else {
+                                    newObject[k][index] = value; // Replace value at specified index
+                                }
+                            } else {
+                                newObject[k][index] = oldObject[k][index] || {}; // Initialize inner object
+                                newObject = newObject[k][index];
+                                oldObject = oldObject[k][index];
+                            }
+                        }
+                        // Handle letter-based groupings (e.g., messages[a].role)
+                        else if (/\[\w\]/g.test(keys[i])) {
+                            let [k, group] = keys[i].split('[');
+                            group = group.slice(0, -1); // Get the letter inside []
+
+                            // Initialize newObject[k] as an array if not an array or doesn't exist
+                            if (!Array.isArray(newObject[k])) {
+                                newObject[k] = [];
+                            }
+
+                            // If there's no object at this group index yet, push a new object
+                            let index;
+                            if (arrayGroup[keys.slice(0, i + 1).join('.')]) {
+                                // Reuse the existing index for the group
+                                index = arrayGroup[keys.slice(0, i + 1).join('.')];
+                            } else {
+                                // Create a new group and track the index
+                                index = newObject[k].length;
+                                arrayGroup[keys.slice(0, i + 1).join('.')] = index;
+                                newObject[k][index] = {};
+                            }
+
+                            // Move into the newly created or existing object for the group
+                            if (length == i) {
+                                newObject[k][index] = value; // Set value in the group
+                            } else {
+                                newObject = newObject[k][index]; // Continue with the group object
+                            }
+                        }
+                    }
+                    // Handle regular object keys (non-array keys)
+                    else {
                         if (length == i) {
-                            if (value === undefined)
-                                delete newObject[keys[i]]
-                            else
-                                newObject[keys[i]] = value;
+                            if (value === undefined) {
+                                delete newObject[keys[i]]; // Delete key if value is undefined
+                            } else {
+                                newObject[keys[i]] = value; // Set value
+                            }
                         } else {
-                            newObject[keys[i]] = oldObject[keys[i]] || {};
-                            newObject = newObject[keys[i]]
-                            oldObject = oldObject[keys[i]]
+                            newObject[keys[i]] = oldObject[keys[i]] || {}; // Initialize inner object
+                            newObject = newObject[keys[i]];
+                            oldObject = oldObject[keys[i]];
                         }
                     }
                 }
             }
-            return obj
+            return obj;
         } catch (error) {
             console.log("Error converting dot notation to object", error);
             return false;
