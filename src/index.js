@@ -410,54 +410,42 @@
         do {
             if (!node || !node.tagName) return false;
             let pathSplit = node.tagName.toLowerCase();
-            // if (node.tagName == "DOM-PARSER" || node.hasAttribute('contenteditable')){
-            //     pathSplit = "[contenteditable]";
-            //     node = '';
-            // }
+
             if (node.id) {
                 pathSplit += "#" + node.id;
                 node = '';
-            }
-            else {
-                // let eid = node.getAttribute('eid');
-                // if (/{{\s*([\w\W]+)\s*}}/g.test(eid)) {
-                // 	eid = false;
-                // }
-                // if (eid) {
-                //     pathSplit += `[eid="${eid}"]`;
-                //     node = '';
-                // }
-                // else {
-                // if (node.classList.length) {
-                //     node.classList.forEach((item) => {
-                //         if (item.indexOf(":") === -1) pathSplit += "." + item;
-                //     });
-                // }
+            } else {
+                let eid = node.getAttribute('eid');
+                if (eid && !(/{{\s*([\w\W]+)\s*}}/g.test(eid))) {
+                    pathSplit += `[eid="${eid}"]`;
+                    node = '';
+                } else
+                    // if (node.classList.length) {
+                    //     node.classList.forEach((item) => {
+                    //         if (item.indexOf(":") === -1) pathSplit += "." + item;
+                    //     });
+                    // }
 
-                if (node.parentNode && node.parentNode.children.length > 1) {
-                    // TODO: improve array logic so ignores javascript generated html??
-                    let children = []
-                    for (let child of node.parentNode.children) {
-                        // if (!child.matches('.mirror'))
-                        //     children.push(child);
-                        if (child.tagName == node.tagName)
-                            children.push(child);
+                    if (node.parentNode && node.parentNode.children.length > 1) {
+                        // TODO: improve array logic so ignores javascript generated html??
+                        let children = []
+                        for (let child of node.parentNode.children) {
+                            if (child.tagName == node.tagName)
+                                children.push(child);
+                        }
+                        let index = Array.prototype.indexOf.call(
+                            children,
+                            node
+                        );
+
+                        pathSplit += `:nth-of-type(${index + 1})`;
                     }
-                    let index = Array.prototype.indexOf.call(
-                        children,
-                        node
-                    );
-                    // if (children.length > 1)
-                    // pathSplit += `:nth-child(${index + 1})`;
-                    pathSplit += `:nth-of-type(${index + 1})`;
-                }
 
-                // pathSplits.unshift(pathSplit);
                 node = node.parentNode;
-                if (node == null || node.tagName == "HTML" || node.tagName == "DOM-PARSER" || node.nodeName == "#document" || node.hasAttribute('contenteditable'))
+                if (node == null || node.tagName == "HTML" || node.tagName == "BODY" || node.tagName == "DOM-PARSER" || node.nodeName == "#document" || node.hasAttribute('contenteditable'))
                     node = '';
             }
-            // }
+
             pathSplits.unshift(pathSplit);
         } while (node);
         let path = pathSplits.join(" > ")
