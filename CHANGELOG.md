@@ -1,3 +1,16 @@
+# [1.35.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.34.3...v1.35.0) (2024-11-02)
+
+
+### Bug Fixes
+
+* assign clickedElementListenerAdded = true and improve eroor catching ([e8caa1d](https://github.com/CoCreate-app/CoCreate-utils/commit/e8caa1d5818eff8b44ba552446faac2533ba1d46))
+* csspathformating and removed dead code ([fb7da92](https://github.com/CoCreate-app/CoCreate-utils/commit/fb7da920947ccb1b12ab56a08e3e755610ee0a92))
+
+
+### Features
+
+* dotNotationToObject improved array support and dynamically create an index with aplha charater to represent the group index [a] ([75c51cf](https://github.com/CoCreate-app/CoCreate-utils/commit/75c51cf4c6e6a0338ca16a8924a07d2e84f5e06d))
+
 ## [1.34.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.34.2...v1.34.3) (2024-07-09)
 
 
