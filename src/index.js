@@ -560,6 +560,7 @@
 						// if (!Array.isArray(queriedElement)) {
 						//     queriedElement = [queriedElement]
 						// }
+
 						if (!specialSelectors[k]) continue;
 						if (k === 0) {
 							if (type[i] === "parent")
@@ -570,9 +571,8 @@
 							else if (type[i] === "previous")
 								queriedElement =
 									queriedElement.previousElementSibling;
-							queriedElement = window.top.document;
-						} else if (element.contentDocument) {
-							queriedElement = element.contentDocument;
+						} else if (queriedElement.contentDocument) {
+							queriedElement = queriedElement.contentDocument;
 						}
 
 						switch (
@@ -633,7 +633,12 @@
 											specialSelectors[k]
 										);
 									}
-								else if (specialSelectors[k].endsWith("[]"))
+								else if (
+									specialSelectors[k] === "$clickedElement"
+								) {
+									queriedElement =
+										queriedElement.clickedElement;
+								} else if (specialSelectors[k].endsWith("[]"))
 									queriedElement =
 										queriedElement.querySelectorAll(
 											specialSelectors[k].slice(0, -2)
