@@ -324,9 +324,11 @@
 								operator === "$unset" ||
 								operator === "$slice"
 							) {
-								if (typeof keys[i] === "number")
-									newObject.slice(keys[i], 1);
-								else delete newObject[keys[i]];
+								if (typeof keys[i] === "number") {
+									newObject.splice(keys[i], 1);
+								} else {
+									delete newObject[keys[i]];
+								}
 							} else if (operator === "$shift") {
 								newObject[keys[i]].shift();
 							} else if (operator === "$pop") {
@@ -407,7 +409,7 @@
 							}
 						} else if (value === undefined) {
 							if (typeof keys[i] === "number")
-								newObject.slice(keys[i], 1);
+								newObject.splice(keys[i], 1);
 							else delete newObject[keys[i]];
 						} else newObject[keys[i]] = value;
 					} else {
