@@ -1,3 +1,10 @@
+## [1.37.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.37.0...v1.37.1) (2024-12-14)
+
+
+### Bug Fixes
+
+* $delete, $unset, $slice use splice to modify array ([674d17c](https://github.com/CoCreate-app/CoCreate-utils/commit/674d17cc9c54c72293b919ec349f0c5131891c73))
+
 # [1.37.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.36.0...v1.37.0) (2024-12-09)
 
 
