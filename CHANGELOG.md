@@ -1,3 +1,18 @@
+## [1.37.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.37.0...v1.37.1) (2024-12-14)
+
+
+### Bug Fixes
+
+* $delete, $unset, $slice use splice to modify array ([674d17c](https://github.com/CoCreate-app/CoCreate-utils/commit/674d17cc9c54c72293b919ec349f0c5131891c73))
+
+# [1.37.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.36.0...v1.37.0) (2024-12-09)
+
+
+### Features
+
+* if queriedElement has a contentDocument the next query will be on the contentDocument ([190bd70](https://github.com/CoCreate-app/CoCreate-utils/commit/190bd7076c172ee7477e509845f79a04b2d50f12))
+* queriedElements support frameDocument query ([768cbce](https://github.com/CoCreate-app/CoCreate-utils/commit/768cbce0cc2ef5e759521396aa76bb603046dd1f))
+
 # [1.36.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.35.0...v1.36.0) (2024-11-04)
 
 
