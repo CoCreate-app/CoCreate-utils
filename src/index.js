@@ -290,14 +290,17 @@
 			for (const key of Object.keys(data)) {
 				let newObject = object;
 				let oldObject = new Object(newObject);
-				let keys = key.replace(/\[(\d+)\]/g, ".$1").split(".");
+				let keys = key
+					.replace(/\[(\d+)\]/g, ".$1")
+					.split(".")
+					.map((k) => (isNaN(k) ? k : Number(k)));
 				let value = data[key];
 				let operator;
 				if (keys[0].startsWith("$")) operator = keys.shift();
 
 				let length = keys.length - 1;
 				for (let i = 0; i < keys.length; i++) {
-					if (/^\d+$/.test(keys[i])) keys[i] = parseInt(keys[i]);
+					// if (/^\d+$/.test(keys[i])) keys[i] = parseInt(keys[i]);
 
 					if (length == i) {
 						if (operator) {
@@ -411,12 +414,22 @@
 							if (typeof keys[i] === "number")
 								newObject.splice(keys[i], 1);
 							else delete newObject[keys[i]];
-						} else newObject[keys[i]] = value;
+						} else if (typeof keys[i] === "number") {
+							newObject.splice(keys[i], 0, value);
+						} else {
+							newObject[keys[i]] = value;
+						}
+					} else if (
+						typeof keys[i + 1] === "number" &&
+						!Array.isArray(newObject[keys[i]])
+					) {
+						newObject[keys[i]] = [];
 					} else {
-						newObject[keys[i]] = oldObject[keys[i]] || {};
-						newObject = newObject[keys[i]];
-						oldObject = oldObject[keys[i]];
+						newObject[keys[i]] = newObject[keys[i]] || {};
+						// newObject[keys[i]] = oldObject[keys[i]] || {};
+						// oldObject = oldObject[keys[i]];
 					}
+					newObject = newObject[keys[i]];
 				}
 			}
 			return object;
