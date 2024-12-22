@@ -1,3 +1,10 @@
+## [1.37.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.37.2...v1.37.3) (2024-12-22)
+
+
+### Bug Fixes
+
+* handling updates for arrays using dotnotation ([e227054](https://github.com/CoCreate-app/CoCreate-utils/commit/e2270546f349a1a86f2d858e6e779c98b5cc9a7f))
+
 ## [1.37.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.37.1...v1.37.2) (2024-12-14)
 
 
