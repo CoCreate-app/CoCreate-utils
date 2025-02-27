@@ -548,7 +548,7 @@
 		if (selector) {
 			if (!type) type = ["selector"];
 			else if (!Array.isArray(type)) type = [type];
-		} else type = ["selector", "closest", "parent", "next", "previous"];
+		} else type = ["selector", "closest", "parent", "next", "previous", "document"];
 
 		for (let i = 0; i < type.length; i++) {
 			let Selector = selector;
@@ -586,6 +586,8 @@
 							else if (type[i] === "previous")
 								queriedElement =
 									queriedElement.previousElementSibling;
+							else if (type[i] === "document")
+								queriedElement = queriedElement.ownerDocument;
 						} else if (queriedElement.contentDocument) {
 							queriedElement = queriedElement.contentDocument;
 						}
