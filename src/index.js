@@ -674,23 +674,29 @@
 						queriedElement instanceof HTMLCollection ||
 						queriedElement instanceof NodeList
 					) {
-						for (let el of queriedElement) elements.set(el, "");
+						for (let el of queriedElement) {
+							elements.set(el, "");
+						}
 					} else if (queriedElement) {
 						elements.set(queriedElement, "");
 					}
 				}
 			} else if (Selector === "") {
-				if (type[i] === "parent")
+				if (type[i] === "parent" && element.parentElement)
 					elements.set(element.parentElement, "");
-				else if (type[i] === "next")
+				else if (type[i] === "next" && element.nextElementSibling)
 					elements.set(element.nextElementSibling, "");
-				else if (type[i] === "previous")
+				else if (
+					type[i] === "previous" &&
+					element.previousElementSibling
+				)
 					elements.set(element.previousElementSibling, "");
 			}
 		}
 
-		if (!hasAttribute && !selector) elements = false;
-		else elements = Array.from(elements.keys());
+		if (!hasAttribute && !selector) {
+			elements = false;
+		} else elements = Array.from(elements.keys());
 
 		return elements;
 	}
