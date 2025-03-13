@@ -540,132 +540,117 @@
 		return path;
 	}
 
-	function queryElements({ element, prefix, type, selector }) {
-		let elements = new Map();
-		if (!element) element = document;
+	function queryElements({ element = document, prefix, type, selector }) {
+		let elements = new Set();
+		let queryTypes = [
+			"selector",
+			"closest",
+			"parent",
+			"next",
+			"previous",
+			"document",
+			"frame",
+			"top"
+		];
+
 		let hasAttribute = false;
 
-		if (selector) {
-			if (!type) type = ["selector"];
-			else if (!Array.isArray(type)) type = [type];
-		} else type = ["selector", "closest", "parent", "next", "previous", "document"];
+		if (!prefix) {
+			for (let attr of element.attributes) {
+				let parts = attr.name.split("-");
+				if (parts.length < 2) continue;
+
+				let possibleType = parts.pop();
+				if (queryTypes.includes(possibleType)) {
+					type = [possibleType];
+					prefix = parts.join("-");
+					break;
+				}
+			}
+		} else if (!type) {
+			for (let i = 0; i < queryTypes.length; i++) {
+				if (element.hasAttribute(`${prefix}-${queryTypes[i]}`)) {
+					type = [queryTypes[i]];
+				}
+			}
+		}
+
+		if (!prefix) return false;
+
+		if (!type) type = selector ? ["selector"] : queryTypes;
+
+		if (!Array.isArray(type)) type = [type];
 
 		for (let i = 0; i < type.length; i++) {
-			let Selector = selector;
-			if (!Selector && element.nodeType !== 9) {
+			if (!selector && element.nodeType !== 9) {
 				let name = prefix + "-" + type[i];
 				if (!element.hasAttribute(name)) continue;
 				hasAttribute = true;
-				Selector = element.getAttribute(name);
+				selector = element.getAttribute(name);
+				type = [type[i]];
 			}
 
-			if (Selector) {
-				let selectors = Selector.split(/,(?![^()]*\))/g);
+			let mainElement = element;
+			if (
+				[
+					"parent",
+					"next",
+					"previous",
+					"document",
+					"frame",
+					"top"
+				].includes(type[i])
+			) {
+				mainElement = queryType(mainElement, type[i]);
+			}
+
+			if (!selector) {
+				elements.add(mainElement);
+			} else {
+				let selectors = selector.split(/,(?![^()]*\))/g);
 
 				for (let j = 0; j < selectors.length; j++) {
+					if (!selectors[j]) continue;
+
+					let queriedElement = mainElement;
+
 					if (selectors[j].includes("@")) {
 						selectors[j] = checkMediaQueries(selectors[j]);
 						if (selectors[j] === false) continue;
 					}
 
-					let queriedElement = element;
+					if (type[i] === "closest") {
+						let [closestSelector, remainingSelector = ""] =
+							selectors[j].split(/\s+/, 2);
+						queriedElement =
+							queriedElement.closest(closestSelector);
+
+						if (!queriedElement) continue;
+
+						selectors[j] = remainingSelector;
+					}
+
 					let specialSelectors = selectors[j].split(";");
 					for (let k = 0; k < specialSelectors.length; k++) {
-						// TODO: Support an array of queried elements and branch off to return matches for each
-						// if (!Array.isArray(queriedElement)) {
-						//     queriedElement = [queriedElement]
-						// }
-
+						specialSelectors[k] = specialSelectors[k].trim();
 						if (!specialSelectors[k]) continue;
-						if (k === 0) {
-							if (type[i] === "parent")
-								queriedElement = queriedElement.parentElement;
-							else if (type[i] === "next")
-								queriedElement =
-									queriedElement.nextElementSibling;
-							else if (type[i] === "previous")
-								queriedElement =
-									queriedElement.previousElementSibling;
-							else if (type[i] === "document")
-								queriedElement = queriedElement.ownerDocument;
-						} else if (queriedElement.contentDocument) {
+						if (queryTypes.includes(specialSelectors[k])) {
+							queriedElement = queryType(
+								queriedElement,
+								specialSelectors[k]
+							);
+							continue; // Skip directly to the next specialSelector
+						}
+
+						if (queriedElement.contentDocument) {
 							queriedElement = queriedElement.contentDocument;
 						}
 
-						switch (
-							(specialSelectors[k] = specialSelectors[k].trim())
-						) {
-							case "top":
-								queriedElement = window.top.document;
-								break;
-							case "frame":
-								if (queriedElement.nodeType === 9)
-									queriedElement =
-										queriedElement.window.frameElement;
-								else if (queriedElement.contentDocument)
-									queriedElement =
-										queriedElement.contentDocument;
-								break;
-							case "document":
-								queriedElement = document;
-								break;
-							case "parent":
-								queriedElement = queriedElement.parentElement;
-								break;
-							case "next":
-								queriedElement =
-									queriedElement.nextElementSibling;
-								break;
-							case "previous":
-								queriedElement =
-									queriedElement.previousElementSibling;
-								break;
-							default:
-								if (k === 0 && type[i] === "closest")
-									if (specialSelectors[k].includes(" ")) {
-										let [firstSelector, ...restSelectors] =
-											specialSelectors[k].split(/ (.+)/);
-										queriedElement =
-											queriedElement.closest(
-												firstSelector
-											);
-										if (restSelectors.length > 0) {
-											if (restSelectors[0].endsWith("[]"))
-												queriedElement =
-													queriedElement.querySelectorAll(
-														restSelectors[0].slice(
-															0,
-															-2
-														)
-													);
-											else
-												queriedElement =
-													queriedElement.querySelector(
-														restSelectors[0]
-													);
-										}
-									} else {
-										// If no space, just use the selector with closest
-										queriedElement = queriedElement.closest(
-											specialSelectors[k]
-										);
-									}
-								else if (
-									specialSelectors[k] === "$clickedElement"
-								) {
-									queriedElement =
-										queriedElement.clickedElement;
-								} else if (specialSelectors[k].endsWith("[]"))
-									queriedElement =
-										queriedElement.querySelectorAll(
-											specialSelectors[k].slice(0, -2)
-										);
-								else
-									queriedElement =
-										queriedElement.querySelector(
-											specialSelectors[k]
-										);
-						}
+						queriedElement = querySelector(
+							queriedElement,
+							specialSelectors[k]
+						);
+
 						if (!queriedElement) break;
 					}
 
@@ -675,30 +660,63 @@
 						queriedElement instanceof NodeList
 					) {
 						for (let el of queriedElement) {
-							elements.set(el, "");
+							if (el instanceof Element) {
+								elements.add(el);
+							}
 						}
-					} else if (queriedElement) {
-						elements.set(queriedElement, "");
+					} else if (queriedElement instanceof Element) {
+						elements.add(queriedElement);
 					}
 				}
-			} else if (Selector === "") {
-				if (type[i] === "parent" && element.parentElement)
-					elements.set(element.parentElement, "");
-				else if (type[i] === "next" && element.nextElementSibling)
-					elements.set(element.nextElementSibling, "");
-				else if (
-					type[i] === "previous" &&
-					element.previousElementSibling
-				)
-					elements.set(element.previousElementSibling, "");
 			}
 		}
 
 		if (!hasAttribute && !selector) {
 			elements = false;
-		} else elements = Array.from(elements.keys());
+		} else {
+			elements = Array.from(elements);
+		}
 
 		return elements;
+	}
+
+	function queryType(element, type) {
+		if (!element) return null;
+
+		switch (type) {
+			case "top":
+				return window.top.document;
+			case "frame":
+				// ✅ If element is a document, return the iframe element containing it
+				if (element.nodeType === 9) return window.frameElement;
+				// ✅ If element is an iframe, return it as is
+				return element;
+			case "document":
+				// ✅ If element is a document, return itself, else return `ownerDocument`
+				return element.nodeType === 9 ? element : element.ownerDocument;
+			case "parent":
+				// ✅ If it's a document, return the parent document (if inside an iframe)
+				if (element.nodeType === 9) {
+					return element.defaultView !== window.top
+						? element.defaultView.parent.document
+						: null;
+				}
+				// ✅ Otherwise, return parent element
+				return element.parentElement;
+			case "next":
+				return element.nextElementSibling;
+			case "previous":
+				return element.previousElementSibling;
+			default:
+				return null;
+		}
+	}
+
+	function querySelector(element, selector) {
+		if (!element) return null;
+		return selector.endsWith("[]")
+			? element.querySelectorAll(selector.slice(0, -2))
+			: element.querySelector(selector);
 	}
 
 	const mediaRanges = {
