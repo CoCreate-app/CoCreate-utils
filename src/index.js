@@ -540,18 +540,24 @@
 		return path;
 	}
 
+	const queryTypes = [
+		"selector",
+		"closest",
+		"parent",
+		"next",
+		"previous",
+		"document",
+		"frame",
+		"top"
+	];
+
+	const queryTypesRegex = new RegExp(
+		`\\$(?:${queryTypes.join("|")})\\b`,
+		"g"
+	);
+
 	function queryElements({ element = document, prefix, type, selector }) {
 		let elements = new Set();
-		let queryTypes = [
-			"selector",
-			"closest",
-			"parent",
-			"next",
-			"previous",
-			"document",
-			"frame",
-			"top"
-		];
 
 		let hasAttribute = false;
 
@@ -630,7 +636,17 @@
 						selectors[j] = remainingSelector;
 					}
 
-					let specialSelectors = selectors[j].split(";");
+					// Split selector while preserving special operators
+					let specialSelectors = selector
+						.split(queryTypesRegex)
+						.filter(Boolean);
+
+					// If no special operators are found, return selector as a single-element array
+					specialSelectors =
+						specialSelectors.length === 1
+							? [selector]
+							: specialSelectors;
+
 					for (let k = 0; k < specialSelectors.length; k++) {
 						specialSelectors[k] = specialSelectors[k].trim();
 						if (!specialSelectors[k]) continue;
