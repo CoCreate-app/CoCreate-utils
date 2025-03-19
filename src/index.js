@@ -551,37 +551,35 @@
 		"top"
 	];
 
-	const queryTypesRegex = new RegExp(
-		`\\$(?:${queryTypes.join("|")})\\b`,
-		"g"
-	);
+	const queryTypesRegex = new RegExp(`\\$(?:${queryTypes.join("|")})\\b`); // Find the *first* match
 
 	function queryElements({ element = document, prefix, type, selector }) {
 		let elements = new Set();
 
 		let hasAttribute = false;
 
-		if (!prefix) {
-			for (let attr of element.attributes) {
-				let parts = attr.name.split("-");
-				if (parts.length < 2) continue;
+		if (!selector) {
+			if (!prefix && element.nodeType === 1) {
+				for (let attr of element.attributes) {
+					let parts = attr.name.split("-");
+					if (parts.length < 2) continue;
 
-				let possibleType = parts.pop();
-				if (queryTypes.includes(possibleType)) {
-					type = [possibleType];
-					prefix = parts.join("-");
-					break;
+					let possibleType = parts.pop();
+					if (queryTypes.includes(possibleType)) {
+						type = [possibleType];
+						prefix = parts.join("-");
+						break;
+					}
 				}
-			}
-		} else if (!type) {
-			for (let i = 0; i < queryTypes.length; i++) {
-				if (element.hasAttribute(`${prefix}-${queryTypes[i]}`)) {
-					type = [queryTypes[i]];
+				if (!prefix) return false;
+			} else if (!type && element.nodeType === 1) {
+				for (let i = 0; i < queryTypes.length; i++) {
+					if (element.hasAttribute(`${prefix}-${queryTypes[i]}`)) {
+						type = [queryTypes[i]];
+					}
 				}
 			}
 		}
-
-		if (!prefix) return false;
 
 		if (!type) type = selector ? ["selector"] : queryTypes;
 
@@ -636,38 +634,48 @@
 						selectors[j] = remainingSelector;
 					}
 
-					// Split selector while preserving special operators
-					let specialSelectors = selector
-						.split(queryTypesRegex)
-						.filter(Boolean);
+					let remainingSelector = selector.trim();
+					let match;
 
-					// If no special operators are found, return selector as a single-element array
-					specialSelectors =
-						specialSelectors.length === 1
-							? [selector]
-							: specialSelectors;
+					while (
+						(match = queryTypesRegex.exec(remainingSelector)) !==
+						null
+					) {
+						const matchIndex = match.index;
+						const operator = match[0];
 
-					for (let k = 0; k < specialSelectors.length; k++) {
-						specialSelectors[k] = specialSelectors[k].trim();
-						if (!specialSelectors[k]) continue;
-						if (queryTypes.includes(specialSelectors[k])) {
-							queriedElement = queryType(
+						// Process the part before the operator (if any)
+						const part = remainingSelector
+							.substring(0, matchIndex)
+							.trim()
+							.replace(/,$/, "");
+						if (part) {
+							queriedElement = querySelector(
 								queriedElement,
-								specialSelectors[k]
+								part
 							);
-							continue; // Skip directly to the next specialSelector
+							if (!queriedElement) break;
 						}
 
-						if (queriedElement.contentDocument) {
-							queriedElement = queriedElement.contentDocument;
-						}
+						// Process the operator
+						queriedElement = queryType(
+							queriedElement,
+							operator.substring(1)
+						);
+						if (!queriedElement) break;
 
+						// Remove the processed part and operator from the remaining selector
+						remainingSelector = remainingSelector
+							.substring(matchIndex + operator.length)
+							.trim();
+					}
+
+					// Process the remaining part after the last operator (if any)
+					if (remainingSelector) {
 						queriedElement = querySelector(
 							queriedElement,
-							specialSelectors[k]
+							remainingSelector.trim().replace(/,$/, "")
 						);
-
-						if (!queriedElement) break;
 					}
 
 					if (
