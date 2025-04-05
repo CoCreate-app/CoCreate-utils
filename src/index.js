@@ -634,7 +634,7 @@
 						selectors[j] = remainingSelector;
 					}
 
-					let remainingSelector = selector.trim();
+					let remainingSelector = selectors[j].trim();
 					let match;
 
 					while (
