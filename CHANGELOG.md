@@ -1,3 +1,19 @@
+# [1.38.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.37.3...v1.38.0) (2025-04-11)
+
+
+### Bug Fixes
+
+* query elements ([663eec4](https://github.com/CoCreate-app/CoCreate-utils/commit/663eec46c92716c298e45cd4fa6ec48be616a9a1))
+* Selector === "" retuning null ([e8fd9fb](https://github.com/CoCreate-app/CoCreate-utils/commit/e8fd9fb726f78477e9ea5a15e9bf08097bc9250f))
+* special selector split ([94dd267](https://github.com/CoCreate-app/CoCreate-utils/commit/94dd267d4028945c9813c4bc7be33bcc7d0494d3))
+* variable typo selector ([fe101f5](https://github.com/CoCreate-app/CoCreate-utils/commit/fe101f5a9c728d054466b21524cfc2b0ece07e8a))
+
+
+### Features
+
+* improve queryElements() ([0e05425](https://github.com/CoCreate-app/CoCreate-utils/commit/0e05425fc68394004ef2c78f3bd2004447b2233a))
+* prefix-document to query document ([21644d9](https://github.com/CoCreate-app/CoCreate-utils/commit/21644d940e1f20530f5594b751d596b4aa431fc4))
+
 ## [1.37.3](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.37.2...v1.37.3) (2024-12-22)
 
 
