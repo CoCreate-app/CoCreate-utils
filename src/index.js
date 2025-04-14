@@ -540,72 +540,95 @@
 		return path;
 	}
 
+	// Define a list of query types that describe relationships or contexts in the DOM.
 	const queryTypes = [
-		"$closest",
-		"$parent",
-		"$next",
-		"$previous",
-		"$document",
-		"$frame",
-		"$top"
+		"$closest", // Selects the closest ancestor matching the selector
+		"$parent", // Selects the direct parent element
+		"$next", // Selects the next sibling element
+		"$previous", // Selects the previous sibling element
+		"$document", // Selects the document containing the element
+		"$frame", // Selects the frame or iframe containing the element
+		"$top" // Selects the top-level document or window
 	];
 
-	// const queryTypesRegex = new RegExp(`\\$(?:${queryTypes.join("|")})\\b`); // Find the *first* match
+	// Construct a regular expression pattern to match any of the query types.
+	// Each query type begins with a dollar sign, which is escaped in the regex.
+	// The \b specifies a word boundary to ensure we match the whole word.
 	const regexPatternString = `(?:${queryTypes
-		.map((type) => type.replace("$", "\\$"))
-		.join("|")})\\b`;
-	const queryTypesRegex = new RegExp(regexPatternString); // Find the *first* match
+		.map((type) => type.replace("$", "$")) // Escape $ character for regex
+		.join("|")})\b`; // Join all types with | (regex OR), capturing word boundary
 
+	// Compile the regular expression pattern into a RegExp object.
+	// This regex will be used to find the first occurrence of any query type within a string.
+	const queryTypesRegex = new RegExp(regexPatternString);
+
+	/**
+	 * Function to query DOM elements based on specified criteria.
+	 * @param {Object} params - Object containing parameters for querying elements.
+	 * @param {Element|Document} params.element - The root element or document to start the query from. Defaults to the entire document.
+	 * @param {string} params.prefix - Optional prefix used to construct the query.
+	 * @param {string} params.selector - The CSS selector or query string to use.
+	 * @returns {Array} - An array of elements that match the query.
+	 */
 	function queryElements({ element = document, prefix, selector }) {
+		// Initialize a Set to store unique elements.
 		let elements = new Set();
 
+		// If no selector is provided and the element is an element node.
 		if (!selector && element.nodeType === 1) {
+			// If no prefix is provided, derive one from the element's attributes.
 			if (!prefix) {
 				for (let attr of element.attributes) {
+					// If an attribute with "-query" suffix is found, extract prefix.
 					if (attr.name.endsWith("-query")) {
 						prefix = attr.name.slice(0, -6);
 					}
 				}
+				// If no valid prefix is found, exit the function.
 				if (!prefix) return false;
 			}
+			// Get the selector using the derived prefix.
 			selector = element.getAttribute(prefix + "-" + "query");
-			if (!selector) return false;
+			if (!selector) return false; // Exit if no selector is found.
 		}
 
+		// Split complex selectors into individual ones, handling nested structures.
 		let selectors = selector.split(/,(?![^()\[\]]*[)\]])/g);
 		for (let i = 0; i < selectors.length; i++) {
-			if (!selectors[i]) continue;
+			if (!selectors[i]) continue; // Skip empty selectors.
 
-			let queriedElement = element;
+			let queriedElement = element; // Start query from the current element.
 
+			// If media queries are included, verify and filter the selector accordingly.
 			if (selectors[i].includes("@")) {
 				selectors[i] = checkMediaQueries(selectors[i]);
-				if (selectors[i] === false) continue;
+				if (selectors[i] === false) continue; // Skip if media query is not matched.
 			}
 
-			let remainingSelector = selectors[i].trim();
+			let remainingSelector = selectors[i].trim(); // Trim any whitespace.
 			let match;
 
+			// Process each part of the selector that corresponds to specific query types/operators.
 			while ((match = queryTypesRegex.exec(remainingSelector)) !== null) {
 				const matchIndex = match.index;
 				const operator = match[0];
 
-				// Process the part before the operator (if any)
+				// Process the part before the operator (if any).
 				const part = remainingSelector
 					.substring(0, matchIndex)
 					.trim()
 					.replace(/,$/, "");
 				if (part) {
 					queriedElement = querySelector(queriedElement, part);
-					if (!queriedElement) break;
+					if (!queriedElement) break; // Exit loop if no element is found.
 				}
 
-				// Remove the processed part and operator from the remaining selector
+				// Remove the processed part and operator from the remaining selector.
 				remainingSelector = remainingSelector
 					.substring(matchIndex + operator.length)
 					.trim();
 
-				// Process the $closest operator
+				// Handle the $closest operator specifically.
 				if (operator === "$closest") {
 					let [closest, remaining = ""] = remainingSelector.split(
 						/\s+/,
@@ -614,16 +637,16 @@
 					queriedElement = queriedElement.closest(closest);
 					remainingSelector = remaining.trim();
 				} else {
-					// Process the operator
+					// Process other operators using the queryType function.
 					queriedElement = queryType(queriedElement, operator);
 				}
 
-				if (!queriedElement) break;
+				if (!queriedElement) break; // Exit loop if no element is found.
 			}
 
-			if (!queriedElement) continue;
+			if (!queriedElement) continue; // Skip if no element is found.
 
-			// Process the remaining part after the last operator (if any)
+			// Process the remaining part after the last operator (if any).
 			if (remainingSelector) {
 				queriedElement = querySelector(
 					queriedElement,
@@ -631,6 +654,7 @@
 				);
 			}
 
+			// Add elements to the set.
 			if (
 				Array.isArray(queriedElement) ||
 				queriedElement instanceof HTMLCollection ||
@@ -646,7 +670,7 @@
 			}
 		}
 
-		return Array.from(elements);
+		return Array.from(elements); // Convert Set to Array and return found elements.
 	}
 
 	function queryType(element, type) {
