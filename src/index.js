@@ -553,10 +553,9 @@
 
 	// Construct a regular expression pattern to match any of the query types.
 	// Each query type begins with a dollar sign, which is escaped in the regex.
-	// The \b specifies a word boundary to ensure we match the whole word.
 	const regexPatternString = `(?:${queryTypes
-		.map((type) => type.replace("$", "$")) // Escape $ character for regex
-		.join("|")})\b`; // Join all types with | (regex OR), capturing word boundary
+		.map((type) => type.replace("$", "\\$")) // Escape $ character for regex
+		.join("|")})`;
 
 	// Compile the regular expression pattern into a RegExp object.
 	// This regex will be used to find the first occurrence of any query type within a string.
