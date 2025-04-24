@@ -221,6 +221,72 @@
 		}
 	}
 
+	/**
+	 * Flattens a deeply nested object or array into a single-level object
+	 * where keys are dot/bracket notation paths and values are the corresponding
+	 * primitive values (string, number, boolean, null, undefined) from the
+	 * original structure.
+	 *
+	 * @param {object|array} input The object or array to flatten.
+	 * @returns {object} A flat object with dot/bracket notation keys mapped to their primitive values.
+	 */
+	function objectToDotNotation(input) {
+		const results = {}; // Initialize an empty OBJECT to store key-value pairs
+
+		// Helper function for recursion
+		function traverse(currentValue, path) {
+			// Base Case: Primitive values (or null/undefined)
+			// We consider anything that's not an object or is null as a primitive endpoint.
+			if (typeof currentValue !== "object" || currentValue === null) {
+				// Only add if a path exists (handles the edge case where the initial input itself is primitive)
+				if (path !== undefined && path !== null && path !== "") {
+					results[path] = currentValue; // Assign the primitive value to the constructed path key
+				}
+				return; // Stop recursion for this branch
+			}
+
+			// Recursive Step: Array
+			if (Array.isArray(currentValue)) {
+				// Only traverse non-empty arrays if we're looking for primitive values
+				// If you wanted empty arrays represented (e.g., 'notes': []), you'd add logic here.
+				if (currentValue.length > 0) {
+					currentValue.forEach((item, index) => {
+						// Build the next path segment using bracket notation for arrays
+						const nextPath = `${path}[${index}]`;
+						traverse(item, nextPath);
+					});
+				} else if (path) {
+					// Optional: represent empty arrays explicitly if needed
+					// results[path] = []; // Uncomment this line if you want empty arrays included
+				}
+			}
+			// Recursive Step: Object (and not null, not an array)
+			else {
+				const keys = Object.keys(currentValue);
+				// Only traverse non-empty objects if we're looking for primitive values
+				// If you wanted empty objects represented (e.g., 'metadata': {}), you'd add logic here.
+				if (keys.length > 0) {
+					keys.forEach((key) => {
+						// Build the next path segment:
+						// - Use dot notation if the current path is not empty.
+						// - Just use the key if it's the first level.
+						const nextPath = path ? `${path}.${key}` : key;
+						traverse(currentValue[key], nextPath);
+					});
+				} else if (path) {
+					// Optional: represent empty objects explicitly if needed
+					// results[path] = {}; // Uncomment this line if you want empty objects included
+				}
+			}
+		}
+
+		// Start the traversal with the initial input and an empty path
+		// Using an empty string '' ensures the first level keys don't start with '.'
+		traverse(input, "");
+
+		return results; // Return the populated results object
+	}
+
 	function getValueFromObject(object = {}, path = "", throwError = false) {
 		try {
 			if (!Object.keys(object).length || !path) {
@@ -437,6 +503,51 @@
 			console.log("Error converting dot notation to object", error);
 			return false;
 		}
+	}
+
+	/**
+	 * Converts a JavaScript object into a URL-encoded query string using
+	 * the standard URLSearchParams API (works in Node.js and modern browsers).
+	 * - Uses repeated keys for arrays.
+	 * - Skips null/undefined values.
+	 * - Converts other values to strings.
+	 *
+	 * @param {object | null | undefined} paramsObj The object to convert.
+	 * @returns {string} A URL-encoded query string starting with '?'
+	 * if params exist, otherwise an empty string.
+	 */
+	function objectToSearchParams(paramsObj) {
+		if (
+			!paramsObj ||
+			typeof paramsObj !== "object" ||
+			Array.isArray(paramsObj)
+		) {
+			return "";
+		}
+
+		// Filter out null/undefined values
+		const filteredObj = {};
+		for (const key in paramsObj) {
+			if (Object.hasOwn(paramsObj, key)) {
+				const value = paramsObj[key];
+				if (value !== null && value !== undefined) {
+					filteredObj[key] = value;
+				}
+			}
+		}
+
+		if (Object.keys(filteredObj).length === 0) {
+			return "";
+		}
+
+		// --- CORE LOGIC ---
+		// Create URLSearchParams directly from the filtered object
+		// This works identically in modern Node.js and browsers.
+		const searchParams = new URLSearchParams(filteredObj);
+		const queryString = searchParams.toString();
+		// --- END CORE LOGIC ---
+
+		return queryString ? `?${queryString}` : "";
 	}
 
 	function domParser(str) {
@@ -1141,7 +1252,9 @@
 		checkValue,
 		isValidDate,
 		dotNotationToObject,
+		objectToDotNotation,
 		getValueFromObject,
+		objectToSearchParams,
 		domParser,
 		parseTextToHtml,
 		escapeHtml,
