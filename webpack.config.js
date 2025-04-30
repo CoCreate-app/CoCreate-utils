@@ -1,12 +1,10 @@
 const path = require("path");
-const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { EsbuildPlugin } = require("esbuild-loader");
+const { FileUploader } = require("@cocreate/webpack");
 
-module.exports = (env, argv) => {
-	let isProduction = false;
-	if (argv.mode === "production") isProduction = true;
-
+module.exports = async (env, argv) => {
+	const isProduction = argv && argv.mode === "production";
 	const config = {
 		entry: {
 			"CoCreate-utils": "./src/index.js"
@@ -14,80 +12,53 @@ module.exports = (env, argv) => {
 		output: {
 			path: path.resolve(__dirname, "dist"),
 			filename: isProduction ? "[name].min.js" : "[name].js",
-			libraryTarget: "umd",
 			libraryExport: "default",
 			library: ["CoCreate", "utils"],
-			globalObject: "this"
+			clean: true
 		},
-
 		plugins: [
-			new CleanWebpackPlugin(),
 			new MiniCssExtractPlugin({
-				filename: "[name].css"
-			})
+				filename: isProduction ? "[name].min.css" : "[name].css"
+			}),
+			new FileUploader(env, argv)
 		],
-		// Default mode for Webpack is production.
-		// Depending on mode Webpack will apply different things
-		// on final bundle. For now we don't need production's JavaScript
-		// minifying and other thing so let's set mode to development
 		mode: isProduction ? "production" : "development",
+		devtool: isProduction ? "source-map" : "eval-source-map",
 		module: {
 			rules: [
 				{
 					test: /.js$/,
-					exclude: /(node_modules)/,
+					exclude: /node_modules/,
 					use: {
-						loader: "babel-loader",
+						loader: "esbuild-loader",
 						options: {
-							plugins: [
-								"@babel/plugin-transform-modules-commonjs"
-							]
+							loader: "js",
+							target: "es2017"
 						}
 					}
 				},
 				{
 					test: /.css$/i,
-					use: [
-						{
-							loader: "style-loader",
-							options: { injectType: "linkTag" }
-						},
-						"file-loader"
-					]
+					use: [MiniCssExtractPlugin.loader, "css-loader"]
 				}
 			]
 		},
-
-		// add source map
-		...(isProduction ? {} : { devtool: "eval-source-map" }),
-
 		optimization: {
-			minimize: true,
+			minimize: isProduction,
 			minimizer: [
-				new TerserPlugin({
-					extractComments: true,
-					// cache: true,
-					parallel: true,
-					// sourceMap: true, // Must be set to true if using source-maps in production
-					terserOptions: {
-						// https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
-						// extractComments: 'all',
-						compress: {
-							drop_console: true
-						}
-					}
+				new EsbuildPlugin({
+					target: "es2017",
+					css: true
 				})
 			],
 			splitChunks: {
-				chunks: "all",
-				minSize: 200,
-				// maxSize: 99999,
-				//minChunks: 1,
-
 				cacheGroups: {
 					defaultVendors: false
 				}
 			}
+		},
+		performance: {
+			hints: isProduction ? "warning" : false
 		}
 	};
 	return config;
