@@ -1,3 +1,20 @@
+# [1.39.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.38.0...v1.39.0) (2025-04-30)
+
+
+### Bug Fixes
+
+* added css-loader ([6c004bb](https://github.com/CoCreate-app/CoCreate-utils/commit/6c004bb47bea3034717bfd728bd4eb4b12a01fa3))
+* code comments ([ecfffef](https://github.com/CoCreate-app/CoCreate-utils/commit/ecfffef9b4a45aaec0fb88d155ee3a4b3c846e9a))
+* queryTypesRegex ([ffb701a](https://github.com/CoCreate-app/CoCreate-utils/commit/ffb701af15bec5e369b99f2166bfc8d849a1d6fd))
+* update query attributes ([b55cb88](https://github.com/CoCreate-app/CoCreate-utils/commit/b55cb88f31048b4dc92b0087949aa5a7b61dae7f))
+* updated cocreate modules versions ([c5159ba](https://github.com/CoCreate-app/CoCreate-utils/commit/c5159ba91c6e17e0a3abe9a26a1070256b1386d8))
+* webpack.config and devdependencies ([3069907](https://github.com/CoCreate-app/CoCreate-utils/commit/306990780e38edf216d79e3a26a79a569c84b628))
+
+
+### Features
+
+* New helper functions ([7bd41b8](https://github.com/CoCreate-app/CoCreate-utils/commit/7bd41b84cad45780370abe8b9d89d16aadb7213e))
+
 # [1.38.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.37.3...v1.38.0) (2025-04-11)
 
 
