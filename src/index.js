@@ -836,12 +836,13 @@
 
 	function checkMediaQueries(selector) {
 		if (selector && selector.includes("@")) {
+			const viewportWidth = window.innerWidth;
+			let mediaViewport = false;
+
 			let screenSizes = selector.split("@");
 			selector = screenSizes.shift();
-			for (let screenSize of screenSizes) {
-				const viewportWidth = window.innerWidth;
-				let mediaViewport = false;
 
+			for (let screenSize of screenSizes) {
 				// Check if screenSize is a valid range in the 'ranges' object
 				if (mediaRanges.hasOwnProperty(screenSize)) {
 					const [minWidth, maxWidth] = mediaRanges[screenSize];
@@ -853,9 +854,8 @@
 						break;
 					}
 				}
-
-				if (!mediaViewport) return false;
 			}
+			if (!mediaViewport) return false;
 		}
 
 		return selector;
