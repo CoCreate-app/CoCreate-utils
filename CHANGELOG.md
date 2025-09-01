@@ -1,3 +1,10 @@
+## [1.39.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.39.1...v1.39.2) (2025-09-01)
+
+
+### Bug Fixes
+
+* improve media query handling in checkMediaQueries function ([cab86d6](https://github.com/CoCreate-app/CoCreate-utils/commit/cab86d6b43bb1739a0b62e28a826b5bdebab5e03))
+
 ## [1.39.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.39.0...v1.39.1) (2025-05-01)
 
 
