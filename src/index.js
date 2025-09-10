@@ -40,6 +40,17 @@
 		}
 	}
 
+	function getRelativePath(path) {
+		if (!path && isBrowser) {
+			path = window.location.pathname.replace(/\/[^\/]*$/, ""); // Remove file from path
+		}
+		if (!path.endsWith("/")) {
+			path += "/";
+		}
+		let depth = path.split("/").filter(Boolean).length;
+		return depth > 0 ? "../".repeat(depth) : "./";
+	}
+
 	/**
 	 * Generates an ObjectId
 	 */
@@ -1248,6 +1259,7 @@
 	if (isBrowser) clickedElement();
 
 	return {
+		getRelativePath,
 		ObjectId,
 		checkValue,
 		isValidDate,
