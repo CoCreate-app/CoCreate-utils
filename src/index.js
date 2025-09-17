@@ -41,9 +41,23 @@
 	}
 
 	function getRelativePath(path) {
+		// If no path provided, use window.location.pathname
 		if (!path && isBrowser) {
 			path = window.location.pathname.replace(/\/[^\/]*$/, ""); // Remove file from path
 		}
+
+		// For localhost/127.0.0.1, trim everything after '/src'
+		if (
+			isBrowser &&
+			(location.hostname === "localhost" ||
+				location.hostname === "127.0.0.1")
+		) {
+			const srcIndex = path.indexOf("/src");
+			if (srcIndex !== -1) {
+				path = path.substring(0, srcIndex + 4); // keep '/src'
+			}
+		}
+
 		if (!path.endsWith("/")) {
 			path += "/";
 		}
