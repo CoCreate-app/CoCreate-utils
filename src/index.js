@@ -46,15 +46,17 @@
 			path = window.location.pathname.replace(/\/[^\/]*$/, ""); // Remove file from path
 		}
 
-		// For localhost/127.0.0.1, trim everything after '/src'
+		// For localhost/127.0.0.1, remove everything up to and including the first '/src'
+		// so content AFTER '/src' is treated as the root
 		if (
 			isBrowser &&
 			(location.hostname === "localhost" ||
 				location.hostname === "127.0.0.1")
 		) {
+			// Find the '/src' directory in the path and keep everything after it (exclude '/src' itself)
 			const srcIndex = path.indexOf("/src");
 			if (srcIndex !== -1) {
-				path = path.substring(0, srcIndex + 4); // keep '/src'
+				path = path.slice(srcIndex + 4); // remove '/src' and everything before it
 			}
 		}
 
@@ -314,13 +316,14 @@
 
 	function getValueFromObject(object = {}, path = "", throwError = false) {
 		try {
-			if (!Object.keys(object).length || !path) {
+			if ((!Array.isArray(object) && !Object.keys(object).length) || !path) {
 				if (throwError)
 					throw new Error("Invalid input to getValueFromObject");
 				return;
 			}
 
-			path = path.replace(/\[(\d+)\]/g, ".$1");
+			// remove leading dot if path is like `[0].src`
+			path = path.replace(/\[(\d+)\]/g, ".$1").replace(/^\./, '');
 
 			let data = object,
 				subpath = path.split(".");
@@ -706,106 +709,114 @@
 	 * @returns {Array} - An array of elements that match the query.
 	 */
 	function queryElements({ element = document, prefix, selector }) {
-		// Initialize a Set to store unique elements.
-		let elements = new Set();
+		try {
+			// Initialize a Set to store unique elements.
+			let elements = new Set();
 
-		// If no selector is provided and the element is an element node.
-		if (!selector && element.nodeType === 1) {
-			// If no prefix is provided, derive one from the element's attributes.
-			if (!prefix) {
-				for (let attr of element.attributes) {
-					// If an attribute with "-query" suffix is found, extract prefix.
-					if (attr.name.endsWith("-query")) {
-						prefix = attr.name.slice(0, -6);
+			// If no selector is provided and the element is an element node.
+			if (!selector && element.nodeType === 1) {
+				// If no prefix is provided, derive one from the element's attributes.
+				if (!prefix) {
+					for (let attr of element.attributes) {
+						// If an attribute with "-query" suffix is found, extract prefix.
+						if (attr.name.endsWith("-query")) {
+							prefix = attr.name.slice(0, -6);
+						}
 					}
+					// If no valid prefix is found, exit the function.
+					if (!prefix) return [];
 				}
-				// If no valid prefix is found, exit the function.
-				if (!prefix) return false;
-			}
-			// Get the selector using the derived prefix.
-			selector = element.getAttribute(prefix + "-" + "query");
-			if (!selector) return false; // Exit if no selector is found.
-		}
-
-		// Split complex selectors into individual ones, handling nested structures.
-		let selectors = selector.split(/,(?![^()\[\]]*[)\]])/g);
-		for (let i = 0; i < selectors.length; i++) {
-			if (!selectors[i]) continue; // Skip empty selectors.
-
-			let queriedElement = element; // Start query from the current element.
-
-			// If media queries are included, verify and filter the selector accordingly.
-			if (selectors[i].includes("@")) {
-				selectors[i] = checkMediaQueries(selectors[i]);
-				if (selectors[i] === false) continue; // Skip if media query is not matched.
+				// Get the selector using the derived prefix.
+				selector = element.getAttribute(prefix + "-" + "query");
+				if (!selector) return []; // Exit if no selector is found.
 			}
 
-			let remainingSelector = selectors[i].trim(); // Trim any whitespace.
-			let match;
+			// Split complex selectors into individual ones, handling nested structures.
+			let selectors = selector.split(/,(?![^()\[\]]*[)\]])/g);
+			for (let i = 0; i < selectors.length; i++) {
+				if (!selectors[i]) continue; // Skip empty selectors.
 
-			// Process each part of the selector that corresponds to specific query types/operators.
-			while ((match = queryTypesRegex.exec(remainingSelector)) !== null) {
-				const matchIndex = match.index;
-				const operator = match[0];
+				let queriedElement = element; // Start query from the current element.
 
-				// Process the part before the operator (if any).
-				const part = remainingSelector
-					.substring(0, matchIndex)
-					.trim()
-					.replace(/,$/, "");
-				if (part) {
-					queriedElement = querySelector(queriedElement, part);
+				// If media queries are included, verify and filter the selector accordingly.
+				if (selectors[i].includes("@")) {
+					selectors[i] = checkMediaQueries(selectors[i]);
+					if (selectors[i] === false) continue; // Skip if media query is not matched.
+				}
+
+				let remainingSelector = selectors[i].trim(); // Trim any whitespace.
+				let match;
+
+				// Process each part of the selector that corresponds to specific query types/operators.
+				while (
+					(match = queryTypesRegex.exec(remainingSelector)) !== null
+				) {
+					const matchIndex = match.index;
+					const operator = match[0];
+
+					// Process the part before the operator (if any).
+					const part = remainingSelector
+						.substring(0, matchIndex)
+						.trim()
+						.replace(/,$/, "");
+					if (part) {
+						queriedElement = querySelector(queriedElement, part);
+						if (!queriedElement) break; // Exit loop if no element is found.
+					}
+
+					// Remove the processed part and operator from the remaining selector.
+					remainingSelector = remainingSelector
+						.substring(matchIndex + operator.length)
+						.trim();
+
+					// Handle the $closest operator specifically.
+					if (operator === "$closest") {
+						let [closest, remaining = ""] =
+							remainingSelector.split(/\s+/, 2);
+						queriedElement = queriedElement.closest(closest);
+						remainingSelector = remaining.trim();
+					} else {
+						// Process other operators using the queryType function.
+						queriedElement = queryType(queriedElement, operator);
+					}
+
 					if (!queriedElement) break; // Exit loop if no element is found.
 				}
 
-				// Remove the processed part and operator from the remaining selector.
-				remainingSelector = remainingSelector
-					.substring(matchIndex + operator.length)
-					.trim();
+				if (!queriedElement) continue; // Skip if no element is found.
 
-				// Handle the $closest operator specifically.
-				if (operator === "$closest") {
-					let [closest, remaining = ""] = remainingSelector.split(
-						/\s+/,
-						2
+				// Process the remaining part after the last operator (if any).
+				if (remainingSelector) {
+					queriedElement = querySelector(
+						queriedElement,
+						remainingSelector
 					);
-					queriedElement = queriedElement.closest(closest);
-					remainingSelector = remaining.trim();
-				} else {
-					// Process other operators using the queryType function.
-					queriedElement = queryType(queriedElement, operator);
 				}
 
-				if (!queriedElement) break; // Exit loop if no element is found.
-			}
-
-			if (!queriedElement) continue; // Skip if no element is found.
-
-			// Process the remaining part after the last operator (if any).
-			if (remainingSelector) {
-				queriedElement = querySelector(
-					queriedElement,
-					remainingSelector
-				);
-			}
-
-			// Add elements to the set.
-			if (
-				Array.isArray(queriedElement) ||
-				queriedElement instanceof HTMLCollection ||
-				queriedElement instanceof NodeList
-			) {
-				for (let el of queriedElement) {
-					if (el instanceof Element) {
-						elements.add(el);
+				// Add elements to the set.
+				if (
+					Array.isArray(queriedElement) ||
+					queriedElement instanceof HTMLCollection ||
+					queriedElement instanceof NodeList
+				) {
+					for (let el of queriedElement) {
+						if (el instanceof Element) {
+							elements.add(el);
+						}
 					}
+				} else if (queriedElement instanceof Element) {
+					elements.add(queriedElement);
 				}
-			} else if (queriedElement instanceof Element) {
-				elements.add(queriedElement);
 			}
-		}
 
-		return Array.from(elements); // Convert Set to Array and return found elements.
+			return Array.from(elements); // Convert Set to Array and return found elements.
+		} catch (e) {
+			console.error(
+				`CoCreate: Error in queryElements with selector: "${selector}".`,
+				e
+			);
+			return [];
+		}
 	}
 
 	function queryType(element, type) {
