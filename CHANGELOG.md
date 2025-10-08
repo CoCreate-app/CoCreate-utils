@@ -1,3 +1,11 @@
+# [1.40.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.39.2...v1.40.0) (2025-10-08)
+
+
+### Features
+
+* add getRelativePath function to compute relative paths based on current location ([786ed1b](https://github.com/CoCreate-app/CoCreate-utils/commit/786ed1b642febad9c5fda1c9f5534e829f5fd6c6))
+* enhance getRelativePath function to handle default path and localhost scenarios ([cd0b369](https://github.com/CoCreate-app/CoCreate-utils/commit/cd0b3692b1753d06805670c59d832a00e7b85a64))
+
 ## [1.39.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.39.1...v1.39.2) (2025-09-01)
 
 
