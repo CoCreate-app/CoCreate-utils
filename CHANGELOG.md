@@ -1,3 +1,10 @@
+## [1.40.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.40.0...v1.40.1) (2025-10-10)
+
+
+### Bug Fixes
+
+* refine getRelativePath handling for localhost and improve getValueFromObject validation ([b7bd32f](https://github.com/CoCreate-app/CoCreate-utils/commit/b7bd32fa83d503108e9398e40c1c519caadb8ed5))
+
 # [1.40.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.39.2...v1.40.0) (2025-10-08)
 
 
