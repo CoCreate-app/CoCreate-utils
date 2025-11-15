@@ -114,6 +114,21 @@
 		};
 	}
 
+	function uid(length = 36) {
+		let pattern = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+		if (length > 36) {
+			length = 36; // If requested length is more than 36, set it to 36.
+		}
+
+		let uuid = pattern.replace(/[xy]/g, function (c) {
+			var r = (Math.random() * 16) | 0;
+			var v = c === 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		}).substring(0, length); // Truncate to the requested length.
+
+		return uuid;
+	}
+
 	function checkValue(value) {
 		if (/{{\s*([\w\W]+)\s*}}/g.test(value)) return false;
 		else return true;
@@ -1286,6 +1301,7 @@
 	return {
 		getRelativePath,
 		ObjectId,
+		uid,
 		checkValue,
 		isValidDate,
 		dotNotationToObject,
