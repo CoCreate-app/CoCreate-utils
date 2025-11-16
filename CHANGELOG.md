@@ -1,3 +1,10 @@
+# [1.41.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.40.1...v1.41.0) (2025-11-16)
+
+
+### Features
+
+* add uid function to generate UUIDs with customizable length ([7103971](https://github.com/CoCreate-app/CoCreate-utils/commit/71039712fe19d37bacdd5cd23db3366dd6b16ccb))
+
 ## [1.40.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.40.0...v1.40.1) (2025-10-10)
 
 
