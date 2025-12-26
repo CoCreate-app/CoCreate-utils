@@ -67,6 +67,46 @@
 		return depth > 0 ? "../".repeat(depth) : "./";
 	}
 
+// 	function getRelativePath(path) {
+//     const isBrowser = typeof window !== 'undefined';
+
+//     // If no path provided, use window.location.pathname
+//     if (!path && isBrowser) {
+//         path = window.location.pathname;
+        
+//         // FIX: Only remove the end segment if it looks like a file (has an extension like .html)
+//         // This prevents stripping valid routes like /dashboard
+//         if (/\.[^/]+$/.test(path)) {
+//             path = path.replace(/\/[^\/]*$/, ""); 
+//         }
+//     }
+
+//     // For localhost/127.0.0.1, remove everything up to and including the first '/src'
+//     if (
+//         isBrowser &&
+//         (window.location.hostname === "localhost" ||
+//             window.location.hostname === "127.0.0.1")
+//     ) {
+//         const srcIndex = path.indexOf("/src");
+//         if (srcIndex !== -1) {
+//             // If path is "/BeautySalon/src", this returns ""
+//             path = path.slice(srcIndex + 4); 
+//         }
+//     }
+
+//     // Handle the empty string case here:
+//     // "" does not end with "/", so it adds one -> "/"
+//     if (!path || !path.endsWith("/")) {
+//         path = (path || "") + "/";
+//     }
+
+//     // "/" splits to ['', ''], filter removes them -> length is 0
+//     let depth = path.split("/").filter(Boolean).length;
+    
+//     // 0 depth returns "./"
+//     return depth > 0 ? "../".repeat(depth) : "./";
+// }
+
 	/**
 	 * Generates an ObjectId
 	 */
