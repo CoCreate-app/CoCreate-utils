@@ -1,3 +1,10 @@
+## [1.41.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.41.0...v1.41.1) (2026-02-04)
+
+
+### Bug Fixes
+
+* update worklow ([5a12bfc](https://github.com/CoCreate-app/CoCreate-utils/commit/5a12bfc15a3be0161592ad041293b876dd92d186))
+
 # [1.41.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.40.1...v1.41.0) (2025-11-16)
 
 
