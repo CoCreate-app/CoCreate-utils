@@ -774,7 +774,7 @@
 				if (!prefix) {
 					for (let attr of element.attributes) {
 						// If an attribute with "-query" suffix is found, extract prefix.
-						if (attr.name.endsWith("-query")) {
+						if (attr.name.endsWith("-query") || attr.name.endsWith(".query")) {
 							prefix = attr.name.slice(0, -6);
 						}
 					}
@@ -782,7 +782,7 @@
 					if (!prefix) return [];
 				}
 				// Get the selector using the derived prefix.
-				selector = element.getAttribute(prefix + "-" + "query");
+				selector = element.getAttribute(prefix + "-" + "query") || element.getAttribute(prefix + "." + "query");
 				if (!selector) return []; // Exit if no selector is found.
 			}
 
