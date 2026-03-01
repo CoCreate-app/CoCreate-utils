@@ -1,3 +1,10 @@
+# [1.42.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.41.2...v1.42.0) (2026-03-01)
+
+
+### Features
+
+* add utility functions for date validation and operator processing ([6649ca4](https://github.com/CoCreate-app/CoCreate-utils/commit/6649ca45218adafa14030e998c8a004da30a9397))
+
 ## [1.41.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.41.1...v1.41.2) (2026-02-28)
 
 
