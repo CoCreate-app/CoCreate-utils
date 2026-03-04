@@ -39,122 +39,121 @@
     "type": "GitHub Sponsors ❤",
     "url": "https://github.com/sponsors/CoCreate-app"
   },
-  "main": "./dist/cjs/index.cjs",
-  "module": "./dist/esm/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./src/index.js",
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs"
+      "import": "./src/index.js",
+      "require": "./dist/cjs/index.js"
     },
     "./getRelativePath": {
-      "import": "./dist/esm/getRelativePath.js",
+      "import": "./src/getRelativePath.js",
       "require": "./dist/cjs/getRelativePath.js"
     },
     "./ObjectId": {
-      "import": "./dist/esm/ObjectId.js",
+      "import": "./src/ObjectId.js",
       "require": "./dist/cjs/ObjectId.js"
     },
     "./uid": {
-      "import": "./dist/esm/uid.js",
+      "import": "./src/uid.js",
       "require": "./dist/cjs/uid.js"
     },
     "./checkValue": {
-      "import": "./dist/esm/checkValue.js",
+      "import": "./src/checkValue.js",
       "require": "./dist/cjs/checkValue.js"
     },
     "./isValidDate": {
-      "import": "./dist/esm/isValidDate.js",
+      "import": "./src/isValidDate.js",
       "require": "./dist/cjs/isValidDate.js"
     },
     "./objectToSearchParams": {
-      "import": "./dist/esm/objectToSearchParams.js",
+      "import": "./src/objectToSearchParams.js",
       "require": "./dist/cjs/objectToSearchParams.js"
     },
     "./dotNotationToObject": {
-      "import": "./dist/esm/dotNotationToObject.js",
+      "import": "./src/dotNotationToObject.js",
       "require": "./dist/cjs/dotNotationToObject.js"
     },
     "./objectToDotNotation": {
-      "import": "./dist/esm/objectToDotNotation.js",
+      "import": "./src/objectToDotNotation.js",
       "require": "./dist/cjs/objectToDotNotation.js"
     },
     "./getValueFromObject": {
-      "import": "./dist/esm/getValueFromObject.js",
+      "import": "./src/getValueFromObject.js",
       "require": "./dist/cjs/getValueFromObject.js"
     },
     "./createUpdate": {
-      "import": "./dist/esm/createUpdate.js",
+      "import": "./src/createUpdate.js",
       "require": "./dist/cjs/createUpdate.js"
     },
     "./domParser": {
-      "import": "./dist/esm/domParser.js",
+      "import": "./src/domParser.js",
       "require": "./dist/cjs/domParser.js"
     },
     "./parseTextToHtml": {
-      "import": "./dist/esm/parseTextToHtml.js",
+      "import": "./src/parseTextToHtml.js",
       "require": "./dist/cjs/parseTextToHtml.js"
     },
     "./escapeHtml": {
-      "import": "./dist/esm/escapeHtml.js",
+      "import": "./src/escapeHtml.js",
       "require": "./dist/cjs/escapeHtml.js"
     },
     "./cssPath": {
-      "import": "./dist/esm/cssPath.js",
+      "import": "./src/cssPath.js",
       "require": "./dist/cjs/cssPath.js"
     },
     "./queryElements": {
-      "import": "./dist/esm/queryElements.js",
+      "import": "./src/queryElements.js",
       "require": "./dist/cjs/queryElements.js"
     },
     "./checkMediaQueries": {
-      "import": "./dist/esm/queryElements.js",
+      "import": "./src/queryElements.js",
       "require": "./dist/cjs/queryElements.js"
     },
     "./queryData": {
-      "import": "./dist/esm/dataQuery.js",
+      "import": "./src/dataQuery.js",
       "require": "./dist/cjs/dataQuery.js"
     },
     "./searchData": {
-      "import": "./dist/esm/dataQuery.js",
+      "import": "./src/dataQuery.js",
       "require": "./dist/cjs/dataQuery.js"
     },
     "./sortData": {
-      "import": "./dist/esm/dataQuery.js",
+      "import": "./src/dataQuery.js",
       "require": "./dist/cjs/dataQuery.js"
     },
     "./getAttributes": {
-      "import": "./dist/esm/attributes.js",
+      "import": "./src/attributes.js",
       "require": "./dist/cjs/attributes.js"
     },
     "./getAttributeNames": {
-      "import": "./dist/esm/attributes.js",
+      "import": "./src/attributes.js",
       "require": "./dist/cjs/attributes.js"
     },
     "./setAttributeNames": {
-      "import": "./dist/esm/attributes.js",
+      "import": "./src/attributes.js",
       "require": "./dist/cjs/attributes.js"
     },
     "./processOperators": {
-      "import": "./dist/esm/operators.js",
+      "import": "./src/operators.js",
       "require": "./dist/cjs/operators.js"
     },
     "./processOperatorsAsync": {
-      "import": "./dist/esm/operators.js",
+      "import": "./src/operators.js",
       "require": "./dist/cjs/operators.js"
     },
     "./clickedElement": {
-      "import": "./dist/esm/clickedElement.js",
+      "import": "./src/clickedElement.js",
       "require": "./dist/cjs/clickedElement.js"
     },
     "./init-browser": {
-      "import": "./dist/esm/init-browser.js",
+      "import": "./src/init-browser.js",
       "require": "./dist/cjs/init-browser.js"
     },
     "./package.json": "./package.json"
   },
   "sideEffects": [
-    "./dist/esm/init-browser.js",
-    "./dist/cjs/init-browser.js",
+    "./src/init-browser.js",
     "./dist/CoCreate-utils.js",
     "./dist/CoCreate-utils.min.js"
   ],
