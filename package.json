@@ -39,12 +39,12 @@
     "type": "GitHub Sponsors ❤",
     "url": "https://github.com/sponsors/CoCreate-app"
   },
-  "main": "./dist/cjs/index.js",
+  "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.cjs"
     },
     "./getRelativePath": {
       "import": "./dist/esm/getRelativePath.js",
@@ -133,10 +133,6 @@
     "./setAttributeNames": {
       "import": "./dist/esm/attributes.js",
       "require": "./dist/cjs/attributes.js"
-    },
-    "./safeParse": {
-      "import": "./dist/esm/safeParse.js",
-      "require": "./dist/cjs/safeParse.js"
     },
     "./processOperators": {
       "import": "./dist/esm/operators.js",

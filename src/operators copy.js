@@ -9,8 +9,7 @@ const mathConstants = { PI: Math.PI, E: Math.E };
 const mathFunctions = {
     abs: Math.abs, ceil: Math.ceil, floor: Math.floor, round: Math.round,
     max: Math.max, min: Math.min, pow: Math.pow, sqrt: Math.sqrt,
-    log: Math.log, sin: Math.sin, cos: Math.cos, tan: Math.tan,
-    Number: (v) => Number(v) // Explicit numeric casting
+    log: Math.log, sin: Math.sin, cos: Math.cos, tan: Math.tan
 };
 
 /**
@@ -59,9 +58,9 @@ function safeParse(expression, registry = new Map()) {
             consume();
             let right = unref(parseAssignment());
             if (left instanceof Ref) {
-                return left.set(right); // Assign value to the actual object property
+                return left.set(right); // Assign the value to the actual object property
             }
-            return right;
+            return right; // Fallback if LHS wasn't a valid reference
         }
         return left;
     }
@@ -139,7 +138,7 @@ function safeParse(expression, registry = new Map()) {
         if (/^\d/.test(token)) return parseFloat(token);
 
         if (token.startsWith("'") || token.startsWith('"')) {
-            return token.slice(1, -1);
+            return token.slice(1, -1); // Strip quotes
         }
 
         if (token === "true") return true;
@@ -175,6 +174,7 @@ function safeParse(expression, registry = new Map()) {
         let baseToken = path[0];
         let val;
 
+        // Check if the token is a tracked DOM Element/Object from processOperators
         if (registry.has(baseToken)) {
             val = registry.get(baseToken);
         } else if (typeof window !== "undefined" && window[baseToken]) {
@@ -183,8 +183,9 @@ function safeParse(expression, registry = new Map()) {
             val = undefined;
         }
 
-        if (path.length === 1) return val;
+        if (path.length === 1) return val; // No dot notation, return the raw object
 
+        // Traverse down the object path, stopping before the last property
         for (let i = 1; i < path.length - 1; i++) {
             if (val !== null && val !== undefined) {
                 val = val[path[i]];
@@ -193,6 +194,7 @@ function safeParse(expression, registry = new Map()) {
             }
         }
 
+        // Return a Ref object for the final property to enable Assignment (LHS)
         return new Ref(val, path[path.length - 1]);
     }
 
@@ -208,13 +210,13 @@ function safeParse(expression, registry = new Map()) {
 
 // --- CORE OPERATOR ENGINE ---
 
+// Operators handled directly for simple, synchronous value retrieval
 const customOperators = new Map(
     Object.entries({
         $organization_id: () => localStorage.getItem("organization_id"),
         $user_id: () => localStorage.getItem("user_id"),
         $clientId: () => localStorage.getItem("clientId"),
         $session_id: () => localStorage.getItem("session_id"),
-        $this: (element) => element,
         $value: (element) => element.getValue() || "",
         $innerWidth: () => window.innerWidth,
         $innerHeight: () => window.innerHeight,
@@ -229,12 +231,11 @@ const customOperators = new Map(
         $subdomain: () => getSubdomain() || "",
         $object_id: () => ObjectId().toString(),
         "ObjectId()": () => ObjectId().toString(),
-        // Unwrap query results if only one element is found
-        $query: (element, args) => {
-            const results = queryElements({ element, selector: args });
-            return results.length === 1 ? results[0] : results;
-        },
+        $query: (element, args) => queryElements({ element, selector: args }),
+        
+        // ✨ THE NEW AST PORTAL ✨
         $eval: (element, args, context) => safeParse(args, context.registry),
+        
         $relativePath: () => {
             let currentPath = window.location.pathname.replace(/\/[^\/]*$/, ""); 
             let depth = currentPath.split("/").filter(Boolean).length;
@@ -242,12 +243,16 @@ const customOperators = new Map(
         },
         $path: () => {
             let path = window.location.pathname;
-            if (path.split("/").pop().includes(".")) path = path.replace(/\/[^\/]+$/, "/");
+            if (path.split("/").pop().includes(".")) {
+                path = path.replace(/\/[^\/]+$/, "/");
+            }
             return path === "/" ? "" : path;
         },
         $param: (element, args) => args,
         $getObjectValue: (element, args) => {
-            if (Array.isArray(args) && args.length >= 2) return getValueFromObject(args[0], args[1]);
+            if (Array.isArray(args) && args.length >= 2) {
+                return getValueFromObject(args[0], args[1]);
+            }
             return "";
         },
         $setValue: (element, args) => element.setValue(...args) || "",
@@ -255,14 +260,17 @@ const customOperators = new Map(
         $false: () => false,
         $parse: (element, args) => {
             let value = args || "";
-            try { return JSON.parse(value); } catch (e) { return value; }
+            try { return JSON.parse(value); } 
+            catch (e) { return value; }
         },
         $numberFormat: (element, args) => {
             let number = parseFloat(args[0]);
             if (!Array.isArray(args)) args = [args];
+
             const locale = args[0] || undefined;
             const options = args[1] || {};
             const numCandidate = args[2] !== undefined ? args[2] : args[0];
+
             number = parseFloat(numCandidate);
             if (isNaN(number)) return String(numCandidate ?? "");
             return new Intl.NumberFormat(locale, options).format(number);
@@ -271,6 +279,10 @@ const customOperators = new Map(
     })
 );
 
+/**
+ * Helper to determine if a function should be called with 'new'.
+ * Uses heuristics like ES6 class syntax, lack of prototype (arrow function), or PascalCase naming.
+ */
 const isConstructor = (func, name) => {
     try {
         if (typeof func !== 'function') return false;
@@ -282,50 +294,101 @@ const isConstructor = (func, name) => {
     return false;
 };
 
+/**
+ * Helper function to check if a string path starts with a potential bare operator.
+ */
 const findBareOperatorInPath = (path) => {
     const trimmedPath = path.trim();
     const match = trimmedPath.match(/^(\$[\w\-]+)/);
+    
     if (match) {
         const key = match[1];
         const remaining = trimmedPath.substring(key.length);
-        if (remaining.length === 0 || /^\s|\[|\./.test(remaining)) return key;
+        if (remaining.length === 0 || /^\s|\[|\./.test(remaining)) {
+            return key;
+        }
     }
     return null;
 }
 
+/**
+ * Finds the innermost function call (operator + its balanced parentheses argument)
+ */
 const findInnermostFunctionCall = (expression) => {
-    let balance = 0, deepestStart = -1, deepestEnd = -1, deepestBalance = -1;
-    let inSingleQuote = false, inDoubleQuote = false;
+    let balance = 0;
+    let deepestStart = -1;
+    let deepestEnd = -1;
+    let deepestBalance = -1;
+    let inSingleQuote = false;
+    let inDoubleQuote = false;
+
     for (let i = 0; i < expression.length; i++) {
         const char = expression[i];
-        if (char === '"' && !inSingleQuote) { inDoubleQuote = !inDoubleQuote; continue; }
-        else if (char === "'" && !inDoubleQuote) { inSingleQuote = !inDoubleQuote; continue; }
+
+        if (char === '"' && !inSingleQuote) {
+            inDoubleQuote = !inDoubleQuote;
+            continue;
+        } else if (char === "'" && !inDoubleQuote) {
+            inSingleQuote = !inDoubleQuote;
+            continue;
+        }
+
         if (inSingleQuote || inDoubleQuote) continue;
+
         if (char === '(') {
             balance++;
-            if (balance > deepestBalance) { deepestBalance = balance; deepestStart = i; deepestEnd = -1; }
+            if (balance > deepestBalance) {
+                deepestBalance = balance;
+                deepestStart = i;
+                deepestEnd = -1;
+            }
         } else if (char === ')') {
-            if (balance === deepestBalance) deepestEnd = i;
+            if (balance === deepestBalance) {
+                deepestEnd = i;
+            }
             balance--;
         }
     }
-    if (deepestStart === -1 || deepestEnd === -1 || deepestEnd <= deepestStart) return null;
+    
+    if (deepestStart === -1 || deepestEnd === -1 || deepestEnd <= deepestStart) {
+        return null;
+    }
+
     const rawArgs = expression.substring(deepestStart + 1, deepestEnd).trim();
-    let operatorStart = -1, nonWhitespaceFound = false;
+    
+    let operatorStart = -1;
+    let nonWhitespaceFound = false;
+
     for (let i = deepestStart - 1; i >= 0; i--) {
         const char = expression[i];
-        if (!nonWhitespaceFound) { if (/\s/.test(char)) continue; nonWhitespaceFound = true; }
-        if (!/[\w\-\$]/.test(char)) { operatorStart = i + 1; break; }
+        
+        if (!nonWhitespaceFound) {
+            if (/\s/.test(char)) continue;
+            nonWhitespaceFound = true;
+        }
+        
+        let isOperatorChar = /[\w\-\$]/.test(char);
+        
+        if (!isOperatorChar) {
+            operatorStart = i + 1;
+            break;
+        }
         operatorStart = i;
     }
+    
     if (operatorStart === -1) operatorStart = 0;
     const operatorNameCandidate = expression.substring(operatorStart, deepestStart).trim();
+
     if (/^\$[\w\-]+$/.test(operatorNameCandidate) || customOperators.has(operatorNameCandidate)) {
-        return { operator: operatorNameCandidate, args: rawArgs, fullMatch: expression.substring(operatorStart, deepestEnd + 1) };
+        const fullMatch = expression.substring(operatorStart, deepestEnd + 1);
+        return { operator: operatorNameCandidate, args: rawArgs, fullMatch: fullMatch };
     }
     return null;
 };
 
+/**
+ * Main function to find the innermost operator.
+ */
 const findInnermostOperator = (expression) => {
     function stripParentheses(str) {
         let result = str;
@@ -333,38 +396,88 @@ const findInnermostOperator = (expression) => {
         if (result.endsWith(")")) result = result.substring(0, result.length - 1);
         return result;
     }
+    let args;
+
     const functionCall = findInnermostFunctionCall(expression);
-    if (functionCall) return { operator: functionCall.operator, args: stripParentheses(functionCall.args), rawContent: functionCall.args, fullMatch: functionCall.fullMatch };
-    const rawContent = expression.trim(), innermostOperator = findBareOperatorInPath(rawContent);
-    if (innermostOperator) return { operator: innermostOperator, args: stripParentheses(rawContent.substring(innermostOperator.length).trim()), rawContent: rawContent };
-    return { operator: null, args: stripParentheses(rawContent), rawContent: rawContent };
+    if (functionCall) {
+        args = stripParentheses(functionCall.args);
+        return {
+            operator: functionCall.operator,
+            args,
+            rawContent: functionCall.args,
+            fullMatch: functionCall.fullMatch
+        };
+    }
+    
+    const rawContent = expression.trim();
+    const innermostOperator = findBareOperatorInPath(rawContent);
+
+    if (innermostOperator) {
+        const operatorArgs = rawContent.substring(innermostOperator.length).trim();
+        args = stripParentheses(operatorArgs);
+        return { operator: innermostOperator, args, rawContent: rawContent };
+    }
+
+    args = stripParentheses(rawContent);
+    return { operator: null, args, rawContent: rawContent };
 };
 
-function processOperators(element, value, exclude = [], parent, params = [], objectRegistry = new Map()) {
-    if (typeof value !== "string" || (!value.includes("$") && !value.includes("ObjectId()"))) return value;
-    let processedValue = value, hasPromise = false, unresolvedTokens = new Map();
+/**
+ * Synchronously processes a string, finding and replacing operators recursively.
+ * Uses an objectRegistry to safely store complex DOM elements and functions during parsing.
+ */
+function processOperators(
+    element,
+    value,
+    exclude = [],
+    parent,
+    params = [],
+    objectRegistry = new Map() // Pass the registry through recursive layers
+) {
+    if (typeof value !== "string" || (!value.includes("$") && !value.includes("ObjectId()"))) {
+        return value;
+    }
+
+    let processedValue = value;
+    let hasPromise = false;
+    let unresolvedTokens = new Map(); 
+
     while (processedValue.includes("$") || processedValue.includes("ObjectId()")) {
+        
         const paramMatch = processedValue.match(/^\$\$PARAM_(\d+)\$\$/);
         if (paramMatch && Array.isArray(params) && params.length > 0) {
             const index = parseInt(paramMatch[1], 10);
-            if (index < params.length) { processedValue = processedValue.replace(paramMatch[0], params[index]); continue; }
+            if (index < params.length) {
+                const resolvedTokenValue = params[index];
+                processedValue = processedValue.replace(paramMatch[0], resolvedTokenValue);
+                continue; 
+            }
         }
+
         const { operator, args, rawContent, fullMatch } = findInnermostOperator(processedValue);
-        if (!operator || (operator === "$param" && !args)) break;
+
+        if (!operator) break; 
+        if (operator === "$param" && !args) break;
+
         const textToReplace = fullMatch || rawContent;
+
         if (exclude.includes(operator)) {
             const token = `__UNRESOLVED_${unresolvedTokens.size}__`;
             unresolvedTokens.set(token, textToReplace);
             processedValue = processedValue.replace(textToReplace, token);
             continue;
         }
+
+        // Execute operator, passing the objectRegistry down contextually
         let resolvedValue = resolveOperator(element, operator, args, parent, params, objectRegistry);
+
         if (resolvedValue === undefined) {
             const token = `__UNRESOLVED_${unresolvedTokens.size}__`;
             unresolvedTokens.set(token, textToReplace);
             processedValue = processedValue.replace(textToReplace, token);
             continue;
         }
+
         if (resolvedValue instanceof Promise) {
             const paramIndex = params.length;
             params.push(resolvedValue); 
@@ -372,89 +485,202 @@ function processOperators(element, value, exclude = [], parent, params = [], obj
             hasPromise = true;
             break;
         }
-        if (params.some((p) => p instanceof Promise)) { hasPromise = true; break; }
+
+        if (params.some((p) => p instanceof Promise)) {
+            hasPromise = true;
+            break; 
+        }
+
         let replacement = "";
-        if (operator === "$param") params.push(resolvedValue);
-        else if (resolvedValue !== null && (typeof resolvedValue === "object" || typeof resolvedValue === "function")) {
+        if (operator === "$param") {
+            params.push(resolvedValue);
+        } else if (resolvedValue !== null && (typeof resolvedValue === "object" || typeof resolvedValue === "function")) {
+            // ✨ THE TOKEN REGISTRY ✨
+            // Instead of stringifying Elements/Arrays/Functions, we store them safely 
+            // and leave a token so safeParse can grab them later!
             const token = `__OBJ_${objectRegistry.size}__`;
             objectRegistry.set(token, resolvedValue);
             replacement = token;
-        } else replacement = resolvedValue ?? "";
-        if (processedValue === textToReplace) { processedValue = replacement; break; }
+        } else {
+            replacement = resolvedValue ?? "";
+        }
+
+        if (processedValue === textToReplace) {
+            processedValue = replacement;
+            break;
+        }
+            
         processedValue = processedValue.replace(textToReplace, replacement);
+
+        if (!processedValue.includes("$") && !processedValue.includes("ObjectId()")) {
+            break;
+        }
     }
-    for (const [token, originalText] of unresolvedTokens.entries()) processedValue = processedValue.replace(token, originalText);
+
+    // Restore any unresolvable operator syntax
+    for (const [token, originalText] of unresolvedTokens.entries()) {
+        processedValue = processedValue.replace(token, originalText);
+    }
+
+    // FINAL UNWRAP: If the final evaluated string is literally just a single object token, 
+    // unwrap it and return the actual raw Object/Element instead of the string!
     if (typeof processedValue === "string") {
         const exactMatch = processedValue.match(/^__OBJ_(\d+)__$/);
-        if (exactMatch && objectRegistry.has(processedValue)) processedValue = objectRegistry.get(processedValue);
+        if (exactMatch && objectRegistry.has(processedValue)) {
+            processedValue = objectRegistry.get(processedValue);
+        }
     }
-    if (hasPromise) return { value: processedValue, params, objectRegistry };
+
+    if (hasPromise) {
+        return { value: processedValue, params, objectRegistry };
+    }
+
+    if (params.length) {
+        if (typeof processedValue === 'string' && processedValue.trim() === "") {
+            return params;
+        }
+    }
+
     return processedValue;
 }
 
-async function processOperatorsAsync(element, value, exclude = [], parent, params = [], objectRegistry = new Map()) {
+async function processOperatorsAsync(
+    element,
+    value,
+    exclude = [],
+    parent,
+    params = [],
+    objectRegistry = new Map()
+) {
     let result = processOperators(element, value, exclude, parent, params, objectRegistry);
+
     while (typeof result === "object" && result.params) {
         const resolvedParams = await Promise.all(result.params);
-        result = processOperators(element, result.value, exclude, parent, resolvedParams, result.objectRegistry || objectRegistry);
+        result = processOperators(
+            element,
+            result.value,
+            exclude,
+            parent,
+            resolvedParams,
+            result.objectRegistry || objectRegistry
+        );
     }
+
+    if (result instanceof Promise) return await result;
     return result;
 }
 
+/**
+ * Synchronously determines and executes the action for processing a single operator token.
+ */
 function resolveOperator(element, operator, args, parent, params, objectRegistry) {
     if (params.some((p) => p instanceof Promise)) return "";
+
     if (args && typeof args === "string" && args.includes("$")) {
         args = processOperators(element, args, [], operator, params, objectRegistry);
     }
+
+    if (params.some((p) => p instanceof Promise)) return operator;
+
     let targetElements = element ? [element] : [];
-    if (args && typeof args === "string") {
-        const objMatch = args.match(/^__OBJ_(\d+)__$/);
-        if (objMatch && objectRegistry.has(args)) {
-            targetElements = [objectRegistry.get(args)];
-        } else if (!customOperators.has(operator)) {
-            targetElements = queryElements({ element, selector: args });
-            if (!targetElements.length) return undefined;
-        }
+    
+    if (args && typeof args === "string" && !customOperators.has(operator)) {
+        targetElements = queryElements({ element, selector: args });
+        if (!targetElements.length) return undefined;
     }
+
     let value = processValues(targetElements, operator, args, parent, objectRegistry);
+
     if (value && typeof value === "string" && value.includes("$")) {
         value = processOperators(element, value, [], parent, params, objectRegistry);
     }
+
     return value;
 }
 
+/**
+ * Synchronously processes and aggregates values from a set of elements based on a specified operator.
+ */
 function processValues(elements, operator, args, parent, objectRegistry) {
     let customOp = customOperators.get(operator);
     let aggregatedString = "";
-    let hasValidProperty = customOp ? true : false;
+    let hasValidProperty = false;
+
+    // Pass the active registry down so custom operators (like $eval) can utilize it
     const context = { registry: objectRegistry, element: elements[0] };
+
+    if (customOp) hasValidProperty = true;
+
     for (const el of elements) {
         if (!el) continue;
+
         let rawValue = customOp;
         const propName = customOp ? null : operator.substring(1);
+        
         if (!customOp) {
-            if (propName in el) { hasValidProperty = true; rawValue = el[propName]; }
-            else continue;
-        }
-        if (typeof rawValue === "function") {
-            if (customOp) rawValue = Array.isArray(args) ? rawValue(el, ...args, context) : rawValue(el, args, context);
-            else {
-                if (isConstructor(rawValue, propName)) rawValue = Array.isArray(args) ? new rawValue(...args) : new rawValue(args);
-                else rawValue = Array.isArray(args) ? rawValue.apply(el, args) : rawValue.call(el, args);
+            if (propName in el) {
+                hasValidProperty = true;
+                rawValue = el[propName];
+            } else {
+                continue; 
             }
         }
-        if (parent === "$param") { if (rawValue !== undefined && rawValue !== null) return rawValue; }
-        else {
-            if (rawValue instanceof Promise || (typeof rawValue === "object" && rawValue !== null) || typeof rawValue === "function") return rawValue;
+
+        if (typeof rawValue === "function") {
+            if (customOp) {
+                // Execute standard Custom Operators (always pass element and context)
+                if (Array.isArray(args)) {
+                    rawValue = rawValue(el, ...args, context);
+                } else {
+                    rawValue = rawValue(el, args, context);
+                }
+            } else {
+                // Execute native Element properties/methods dynamically using robust evaluation
+                if (isConstructor(rawValue, propName)) {
+                    if (Array.isArray(args)) {
+                        rawValue = new rawValue(...args);
+                    } else if (args !== undefined && args !== "") {
+                        rawValue = new rawValue(args);
+                    } else {
+                        rawValue = new rawValue();
+                    }
+                } else {
+                    if (Array.isArray(args)) {
+                        rawValue = rawValue.apply(el, args); // Bind context correctly to element!
+                    } else if (args !== undefined && args !== "") {
+                        rawValue = rawValue.call(el, args);
+                    } else {
+                        rawValue = rawValue.call(el);
+                    }
+                }
+            }
+        }
+
+        if (parent === "$param") {
+            if (rawValue !== undefined && rawValue !== null) return rawValue;
+        } else {
+            // Return raw objects/functions immediately so processOperators can tokenize them
+            if (
+                rawValue instanceof Promise ||
+                (typeof rawValue === "object" && rawValue !== null) ||
+                typeof rawValue === "function"
+            ) {
+                return rawValue;
+            }
             aggregatedString += String(rawValue ?? "");
         }
     }
-    return hasValidProperty ? aggregatedString : undefined;
+
+    if (!hasValidProperty) return undefined;
+    return aggregatedString;
 }
 
 function getSubdomain() {
-    const hostname = window.location.hostname, parts = hostname.split(".");
-    if (parts.length > 2 && isNaN(parseInt(parts[parts.length - 1]))) return parts.slice(0, parts.length - 2).join(".");
+    const hostname = window.location.hostname;
+    const parts = hostname.split(".");
+    if (parts.length > 2 && isNaN(parseInt(parts[parts.length - 1]))) {
+        return parts.slice(0, parts.length - 2).join(".");
+    }
     return null;
 }
 
