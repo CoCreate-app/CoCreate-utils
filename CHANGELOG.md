@@ -1,3 +1,11 @@
+## [1.42.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.42.1...v1.42.2) (2026-03-04)
+
+
+### Bug Fixes
+
+* suppuport for common.js ([384bb7c](https://github.com/CoCreate-app/CoCreate-utils/commit/384bb7c5f68a585ec322cc0c0c322ae1ef97bc09))
+* update to exports ([e55e9a0](https://github.com/CoCreate-app/CoCreate-utils/commit/e55e9a031bd6044ed250c3b3e0824c0f2bac0069))
+
 ## [1.42.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.42.0...v1.42.1) (2026-03-04)
 
 
