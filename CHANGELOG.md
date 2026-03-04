@@ -1,3 +1,10 @@
+## [1.42.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.42.0...v1.42.1) (2026-03-04)
+
+
+### Bug Fixes
+
+* index.cjs ([3d74325](https://github.com/CoCreate-app/CoCreate-utils/commit/3d74325bc406161a97348be43a510c1c180fbc6e))
+
 # [1.42.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.41.2...v1.42.0) (2026-03-01)
 
 
