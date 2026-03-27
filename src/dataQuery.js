@@ -192,6 +192,7 @@ function queryMatch(data, query) {
 }
 
 export function queryData(data, query) {
+	if (!query) return true
 	if (query.$and) {
 		for (let i = 0; i < query.$and.length; i++) {
 			if (!queryData(data, query.$and[i])) return false;
