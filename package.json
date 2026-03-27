@@ -41,7 +41,7 @@
     "url": "https://github.com/sponsors/CoCreate-app"
   },
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "module": "./src/index.js",
   "files": [
     "dist",
     "src",
@@ -50,8 +50,16 @@
   ],
   "exports": {
     ".": {
+      "browser": "./src/index.js",
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.js",
+      "default": "./src/index.js"
+    },
+    "./*": {
+      "browser": "./src/*.js",
+      "import": "./dist/esm/*.js",
+      "require": "./dist/cjs/*.js",
+      "default": "./src/*.js"
     },
     "./package.json": "./package.json"
   },
