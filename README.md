@@ -37,6 +37,41 @@ $ npm i @cocreate/utils
 $ yarn install @cocreate/utils
 ```
 
+## Module Usage
+
+### ESM (tree-shaking)
+
+```js
+import { uid, ObjectId } from "@cocreate/utils";
+```
+
+### ESM subpath imports
+
+```js
+import { getValueFromObject } from "@cocreate/utils/getValueFromObject";
+import { queryElements } from "@cocreate/utils/queryElements";
+```
+
+### CommonJS (Node)
+
+```js
+const { uid, ObjectId } = require("@cocreate/utils");
+const { getValueFromObject } = require("@cocreate/utils/getValueFromObject");
+```
+
+## Build
+
+```shell
+# Build UMD + ESM + CJS
+npm run build
+
+# Build only module outputs
+npm run build:modules
+
+# Build only UMD bundle
+npm run build:umd
+```
+
 # Table of Contents
 
 -   [Table of Contents](#table-of-contents)

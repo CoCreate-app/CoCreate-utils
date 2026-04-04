@@ -1,3 +1,39 @@
+## [1.42.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.42.1...v1.42.2) (2026-03-04)
+
+
+### Bug Fixes
+
+* suppuport for common.js ([384bb7c](https://github.com/CoCreate-app/CoCreate-utils/commit/384bb7c5f68a585ec322cc0c0c322ae1ef97bc09))
+* update to exports ([e55e9a0](https://github.com/CoCreate-app/CoCreate-utils/commit/e55e9a031bd6044ed250c3b3e0824c0f2bac0069))
+
+## [1.42.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.42.0...v1.42.1) (2026-03-04)
+
+
+### Bug Fixes
+
+* index.cjs ([3d74325](https://github.com/CoCreate-app/CoCreate-utils/commit/3d74325bc406161a97348be43a510c1c180fbc6e))
+
+# [1.42.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.41.2...v1.42.0) (2026-03-01)
+
+
+### Features
+
+* add utility functions for date validation and operator processing ([6649ca4](https://github.com/CoCreate-app/CoCreate-utils/commit/6649ca45218adafa14030e998c8a004da30a9397))
+
+## [1.41.2](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.41.1...v1.41.2) (2026-02-28)
+
+
+### Bug Fixes
+
+* root factory variable Module ([c723787](https://github.com/CoCreate-app/CoCreate-utils/commit/c7237877d833976c821eeb322fd18b3e92f7fd37))
+
+## [1.41.1](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.41.0...v1.41.1) (2026-02-04)
+
+
+### Bug Fixes
+
+* update worklow ([5a12bfc](https://github.com/CoCreate-app/CoCreate-utils/commit/5a12bfc15a3be0161592ad041293b876dd92d186))
+
 # [1.41.0](https://github.com/CoCreate-app/CoCreate-utils/compare/v1.40.1...v1.41.0) (2025-11-16)
 
 
