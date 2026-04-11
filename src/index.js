@@ -15,7 +15,6 @@ export { cssPath } from "./cssPath.js";
 export { queryElements, checkMediaQueries } from "./queryElements.js";
 export { queryData, searchData, sortData } from "./dataQuery.js";
 export { getAttributes, getAttributeNames, setAttributeNames } from "./attributes.js";
-// export { safeParse } from "./safeParse.js";
 export { clickedElement } from "./clickedElement.js";
 export { processOperators, processOperatorsAsync } from "./operators.js";
 
@@ -36,7 +35,6 @@ import { cssPath } from "./cssPath.js";
 import { queryElements, checkMediaQueries } from "./queryElements.js";
 import { queryData, searchData, sortData } from "./dataQuery.js";
 import { getAttributes, getAttributeNames, setAttributeNames } from "./attributes.js";
-// import { safeParse } from "./safeParse.js";
 import { clickedElement } from "./clickedElement.js";
 import { processOperators, processOperatorsAsync } from "./operators.js";
 
@@ -63,7 +61,6 @@ const utils = {
 	getAttributes,
 	setAttributeNames,
 	getAttributeNames,
-	// safeParse,
 	clickedElement,
 	processOperators,
 	processOperatorsAsync
